@@ -15,12 +15,16 @@ import carnero.princ.model.Beer;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.UnsupportedCharsetException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class BeerListAdapter extends BaseAdapter {
 
 	private Context mContext;
 	private ArrayList<Beer> mList;
+	private DateFormat mDateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
 
 	public BeerListAdapter(Context context) {
 		mContext = context;
@@ -37,6 +41,11 @@ public class BeerListAdapter extends BaseAdapter {
 
 		// view.findViewById(R.id.beer_search).setOnClickListener(new SearchClickListener(beer));
 		((TextView) view.findViewById(R.id.beer_name)).setText(beer.name);
+		if (beer.onTapPrevious > 0) {
+			((TextView) view.findViewById(R.id.beer_tap_prev)).setText(mDateFormat.format(new Date(beer.onTapPrevious)));
+		} else {
+			((TextView) view.findViewById(R.id.beer_tap_prev)).setText("poprvé na čepu");
+		}
 
 		return view;
 	}

@@ -23,7 +23,7 @@ public class Structure {
 			public static final String col_rating = "rating"; // float
 
 			public static final String[] projection = new String[] {
-					col_pub, col_name, col_current, col_tap_since, col_tap_prev, col_rating
+					col_id, col_pub, col_name, col_current, col_tap_since, col_tap_prev, col_rating
 			};
 		}
 	}

@@ -11,7 +11,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import carnero.princ.common.Constants;
 import carnero.princ.common.Utils;
-import carnero.princ.iface.IDownloadStatusListener;
+import carnero.princ.database.ListLoader;
+import carnero.princ.database.Structure;
+import carnero.princ.iface.ILoadingStatusListener;
 import carnero.princ.internet.ListDownloader;
 import carnero.princ.model.Beer;
 import carnero.princ.model.Hours;
@@ -19,7 +21,7 @@ import carnero.princ.model.Hours;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class MainFragment extends Fragment implements IDownloadStatusListener {
+public class MainFragment extends Fragment implements ILoadingStatusListener {
 
 	private ListView mList;
 	private ImageView mProgress;
@@ -62,11 +64,13 @@ public class MainFragment extends Fragment implements IDownloadStatusListener {
 	public void onResume() {
 		super.onResume();
 
-		new ListDownloader(getActivity(), this).execute(); // TODO: move to Service & load data from DB
+		new ListDownloader(getActivity(), null).execute(); // TODO: move to Service
+
+		new ListLoader(getActivity(), this).execute(Structure.Table.PUB_PRINC);
 	}
 
 	@Override
-	public void onDownloadStarted() {
+	public void onLoadingStart() {
 		if (!isAdded()) {
 			return;
 		}
@@ -78,8 +82,8 @@ public class MainFragment extends Fragment implements IDownloadStatusListener {
 	}
 
 	@Override
-	public void onDownloadCompleted(ArrayList<Beer> list) {
-		if (!isAdded()) {
+	public void onLoadingComplete(ArrayList<Beer> list) {
+		if (!isAdded() || list == null) {
 			return;
 		}
 

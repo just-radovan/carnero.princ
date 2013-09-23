@@ -5,6 +5,10 @@ import carnero.princ.model.Hours;
 public class Constants {
 
 	public static final String TAG = "princova piva";
+	// preferences
+	public static final String PREF_NAME = "beer";
+	public static final String PREF_LAST_DOWNLOAD = "beer:last_download";
+	// servers
 	public static final String LIST_URL_PRINC = "http://uprincemiroslava.eu/nabidka-piv/";
 	public static final String LIST_URL_ZLY = "http://zlycasy.eu/index.php?page=2";
 	public static final String UNTAPPD_URL = "https://untappd.com/search?q=%s";

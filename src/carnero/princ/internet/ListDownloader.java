@@ -1,6 +1,7 @@
 package carnero.princ.internet;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.text.TextUtils;
@@ -8,7 +9,8 @@ import android.util.Log;
 import carnero.princ.common.Constants;
 import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;
-import carnero.princ.iface.IDownloadStatusListener;
+import carnero.princ.database.Structure;
+import carnero.princ.iface.ILoadingStatusListener;
 import carnero.princ.model.Beer;
 import carnero.princ.model.BeerAZComparator;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -22,16 +24,18 @@ import java.util.regex.Pattern;
 public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 
 	private Context mContext;
-	private IDownloadStatusListener mStatusListener;
+	private ILoadingStatusListener mStatusListener;
 	private Helper mHelper;
-	//
+	private SharedPreferences mPreferences;
+	// patterns
 	private Pattern mTablePattern = Pattern.compile("<table[^>]*>[^<]*<tbody[^>]*>(.*?)</tbody>[^<]*</table>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 	private Pattern mBeersPattern = Pattern.compile("<tr[^>]*>[^<]*<td[^>]*>(.*?)</td>", Pattern.CASE_INSENSITIVE);
 
-	public ListDownloader(Context context, IDownloadStatusListener listener) {
+	public ListDownloader(Context context, ILoadingStatusListener listener) {
 		mContext = context;
 		mStatusListener = listener;
 		mHelper = new Helper(context);
+		mPreferences = context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
 	}
 
 	@Override
@@ -39,12 +43,19 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 		super.onPreExecute();
 
 		if (mStatusListener != null) {
-			mStatusListener.onDownloadStarted();
+			mStatusListener.onLoadingStart();
 		}
 	}
 
 	@Override
 	protected ArrayList<Beer> doInBackground(Void... params) {
+		long last = mPreferences.getLong(Constants.PREF_LAST_DOWNLOAD, 0);
+		if (last > (System.currentTimeMillis() - (2 * 60 * 60 * 1000))) { // 2 hrs
+			return null;
+		}
+
+		Log.d(Constants.TAG, "Downloading beer list from " + Constants.LIST_URL_PRINC + "...");
+
 		InputStream stream = null;
 		try {
 			stream = HttpRequest.get(Constants.LIST_URL_PRINC).stream();
@@ -55,7 +66,13 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 		String response = Utils.convertStreamToString(stream);
 		ArrayList<Beer> list = parsePagePrinc(response);
 
-		mHelper.saveBeers(list);
+		Log.d(Constants.TAG, "Beers found: " + list.size());
+
+		mHelper.saveBeers(list, Structure.Table.PUB_PRINC);
+
+		mPreferences.edit()
+				.putLong(Constants.PREF_LAST_DOWNLOAD, System.currentTimeMillis())
+				.commit();
 
 		return list;
 	}
@@ -65,7 +82,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 		super.onPostExecute(list);
 
 		if (mStatusListener != null) {
-			mStatusListener.onDownloadCompleted(list);
+			mStatusListener.onLoadingComplete(list);
 		}
 	}
 
@@ -96,6 +113,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 
 			if (!TextUtils.isEmpty(line)) {
 				beer = new Beer();
+				beer.pub = Structure.Table.PUB_PRINC;
 				beer.current = true;
 				beer.name = Html.fromHtml(line).toString();
 
