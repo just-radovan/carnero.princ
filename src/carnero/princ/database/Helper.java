@@ -10,9 +10,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import carnero.princ.common.Constants;
 import carnero.princ.model.Beer;
+import carnero.princ.model.BeerAZComparator;
 import carnero.princ.model.BeerName;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Helper extends SQLiteOpenHelper {
 
@@ -168,6 +170,8 @@ public class Helper extends SQLiteOpenHelper {
 			}
 			database.close();
 		}
+
+		Collections.sort(list, new BeerAZComparator());
 
 		return list;
 	}

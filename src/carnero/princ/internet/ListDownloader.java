@@ -121,8 +121,6 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 			}
 		}
 
-		Collections.sort(list, new BeerAZComparator());
-
 		return list;
 	}
 }
