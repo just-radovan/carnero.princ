@@ -3,6 +3,7 @@ package carnero.princ.model;
 public class Beer {
 
 	public long id;
+	public int pub;
 	public boolean current;
 	public String name;
 	public long onTapSince; // update when current moves from 'false' to 'true'

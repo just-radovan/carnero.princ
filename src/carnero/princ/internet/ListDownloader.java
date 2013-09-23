@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import carnero.princ.common.Constants;
 import carnero.princ.common.Utils;
+import carnero.princ.database.Helper;
 import carnero.princ.iface.IDownloadStatusListener;
 import carnero.princ.model.Beer;
 import carnero.princ.model.BeerAZComparator;
@@ -22,6 +23,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 
 	private Context mContext;
 	private IDownloadStatusListener mStatusListener;
+	private Helper mHelper;
 	//
 	private Pattern mTablePattern = Pattern.compile("<table[^>]*>[^<]*<tbody[^>]*>(.*?)</tbody>[^<]*</table>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 	private Pattern mBeersPattern = Pattern.compile("<tr[^>]*>[^<]*<td[^>]*>(.*?)</td>", Pattern.CASE_INSENSITIVE);
@@ -29,6 +31,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 	public ListDownloader(Context context, IDownloadStatusListener listener) {
 		mContext = context;
 		mStatusListener = listener;
+		mHelper = new Helper(context);
 	}
 
 	@Override
@@ -44,16 +47,15 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 	protected ArrayList<Beer> doInBackground(Void... params) {
 		InputStream stream = null;
 		try {
-			stream = HttpRequest.get(Constants.LIST_URL).stream();
+			stream = HttpRequest.get(Constants.LIST_URL_PRINC).stream();
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to download beer list");
-			e.printStackTrace();
 		}
 
 		String response = Utils.convertStreamToString(stream);
-		ArrayList<Beer> list = parsePage(response);
+		ArrayList<Beer> list = parsePagePrinc(response);
 
-		// TODO: store data
+		mHelper.saveBeers(list);
 
 		return list;
 	}
@@ -67,7 +69,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 		}
 	}
 
-	private ArrayList<Beer> parsePage(String data) {
+	private ArrayList<Beer> parsePagePrinc(String data) {
 		if (TextUtils.isEmpty(data)) {
 			return null;
 		}

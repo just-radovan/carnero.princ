@@ -5,7 +5,8 @@ import carnero.princ.model.Hours;
 public class Constants {
 
 	public static final String TAG = "princova piva";
-	public static final String LIST_URL = "http://uprincemiroslava.eu/nabidka-piv/";
+	public static final String LIST_URL_PRINC = "http://uprincemiroslava.eu/nabidka-piv/";
+	public static final String LIST_URL_ZLY = "http://zlycasy.eu/index.php?page=2";
 	public static final String UNTAPPD_URL = "https://untappd.com/search?q=%s";
 
 	public static final Hours[] HOURS = new Hours[] {
