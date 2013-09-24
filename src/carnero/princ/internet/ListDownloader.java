@@ -1,11 +1,14 @@
 package carnero.princ.internet;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import carnero.princ.R;
 import carnero.princ.common.Constants;
 import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;

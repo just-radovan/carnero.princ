@@ -1,13 +1,19 @@
 package carnero.princ.database;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import carnero.princ.MainActivity;
+import carnero.princ.R;
 import carnero.princ.common.Constants;
 import carnero.princ.model.Beer;
 import carnero.princ.model.BeerAZComparator;
@@ -18,11 +24,13 @@ import java.util.Collections;
 
 public class Helper extends SQLiteOpenHelper {
 
+	private Context mContext;
 	private SharedPreferences mPreferences;
 
 	public Helper(Context context) {
 		super(context, Structure.name, null, Structure.version);
 
+		mContext = context;
 		mPreferences = context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
 	}
 
@@ -49,6 +57,7 @@ public class Helper extends SQLiteOpenHelper {
 		SQLiteDatabase database = getWritableDatabase();
 		ArrayList<BeerName> currentBeers = loadCurrentBeersID(database, pub);
 		ArrayList<Long> updatedIDs = new ArrayList<Long>();
+		ArrayList<String> newBeers = new ArrayList<String>();
 
 		StringBuilder where;
 		ContentValues values;
@@ -95,6 +104,7 @@ public class Helper extends SQLiteOpenHelper {
 					}
 					if (!alreadyOnTap) {
 						values.put(Structure.Table.Beers.col_tap_since, System.currentTimeMillis());
+						newBeers.add(beer.name);
 					}
 
 					int cnt = database.update(Structure.Table.Beers.name, values, Structure.Table.Beers.col_id + " = " + id, null);
@@ -118,6 +128,7 @@ public class Helper extends SQLiteOpenHelper {
 			}
 		}
 
+		// update removed beers
 		long last = mPreferences.getLong(Constants.PREF_LAST_DOWNLOAD, 0);
 		for (BeerName current : currentBeers) {
 			if (!updatedIDs.contains(current.id)) { // removed from tap
@@ -130,6 +141,29 @@ public class Helper extends SQLiteOpenHelper {
 		}
 
 		database.close();
+
+		// notify about new stuff
+		if (!newBeers.isEmpty()) {
+			StringBuilder text = new StringBuilder();
+			text.append(mContext.getText(R.string.notification_info));
+			text.append("\n");
+			for (String newBeer : newBeers) {
+				text.append("\n→ ");
+				text.append(newBeer);
+			}
+
+			Intent intent = new Intent(mContext, MainActivity.class);
+			PendingIntent pending = PendingIntent.getActivity(mContext, Constants.NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+			Notification.Builder builder = new Notification.Builder(mContext);
+			builder.setContentTitle(mContext.getText(R.string.app_name));
+			builder.setContentText(text.toString());
+			builder.setSmallIcon(R.drawable.ic_notification);
+			builder.setContentIntent(pending);
+
+			NotificationManager manager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+			manager.notify(Constants.NOTIFICATION_ID, builder.build());
+		}
 	}
 
 	public ArrayList<Beer> loadBeers(int pub, boolean current) {

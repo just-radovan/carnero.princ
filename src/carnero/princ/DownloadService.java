@@ -30,22 +30,11 @@ public class DownloadService extends Service implements ILoadingStatusListener {
 	@Override
 	public void onLoadingStart() {
 		Log.d(Constants.TAG, "Downloading beer list");
-
-		Notification.Builder builder = new Notification.Builder(getApplicationContext());
-		builder.setContentTitle(getText(R.string.app_name));
-		builder.setContentText(getText(R.string.notification_info));
-		builder.setSmallIcon(R.drawable.ic_notification);
-
-		NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		manager.notify(Constants.NOTIFICATION_ID, builder.build());
 	}
 
 	@Override
 	public void onLoadingComplete(ArrayList<Beer> list) {
 		setAlarmIntent(getApplicationContext());
-
-		NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		manager.cancel(Constants.NOTIFICATION_ID);
 
 		Log.d(Constants.TAG, "Download finished");
 		stopSelf();
@@ -62,7 +51,7 @@ public class DownloadService extends Service implements ILoadingStatusListener {
 		manager.setInexactRepeating(
 				AlarmManager.ELAPSED_REALTIME_WAKEUP,
 				SystemClock.elapsedRealtime() + (10 * 60 * 1000), // 10 mins
-				AlarmManager.INTERVAL_FIFTEEN_MINUTES,
+				AlarmManager.INTERVAL_HOUR * 4, // 4 hrs
 				pending
 		);
 
