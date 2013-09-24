@@ -117,6 +117,7 @@ public class Helper extends SQLiteOpenHelper {
 			} else { // insert new beer
 				try {
 					values.put(Structure.Table.Beers.col_tap_since, System.currentTimeMillis());
+					newBeers.add(beer.name);
 
 					id = database.insert(Structure.Table.Beers.name, null, values);
 					if (id >= 0) {
@@ -145,8 +146,6 @@ public class Helper extends SQLiteOpenHelper {
 		// notify about new stuff
 		if (!newBeers.isEmpty()) {
 			StringBuilder text = new StringBuilder();
-			text.append(mContext.getText(R.string.notification_info));
-			text.append("\n");
 			for (String newBeer : newBeers) {
 				text.append("\n→ ");
 				text.append(newBeer);
@@ -155,11 +154,18 @@ public class Helper extends SQLiteOpenHelper {
 			Intent intent = new Intent(mContext, MainActivity.class);
 			PendingIntent pending = PendingIntent.getActivity(mContext, Constants.NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+			Notification.BigTextStyle style = new Notification.BigTextStyle();
+			style.setBigContentTitle(mContext.getText(R.string.app_name));
+			style.bigText(text.toString());
+
 			Notification.Builder builder = new Notification.Builder(mContext);
 			builder.setContentTitle(mContext.getText(R.string.app_name));
-			builder.setContentText(text.toString());
+			builder.setContentText(mContext.getText(R.string.notification_info));
 			builder.setSmallIcon(R.drawable.ic_notification);
+			builder.setContentInfo(String.valueOf(newBeers.size()));
 			builder.setContentIntent(pending);
+			builder.setAutoCancel(true);
+			builder.setStyle(style);
 
 			NotificationManager manager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 			manager.notify(Constants.NOTIFICATION_ID, builder.build());
