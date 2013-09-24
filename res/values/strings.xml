@@ -6,6 +6,7 @@
 	<string name="pub_open">Otevřeno do %1$s:%2$s</string>
 	<string name="pub_tomorrow">Již zavřeno</string>
 
+	<string name="card_tapped">naraženo %1$s</string>
 	<string name="card_first_time">poprvé na čepu</string>
 
 	<string name="notification_info">Naražena nová piva...</string>

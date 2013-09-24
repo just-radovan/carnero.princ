@@ -43,7 +43,7 @@ public class BeerListAdapter extends BaseAdapter {
 
 		// view.findViewById(R.id.beer_search).setOnClickListener(new SearchClickListener(beer));
 		vName.setText(beer.name);
-		vTapSince.setText(mDateFormat.format(new Date(beer.onTapSince)));
+		vTapSince.setText(mContext.getString(R.string.card_tapped, mDateFormat.format(new Date(beer.onTapSince))));
 		if (beer.onTapPrevious > 0) {
 			vTapPrev.setText(mDateFormat.format(new Date(beer.onTapPrevious)));
 		} else {
