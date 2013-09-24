@@ -46,7 +46,7 @@ public class BeerListAdapter extends BaseAdapter {
 		if (beer.onTapPrevious > 0) {
 			vTapPrev.setText(mDateFormat.format(new Date(beer.onTapPrevious)));
 		} else {
-			vTapPrev.setText("poprvé na čepu");
+			vTapPrev.setText(R.string.card_first_time);
 		}
 		vTapSince.setText(mDateFormat.format(new Date(beer.onTapSince)));
 

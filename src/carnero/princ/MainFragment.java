@@ -45,11 +45,11 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 		mHeader = inflater.inflate(R.layout.item_opening_hours, null, false);
 		TextView headerStatus = (TextView) mHeader.findViewById(R.id.status);
 		if (timeNow < timePubFrom) {
-			headerStatus.setText("Do " + Utils.addLeadingZero(hours.fromHrs, 2) + ":" + Utils.addLeadingZero(hours.fromMns, 2) + " zavřeno");
+			headerStatus.setText(getString(R.string.pub_closed, Utils.addLeadingZero(hours.fromHrs, 2), Utils.addLeadingZero(hours.fromMns, 2)));
 		} else if (timeNow < timePubTo) {
-			headerStatus.setText("Otevřeno do " + Utils.addLeadingZero(hours.toHrs, 2) + ":" + Utils.addLeadingZero(hours.toMns, 2));
+			headerStatus.setText(getString(R.string.pub_open, Utils.addLeadingZero(hours.toHrs, 2), Utils.addLeadingZero(hours.toMns, 2)));
 		} else {
-			headerStatus.setText("Již zavřeno");
+			headerStatus.setText(R.string.pub_tomorrow);
 		}
 
 		if (mHeader != null) {

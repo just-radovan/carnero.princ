@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Princova piva</string>
+	<string name="app_name">Piva Prince Miroslava</string>
+
+	<string name="pub_closed">Do %1$s:%2$s zavřeno</string>
+	<string name="pub_open">Otevřeno do %1$s:%2$s</string>
+	<string name="pub_tomorrow">Již zavřeno</string>
+
+	<string name="card_first_time">poprvé na čepu</string>
 </resources>
