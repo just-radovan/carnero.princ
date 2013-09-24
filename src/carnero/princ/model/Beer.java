@@ -6,8 +6,8 @@ public class Beer {
 	public int pub;
 	public boolean current;
 	public String name;
-	public long onTapSince; // update when current moves from 'false' to 'true'
-	public long onTapPrevious; // update when current moves from 'true' to 'false'
+	public long onTapSince;
+	public long onTapPrevious;
 	public float rating;
 
 	@Override

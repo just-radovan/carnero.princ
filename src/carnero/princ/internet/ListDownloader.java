@@ -50,7 +50,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 	@Override
 	protected ArrayList<Beer> doInBackground(Void... params) {
 		long last = mPreferences.getLong(Constants.PREF_LAST_DOWNLOAD, 0);
-		if (last > (System.currentTimeMillis() - (2 * 60 * 60 * 1000))) { // 2 hrs
+		if (last > (System.currentTimeMillis() - (30 * 60 * 1000))) { // 30 mins
 			return null;
 		}
 

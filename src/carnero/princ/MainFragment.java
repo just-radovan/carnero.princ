@@ -1,6 +1,7 @@
 package carnero.princ;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import carnero.princ.common.Constants;
 import carnero.princ.common.Utils;
+import carnero.princ.database.Helper;
 import carnero.princ.database.ListLoader;
 import carnero.princ.database.Structure;
 import carnero.princ.iface.ILoadingStatusListener;
@@ -64,7 +66,12 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 	public void onResume() {
 		super.onResume();
 
-		new ListLoader(getActivity(), this).execute(Structure.Table.PUB_PRINC);
+		Helper helper = new Helper(getActivity());
+		if (!helper.isSomeCurrentBeer()) { // no saved beer, download now
+			new ListDownloader(getActivity(), this).execute();
+		} else {
+			new ListLoader(getActivity(), this).execute(Structure.Table.PUB_PRINC);
+		}
 	}
 
 	@Override

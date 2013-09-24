@@ -10,8 +10,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Log.d(Constants.TAG, "Received alarm - starting download");
-
 		Intent serviceIntent = new Intent(context, DownloadService.class);
 		context.startService(serviceIntent);
 	}

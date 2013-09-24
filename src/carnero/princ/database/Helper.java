@@ -87,6 +87,16 @@ public class Helper extends SQLiteOpenHelper {
 
 			if (id >= 0) { // update beer
 				try {
+					boolean alreadyOnTap = false;
+					for (BeerName current : currentBeers) {
+						if (current.id == id) {
+							alreadyOnTap = true;
+						}
+					}
+					if (!alreadyOnTap) {
+						values.put(Structure.Table.Beers.col_tap_since, System.currentTimeMillis());
+					}
+
 					int cnt = database.update(Structure.Table.Beers.name, values, Structure.Table.Beers.col_id + " = " + id, null);
 					if (cnt > 0) {
 						updatedIDs.add(id);
@@ -174,6 +184,31 @@ public class Helper extends SQLiteOpenHelper {
 		Collections.sort(list, new BeerAZComparator());
 
 		return list;
+	}
+
+	public boolean isSomeCurrentBeer() {
+		SQLiteDatabase database = getWritableDatabase();
+
+		Cursor cursor = null;
+		boolean any = false;
+		try {
+			cursor = database.query(
+					Structure.Table.Beers.name,
+					new String[] {Structure.Table.Beers.col_id},
+					Structure.Table.Beers.col_current + " = 1",
+					null, null, null, null
+			);
+
+			if (cursor != null && cursor.getCount() > 0) {
+				any = true;
+			}
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+
+		return any;
 	}
 
 	private ArrayList<BeerName> loadCurrentBeersID(SQLiteDatabase database, int pub) {

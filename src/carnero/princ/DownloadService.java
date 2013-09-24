@@ -4,6 +4,7 @@ import android.app.*;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.util.Log;
 import carnero.princ.common.Constants;
 import carnero.princ.iface.ILoadingStatusListener;
@@ -31,11 +32,9 @@ public class DownloadService extends Service implements ILoadingStatusListener {
 		Log.d(Constants.TAG, "Downloading beer list");
 
 		Notification.Builder builder = new Notification.Builder(getApplicationContext());
-		builder.setSmallIcon(R.drawable.ic_notification);
 		builder.setContentTitle(getText(R.string.app_name));
 		builder.setContentText(getText(R.string.notification_info));
-		builder.setAutoCancel(true);
-		builder.setDefaults(Notification.DEFAULT_ALL);
+		builder.setSmallIcon(R.drawable.ic_notification);
 
 		NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		manager.notify(Constants.NOTIFICATION_ID, builder.build());
@@ -59,9 +58,10 @@ public class DownloadService extends Service implements ILoadingStatusListener {
 
 		PendingIntent pending = PendingIntent.getBroadcast(context, Constants.ALARM_DOWNLOAD, getIntent(context), PendingIntent.FLAG_CANCEL_CURRENT);
 		AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
 		manager.setInexactRepeating(
 				AlarmManager.ELAPSED_REALTIME_WAKEUP,
-				System.currentTimeMillis() + 2000,
+				SystemClock.elapsedRealtime() + (10 * 60 * 1000), // 10 mins
 				AlarmManager.INTERVAL_FIFTEEN_MINUTES,
 				pending
 		);
