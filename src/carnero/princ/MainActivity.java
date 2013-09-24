@@ -1,7 +1,12 @@
 package carnero.princ;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import carnero.princ.common.Constants;
 
 public class MainActivity extends Activity {
 
@@ -10,5 +15,13 @@ public class MainActivity extends Activity {
 		super.onCreate(state);
 
 		setContentView(R.layout.activity_main);
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		DownloadService.setAlarmIntent(getApplicationContext());
 	}
 }

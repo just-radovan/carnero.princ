@@ -64,8 +64,6 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 	public void onResume() {
 		super.onResume();
 
-		new ListDownloader(getActivity(), null).execute(); // TODO: move to Service
-
 		new ListLoader(getActivity(), this).execute(Structure.Table.PUB_PRINC);
 	}
 
