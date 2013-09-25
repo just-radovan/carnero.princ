@@ -1,7 +1,9 @@
 package carnero.princ;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,15 +22,19 @@ import carnero.princ.internet.ListDownloader;
 import carnero.princ.model.Beer;
 import carnero.princ.model.Hours;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class MainFragment extends Fragment implements ILoadingStatusListener {
 
 	private ListView mList;
 	private ImageView mProgress;
 	private View mHeader;
+	private View mFooter;
 	private BeerListAdapter mAdapter;
+	private DateFormat mTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
@@ -58,6 +64,12 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 			mList.removeHeaderView(mHeader);
 		}
 		mList.addHeaderView(mHeader, null, false);
+
+		mFooter = inflater.inflate(R.layout.item_last_update, null, false);
+		if (mFooter != null) {
+			mList.removeFooterView(mFooter);
+		}
+		mList.addFooterView(mFooter, null, false);
 
 		return layout;
 	}
@@ -99,5 +111,10 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 
 		mProgress.clearAnimation();
 		mProgress.setVisibility(View.GONE);
+
+		// last update
+		SharedPreferences preferences = getActivity().getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
+		long last = preferences.getLong(Constants.PREF_LAST_DOWNLOAD, 0);
+		((TextView) mFooter.findViewById(R.id.update)).setText(mTimeFormat.format(new Date(last)));
 	}
 }

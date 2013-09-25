@@ -42,13 +42,14 @@
 			android:textColor="@android:color/secondary_text_dark"
 			android:fontFamily="sans-serif-light" />
 		<TextView android:id="@+id/beer_tap_prev"
-			android:layout_width="wrap_content"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_alignParentRight="true"
+			android:layout_toRightOf="@id/beer_tap_since"
 			android:layout_below="@id/beer_name"
 			android:layout_marginLeft="6dp"
 			android:layout_marginRight="6dp"
 			android:layout_marginBottom="4dp"
+			android:gravity="right"
 			android:textSize="16dp"
 			android:textColor="@android:color/secondary_text_dark"
 			android:fontFamily="sans-serif-light" />
