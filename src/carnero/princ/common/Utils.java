@@ -1,5 +1,6 @@
 package carnero.princ.common;
 
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -44,16 +45,21 @@ public class Utils {
 		return data.toString();
 	}
 
-	public static String stripTags(String text) {
+	public static String cleanString(String text) {
 		if (TextUtils.isEmpty(text)) {
 			return "";
 		}
 
 		Matcher matcher;
 
+		// remove tags
 		matcher = tagsPattern.matcher(text);
 		text = matcher.replaceAll(" ");
 
+		// convert entities
+		text = Html.fromHtml(text).toString();
+
+		// remove abundant white chars
 		matcher = spacesPattern.matcher(text);
 		text = matcher.replaceAll(" ");
 

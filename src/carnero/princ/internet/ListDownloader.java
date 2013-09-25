@@ -1,26 +1,21 @@
 package carnero.princ.internet;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
-import carnero.princ.R;
 import carnero.princ.common.Constants;
 import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;
 import carnero.princ.database.Structure;
 import carnero.princ.iface.ILoadingStatusListener;
 import carnero.princ.model.Beer;
-import carnero.princ.model.BeerAZComparator;
 import com.github.kevinsawicki.http.HttpRequest;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -112,13 +107,13 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 		Beer beer;
 
 		for (int i = 0; i < lines.length; i ++) {
-			line = Utils.stripTags(lines[i]);
+			line = Utils.cleanString(lines[i]);
 
 			if (!TextUtils.isEmpty(line)) {
 				beer = new Beer();
 				beer.pub = Structure.Table.PUB_PRINC;
 				beer.current = true;
-				beer.name = Html.fromHtml(line).toString();
+				beer.name = line;
 
 				list.add(beer);
 			}
