@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import carnero.princ.MainActivity;
 import carnero.princ.R;
@@ -154,11 +155,11 @@ public class Helper extends SQLiteOpenHelper {
 			Intent intent = new Intent(mContext, MainActivity.class);
 			PendingIntent pending = PendingIntent.getActivity(mContext, Constants.NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-			Notification.BigTextStyle style = new Notification.BigTextStyle();
+			NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle();
 			style.setBigContentTitle(mContext.getText(R.string.app_name));
 			style.bigText(text.toString());
 
-			Notification.Builder builder = new Notification.Builder(mContext);
+			NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
 			builder.setContentTitle(mContext.getText(R.string.app_name));
 			builder.setContentText(mContext.getText(R.string.notification_info));
 			builder.setSmallIcon(R.drawable.ic_notification);
