@@ -51,7 +51,7 @@ public class DownloadService extends Service implements ILoadingStatusListener {
 		manager.setInexactRepeating(
 				AlarmManager.ELAPSED_REALTIME_WAKEUP,
 				SystemClock.elapsedRealtime() + (10 * 60 * 1000), // 10 mins
-				AlarmManager.INTERVAL_HOUR * 4, // 4 hrs
+				AlarmManager.INTERVAL_HOUR * 2, // 2 hrs
 				pending
 		);
 
