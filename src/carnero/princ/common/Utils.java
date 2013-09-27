@@ -12,6 +12,8 @@ public class Utils {
 
 	private static final Pattern tagsPattern = Pattern.compile("(<[^>]+>)", Pattern.CASE_INSENSITIVE);
 	private static final Pattern spacesPattern = Pattern.compile("(\\s+)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern offerPattern = Pattern.compile("V nabídce [–|-]", Pattern.CASE_INSENSITIVE);
+	private static final Pattern degreesPattern = Pattern.compile("( ?([0-9]+)° ?)", Pattern.CASE_INSENSITIVE);
 
 	public static String convertStreamToString(InputStream stream) {
 		if (stream == null) {
@@ -62,6 +64,16 @@ public class Utils {
 		// remove abundant white chars
 		matcher = spacesPattern.matcher(text);
 		text = matcher.replaceAll(" ");
+
+		// remove special offer label
+		matcher = offerPattern.matcher(text);
+		text = matcher.replaceAll("");
+
+		// format degrees
+		matcher = degreesPattern.matcher(text);
+		if (matcher.find()) {
+			text = matcher.replaceAll(" " + matcher.group(2) + "° ");
+		}
 
 		return text.trim();
 	}
