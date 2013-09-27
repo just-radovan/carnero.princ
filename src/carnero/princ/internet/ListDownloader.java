@@ -102,12 +102,11 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 			data = matcher.group(1);
 		}
 
-		String[] lines = data.split("(</p[^>]*>)");
-		String line;
+		String[] lines = data.split("(</p[^>]*>|<br[^>]*>)");
 		Beer beer;
 
-		for (int i = 0; i < lines.length; i ++) {
-			line = Utils.cleanString(lines[i]);
+		for (String line : lines) {
+			line = Utils.cleanString(line);
 
 			if (!TextUtils.isEmpty(line)) {
 				beer = new Beer();
