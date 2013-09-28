@@ -3,7 +3,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical"
-	android:background="@color/bg_grey" >
+	android:background="@color/bg_grey">
 
 	<ImageView android:id="@+id/loading"
 		android:visibility="gone"
@@ -14,6 +14,11 @@
 	<ListView android:id="@android:id/list"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:scrollbars="none"
-		android:divider="@null" />
+		android:listSelector="@null"
+		android:scrollbars="vertical"
+		android:fadeScrollbars="true"
+		android:scrollbarFadeDuration="250"
+		android:scrollbarDefaultDelayBeforeFade="0"
+		android:scrollbarStyle="insideOverlay"
+		android:divider="@null"/>
 </LinearLayout>

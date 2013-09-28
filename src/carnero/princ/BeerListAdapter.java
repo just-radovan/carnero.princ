@@ -11,8 +11,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import carnero.princ.common.Constants;
-import carnero.princ.data.Breweries;
-import carnero.princ.data.Brewery;
 import carnero.princ.model.Beer;
 
 import java.io.UnsupportedEncodingException;
@@ -20,7 +18,6 @@ import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
 
 public class BeerListAdapter extends BaseAdapter {
 
@@ -44,7 +41,7 @@ public class BeerListAdapter extends BaseAdapter {
 		View vContainer = view.findViewById(R.id.container);
 		View vPaddingT = view.findViewById(R.id.padding_top);
 		View vPaddingB = view.findViewById(R.id.padding_bottom);
-		View vSeparator = view.findViewById(R.id.separator);
+		View vSeparator = view.findViewById(R.id.top_end);
 		TextView vBrewery = (TextView) view.findViewById(R.id.brewery_name);
 		TextView vName = (TextView) view.findViewById(R.id.beer_name);
 		TextView vTapPrev = (TextView) view.findViewById(R.id.beer_tap_prev);
@@ -72,14 +69,14 @@ public class BeerListAdapter extends BaseAdapter {
 			vContainer.setBackgroundResource(R.drawable.bg_card_bottom);
 			vPaddingT.setVisibility(View.GONE);
 			vPaddingB.setVisibility(View.VISIBLE);
-			vSeparator.setVisibility(View.GONE);
+			vSeparator.setVisibility(View.VISIBLE);
 
 			vBrewery.setVisibility(View.GONE);
 		} else if (after) {
 			vContainer.setBackgroundResource(R.drawable.bg_card_top);
 			vPaddingT.setVisibility(View.VISIBLE);
 			vPaddingB.setVisibility(View.GONE);
-			vSeparator.setVisibility(View.VISIBLE);
+			vSeparator.setVisibility(View.GONE);
 
 			vBrewery.setVisibility(View.VISIBLE);
 		} else {
