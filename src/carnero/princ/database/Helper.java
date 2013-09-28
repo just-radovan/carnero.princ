@@ -114,7 +114,7 @@ public class Helper extends SQLiteOpenHelper {
 					}
 					if (!alreadyOnTap) {
 						values.put(Structure.Table.Beers.col_tap_since, System.currentTimeMillis());
-						newBeers.add(beer.name);
+						newBeers.add(beer.brewery + ": " + beer.name);
 					}
 
 					int cnt = database.update(Structure.Table.Beers.name, values, Structure.Table.Beers.col_id + " = " + id, null);
@@ -127,7 +127,7 @@ public class Helper extends SQLiteOpenHelper {
 			} else { // insert new beer
 				try {
 					values.put(Structure.Table.Beers.col_tap_since, System.currentTimeMillis());
-					newBeers.add(beer.name);
+					newBeers.add(beer.brewery + ": " + beer.name);
 
 					id = database.insert(Structure.Table.Beers.name, null, values);
 					if (id >= 0) {

@@ -41,10 +41,41 @@ public class BeerListAdapter extends BaseAdapter {
 
 		Beer beer = getItem(position);
 
+		View vContainer = view.findViewById(R.id.container);
+		View vPaddingT = view.findViewById(R.id.padding_top);
+		View vPaddingB = view.findViewById(R.id.padding_bottom);
+		View vSeparator = view.findViewById(R.id.separator);
 		TextView vBrewery = (TextView) view.findViewById(R.id.brewery_name);
 		TextView vName = (TextView) view.findViewById(R.id.beer_name);
 		TextView vTapPrev = (TextView) view.findViewById(R.id.beer_tap_prev);
 		TextView vTapSince = (TextView) view.findViewById(R.id.beer_tap_since);
+
+		Beer beerPrev = getItem(position - 1);
+		Beer beerNext = getItem(position + 1);
+		boolean before = (beerPrev != null && ((beerPrev.brewery == null && beer.brewery == null) || (beerPrev.brewery.equalsIgnoreCase(beer.brewery))));
+		boolean after = (beerNext != null && ((beerNext.brewery == null && beer.brewery == null) || (beerNext.brewery.equalsIgnoreCase(beer.brewery))));
+
+		if (before && after) {
+			vContainer.setBackgroundResource(R.drawable.bg_card_middle);
+			vPaddingT.setVisibility(View.GONE);
+			vPaddingB.setVisibility(View.GONE);
+			vSeparator.setVisibility(View.VISIBLE);
+		} else if (before) {
+			vContainer.setBackgroundResource(R.drawable.bg_card_bottom);
+			vPaddingT.setVisibility(View.GONE);
+			vPaddingB.setVisibility(View.VISIBLE);
+			vSeparator.setVisibility(View.GONE);
+		} else if (after) {
+			vContainer.setBackgroundResource(R.drawable.bg_card_top);
+			vPaddingT.setVisibility(View.VISIBLE);
+			vPaddingB.setVisibility(View.GONE);
+			vSeparator.setVisibility(View.VISIBLE);
+		} else {
+			vContainer.setBackgroundResource(R.drawable.bg_card_alone);
+			vPaddingT.setVisibility(View.VISIBLE);
+			vPaddingB.setVisibility(View.VISIBLE);
+			vSeparator.setVisibility(View.GONE);
+		}
 
 		if (TextUtils.isEmpty(beer.brewery)) {
 			vBrewery.setText(null);
@@ -77,6 +108,8 @@ public class BeerListAdapter extends BaseAdapter {
 	@Override
 	public Beer getItem(int position) {
 		if (mList == null) {
+			return null;
+		} else if (position < 0 || position > mList.size() - 1) {
 			return null;
 		} else {
 			return mList.get(position);

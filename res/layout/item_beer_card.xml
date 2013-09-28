@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent" >
+	android:layout_height="match_parent"
+	android:orientation="vertical">
 
-	<RelativeLayout
+	<View android:id="@+id/padding_top"
+		android:visibility="gone"
+		android:layout_width="fill_parent"
+		android:layout_height="1dp"
+		android:layout_margin="4dp" />
+
+	<RelativeLayout android:id="@+id/container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_margin="8dp"
-		android:background="@drawable/bg_card" >
-
-		<!--
-		<ImageView android:id="@+id/beer_search"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_margin="4dp"
-			android:layout_alignParentRight="true"
-			android:src="@android:drawable/ic_menu_search" />
-		-->
+		android:layout_marginLeft="8dp"
+		android:layout_marginRight="8dp"
+		android:background="@drawable/bg_card_alone" >
 
 		<TextView android:id="@+id/brewery_name"
 			android:layout_width="fill_parent"
@@ -67,5 +66,19 @@
 			android:textSize="16sp"
 			android:textColor="@android:color/secondary_text_dark"
 			android:fontFamily="sans-serif-light" />
+
+		<View android:id="@+id/separator"
+			android:visibility="gone"
+			android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:layout_below="@id/beer_tap_since"
+			android:layout_margin="2dp"
+			android:background="#FFDDDDDD" />
 	</RelativeLayout>
-</FrameLayout>
+
+	<View android:id="@+id/padding_bottom"
+		android:visibility="gone"
+		android:layout_width="fill_parent"
+		android:layout_height="1dp"
+		android:layout_margin="4dp" />
+</LinearLayout>

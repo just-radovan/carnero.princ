@@ -115,6 +115,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 		for (String line : lines) {
 			line = Utils.cleanString(line);
 
+			// check if there isn't more beers on single line
 			matches.clear();
 			int start;
 			for (String brewery : breweries) {
@@ -123,6 +124,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 				}
 			}
 
+			// split beers
 			if (matches.size() > 1) {
 				Collections.sort(matches);
 				beers.clear();
@@ -138,6 +140,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 				beers.add(line);
 			}
 
+			// parse brewery and save beers
 			for (String linePart : beers) {
 				if (!TextUtils.isEmpty(linePart)) {
 					String breweryName = null;
