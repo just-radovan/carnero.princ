@@ -46,29 +46,14 @@ public class BeerListAdapter extends BaseAdapter {
 		TextView vTapPrev = (TextView) view.findViewById(R.id.beer_tap_prev);
 		TextView vTapSince = (TextView) view.findViewById(R.id.beer_tap_since);
 
-		String breweryName = null;
-		String beerName = beer.name;
-		Set<String> breweries = Breweries.map.keySet();
-		Brewery brewery;
-		for (String key : breweries) {
-			if (beer.name.startsWith(key)) {
-				brewery = Breweries.map.get(key);
-
-				breweryName = brewery.name;
-				if (brewery.removeID) {
-					beerName = beerName.substring(key.length(), beerName.length()).trim();
-				}
-				break;
-			}
-		}
-		if (TextUtils.isEmpty(breweryName)) {
+		if (TextUtils.isEmpty(beer.brewery)) {
 			vBrewery.setText(null);
 			vBrewery.setVisibility(View.GONE);
 		} else {
-			vBrewery.setText(breweryName);
+			vBrewery.setText(beer.brewery);
 			vBrewery.setVisibility(View.VISIBLE);
 		}
-		vName.setText(beerName);
+		vName.setText(beer.name);
 
 		vTapSince.setText(mContext.getString(R.string.card_tapped, mDateFormat.format(new Date(beer.onTapSince))));
 		if (beer.onTapPrevious > 0) {

@@ -13,6 +13,7 @@ public class Breweries {
 		map.put("Aspall", new Brewery("Aspall", "Aspall", true));
 		map.put("Břevnov", new Brewery("Břevnov", "Břevnovský pivovar", true));
 		map.put("Celia", new Brewery("Celia", "Žatec", false));
+		map.put("Démon", new Brewery("Démon", "Vysoký Chlumec", false));
 		map.put("Dudák", new Brewery("Dudák", "Strakonice", false));
 		map.put("Chotěboř", new Brewery("Chotěboř", "Chotěboř", true));
 		map.put("Chýně", new Brewery("Chýně", "Chýně", true));
@@ -22,11 +23,13 @@ public class Breweries {
 		map.put("Matuška", new Brewery("Matuška", "Matuška", true));
 		map.put("Opat", new Brewery("Opat", "Broumov", false));
 		map.put("Podkováň", new Brewery("Podkováň", "Podkováň", true));
+		map.put("Princ", new Brewery("Princ Max", "Vysoký Chlumec", false));
 		map.put("Primátor", new Brewery("Primátor", "Primátor", true));
 		map.put("Rebel", new Brewery("Rebel", "Havlíčkův Brod", false));
 		map.put("Rohozec", new Brewery("Rohozec", "Rohozec", true));
 		map.put("Rychtář", new Brewery("Rychtář", "Rychtář", true));
 		map.put("Svijany", new Brewery("Svijany", "Svijany", true));
+		map.put("Vévoda", new Brewery("Vévoda", "Vysoký Chlumec", false));
 		map.put("Žatec", new Brewery("Žatec", "Žatec", true));
 	}
 }

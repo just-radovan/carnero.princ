@@ -5,6 +5,7 @@ public class Beer {
 	public long id;
 	public int pub;
 	public boolean current;
+	public String brewery;
 	public String name;
 	public long onTapSince;
 	public long onTapPrevious;
@@ -16,7 +17,7 @@ public class Beer {
 			return false;
 		}
 
-		if (name != null && name.equalsIgnoreCase(((Beer) o).name)) {
+		if (name != null && brewery.equalsIgnoreCase(((Beer) o).brewery) && name.equalsIgnoreCase(((Beer) o).name)) {
 			return true;
 		} else {
 			return false;

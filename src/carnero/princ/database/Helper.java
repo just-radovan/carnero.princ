@@ -1,6 +1,5 @@
 package carnero.princ.database;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentValues;
@@ -39,7 +38,9 @@ public class Helper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		try {
 			db.execSQL(Structure.getBeersCreate());
-			db.execSQL(Structure.getBeersIndex());
+			for (String index : Structure.getBeersIndex()) {
+				db.execSQL(index);
+			}
 		} catch (SQLException e) {
 			Log.e(Constants.TAG, "Failed to create database");
 		}
@@ -47,7 +48,9 @@ public class Helper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// empty
+		db.execSQL("drop table " + Structure.Table.Beers.name);
+
+		onCreate(db);
 	}
 
 	public void saveBeers(ArrayList<Beer> list, int pub) {
@@ -70,6 +73,11 @@ public class Helper extends SQLiteOpenHelper {
 			where.append(" = ");
 			where.append(beer.pub);
 			where.append(" and ");
+			where.append(Structure.Table.Beers.col_brewery);
+			where.append(" = \"");
+			where.append(beer.brewery);
+			where.append("\"");
+			where.append(" and ");
 			where.append(Structure.Table.Beers.col_name);
 			where.append(" = \"");
 			where.append(beer.name);
@@ -91,6 +99,7 @@ public class Helper extends SQLiteOpenHelper {
 			// store new data
 			values = new ContentValues();
 			values.put(Structure.Table.Beers.col_pub, beer.pub);
+			values.put(Structure.Table.Beers.col_brewery, beer.brewery);
 			values.put(Structure.Table.Beers.col_name, beer.name);
 			values.put(Structure.Table.Beers.col_current, (beer.current ? 1 : 0));
 			values.put(Structure.Table.Beers.col_rating, beer.rating);
@@ -196,6 +205,7 @@ public class Helper extends SQLiteOpenHelper {
 				int idxID = cursor.getColumnIndex(Structure.Table.Beers.col_id);
 				int idxPub = cursor.getColumnIndex(Structure.Table.Beers.col_pub);
 				int idxCurrent = cursor.getColumnIndex(Structure.Table.Beers.col_current);
+				int idxBrewery = cursor.getColumnIndex(Structure.Table.Beers.col_brewery);
 				int idxName = cursor.getColumnIndex(Structure.Table.Beers.col_name);
 				int idxSince = cursor.getColumnIndex(Structure.Table.Beers.col_tap_since);
 				int idxPrevious = cursor.getColumnIndex(Structure.Table.Beers.col_tap_prev);
@@ -207,6 +217,7 @@ public class Helper extends SQLiteOpenHelper {
 					beer.id = cursor.getLong(idxID);
 					beer.pub = cursor.getInt(idxPub);
 					beer.current = (cursor.getInt(idxCurrent) == 1);
+					beer.brewery = cursor.getString(idxBrewery);
 					beer.name = cursor.getString(idxName);
 					beer.onTapSince = cursor.getLong(idxSince);
 					beer.onTapPrevious = cursor.getLong(idxPrevious);
@@ -275,6 +286,7 @@ public class Helper extends SQLiteOpenHelper {
 			if (cursor.moveToFirst()) {
 				int idxID = cursor.getColumnIndex(Structure.Table.Beers.col_id);
 				int idxPub = cursor.getColumnIndex(Structure.Table.Beers.col_pub);
+				int idxBrewery = cursor.getColumnIndex(Structure.Table.Beers.col_brewery);
 				int idxName = cursor.getColumnIndex(Structure.Table.Beers.col_name);
 
 				BeerName beer;
@@ -282,6 +294,7 @@ public class Helper extends SQLiteOpenHelper {
 					beer = new BeerName();
 					beer.id = cursor.getLong(idxID);
 					beer.pub = cursor.getInt(idxPub);
+					beer.brewery = cursor.getString(idxBrewery);
 					beer.name = cursor.getString(idxName);
 
 					list.add(beer);

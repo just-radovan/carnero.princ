@@ -3,7 +3,7 @@ package carnero.princ.database;
 public class Structure {
 
 	public static final String name = "cc.beers";
-	public static final int version = 1;
+	public static final int version = 2;
 
 	public static class Table {
 
@@ -16,6 +16,7 @@ public class Structure {
 
 			public static final String col_id = "_id"; // integer
 			public static final String col_pub = "pub"; // integer
+			public static final String col_brewery = "brewery"; // text
 			public static final String col_name = "name"; // text
 			public static final String col_current = "current"; // integer, 0/1
 			public static final String col_tap_since = "on_tap_since"; // integer
@@ -23,7 +24,7 @@ public class Structure {
 			public static final String col_rating = "rating"; // float
 
 			public static final String[] projection = new String[] {
-					col_id, col_pub, col_name, col_current, col_tap_since, col_tap_prev, col_rating
+					col_id, col_pub, col_brewery, col_name, col_current, col_tap_since, col_tap_prev, col_rating
 			};
 		}
 	}
@@ -37,6 +38,8 @@ public class Structure {
 		sql.append(" integer primary key autoincrement,");
 		sql.append(Table.Beers.col_pub);
 		sql.append(" integer not null,");
+		sql.append(Table.Beers.col_brewery);
+		sql.append(" text,");
 		sql.append(Table.Beers.col_name);
 		sql.append(" text not null,");
 		sql.append(Table.Beers.col_current);
@@ -52,7 +55,10 @@ public class Structure {
 		return sql.toString();
 	}
 
-	public static String getBeersIndex() {
-		return "create index if not exists idx_pub_current on " + Table.Beers.name + " (" + Table.Beers.col_pub + ", " + Table.Beers.col_current + ")";
+	public static String[] getBeersIndex() {
+		return new String[] {
+				"create index if not exists idx_pub_current on " + Table.Beers.name + " (" + Table.Beers.col_pub + ", " + Table.Beers.col_current + ")",
+				"create index if not exists idx_beer_name on " + Table.Beers.name + " (" + Table.Beers.col_brewery + ", " + Table.Beers.col_name + ")"
+		};
 	}
 }
