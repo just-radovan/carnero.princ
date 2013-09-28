@@ -2,10 +2,10 @@ package carnero.princ;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +34,8 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 	private View mHeader;
 	private View mFooter;
 	private BeerListAdapter mAdapter;
-	private DateFormat mTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
+	private static DateFormat sTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
+	private static DateFormat sDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
@@ -121,6 +122,15 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 		// last update
 		SharedPreferences preferences = getActivity().getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
 		long last = preferences.getLong(Constants.PREF_LAST_DOWNLOAD, 0);
-		((TextView) mFooter.findViewById(R.id.update)).setText(mTimeFormat.format(new Date(last)));
+		Calendar calendar = Calendar.getInstance();
+		int currentDay = calendar.get(Calendar.DAY_OF_YEAR);
+		calendar.setTimeInMillis(last);
+		int updatedDay = calendar.get(Calendar.DAY_OF_YEAR);
+
+		if (currentDay == updatedDay) {
+			((TextView) mFooter.findViewById(R.id.update)).setText(sTimeFormat.format(calendar.getTime()));
+		} else {
+			((TextView) mFooter.findViewById(R.id.update)).setText(sDateFormat.format(calendar.getTime()));
+		}
 	}
 }
