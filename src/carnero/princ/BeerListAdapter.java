@@ -55,35 +55,42 @@ public class BeerListAdapter extends BaseAdapter {
 		boolean before = (beerPrev != null && ((beerPrev.brewery == null && beer.brewery == null) || (beerPrev.brewery.equalsIgnoreCase(beer.brewery))));
 		boolean after = (beerNext != null && ((beerNext.brewery == null && beer.brewery == null) || (beerNext.brewery.equalsIgnoreCase(beer.brewery))));
 
+		if (!TextUtils.isEmpty(beer.brewery)) {
+			vBrewery.setText(beer.brewery);
+		} else {
+			vBrewery.setText("N/A");
+		}
+
 		if (before && after) {
 			vContainer.setBackgroundResource(R.drawable.bg_card_middle);
 			vPaddingT.setVisibility(View.GONE);
 			vPaddingB.setVisibility(View.GONE);
 			vSeparator.setVisibility(View.VISIBLE);
+
+			vBrewery.setVisibility(View.GONE);
 		} else if (before) {
 			vContainer.setBackgroundResource(R.drawable.bg_card_bottom);
 			vPaddingT.setVisibility(View.GONE);
 			vPaddingB.setVisibility(View.VISIBLE);
 			vSeparator.setVisibility(View.GONE);
+
+			vBrewery.setVisibility(View.GONE);
 		} else if (after) {
 			vContainer.setBackgroundResource(R.drawable.bg_card_top);
 			vPaddingT.setVisibility(View.VISIBLE);
 			vPaddingB.setVisibility(View.GONE);
 			vSeparator.setVisibility(View.VISIBLE);
+
+			vBrewery.setVisibility(View.VISIBLE);
 		} else {
 			vContainer.setBackgroundResource(R.drawable.bg_card_alone);
 			vPaddingT.setVisibility(View.VISIBLE);
 			vPaddingB.setVisibility(View.VISIBLE);
 			vSeparator.setVisibility(View.GONE);
-		}
 
-		if (TextUtils.isEmpty(beer.brewery)) {
-			vBrewery.setText(null);
-			vBrewery.setVisibility(View.GONE);
-		} else {
-			vBrewery.setText(beer.brewery);
 			vBrewery.setVisibility(View.VISIBLE);
 		}
+
 		vName.setText(beer.name);
 
 		vTapSince.setText(mContext.getString(R.string.card_tapped, mDateFormat.format(new Date(beer.onTapSince))));
