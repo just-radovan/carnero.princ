@@ -278,7 +278,7 @@ public class Helper extends SQLiteOpenHelper {
 		try {
 			cursor = database.query(
 					Structure.Table.Beers.name,
-					new String[] {Structure.Table.Beers.col_id, Structure.Table.Beers.col_pub, Structure.Table.Beers.col_name},
+					new String[] {Structure.Table.Beers.col_id, Structure.Table.Beers.col_pub, Structure.Table.Beers.col_brewery, Structure.Table.Beers.col_name},
 					sql.toString(),
 					null, null, null, null
 			);
