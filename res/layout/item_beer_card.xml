@@ -36,7 +36,7 @@
 			android:layout_marginBottom="0dp"
 			android:textSize="26dp"
 			android:textColor="@android:color/holo_orange_light"
-			android:fontFamily="sans-serif-light"/>
+			android:fontFamily="sans-serif"/>
 		<TextView android:id="@+id/beer_name"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"

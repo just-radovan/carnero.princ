@@ -5,12 +5,7 @@
 			android:shape="rectangle"
 			android:dither="true">
 
-			<solid android:color="@color/bg_card_shadow"/>
-			<corners
-				android:topLeftRadius="0dp"
-				android:topRightRadius="0dp"
-				android:bottomRightRadius="2dp"
-				android:bottomLeftRadius="2dp"/>
+			<solid android:color="@color/card_separator"/>
 		</shape>
 	</item>
 
@@ -20,11 +15,6 @@
 			android:dither="true">
 
 			<solid android:color="@android:color/white"/>
-			<corners
-				android:topLeftRadius="0dp"
-				android:topRightRadius="0dp"
-				android:bottomRightRadius="2dp"
-				android:bottomLeftRadius="2dp"/>
 			<padding
 				android:top="8dp"
 				android:right="0dp"

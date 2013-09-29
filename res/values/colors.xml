@@ -2,4 +2,5 @@
 <resources>
 	<color name="bg_grey">#FFDBDBDB</color>
 	<color name="bg_card_shadow">#FFCCCCCC</color>
+	<color name="card_separator">#FFDDDDDD</color>
 </resources>
