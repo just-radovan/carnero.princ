@@ -19,6 +19,7 @@ import carnero.princ.common.Constants;
 import carnero.princ.model.Beer;
 import carnero.princ.model.BeerAZComparator;
 import carnero.princ.model.BeerName;
+import carnero.princ.model.BeerShort;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,7 +61,7 @@ public class Helper extends SQLiteOpenHelper {
 		}
 
 		SQLiteDatabase database = getWritableDatabase();
-		ArrayList<BeerName> currentBeers = loadCurrentBeersID(database, pub);
+		ArrayList<BeerShort> currentBeers = loadCurrentBeersID(database, pub);
 		ArrayList<Long> updatedIDs = new ArrayList<Long>();
 		ArrayList<String> newBeers = new ArrayList<String>();
 
@@ -108,7 +109,7 @@ public class Helper extends SQLiteOpenHelper {
 			if (id >= 0) { // update beer
 				try {
 					boolean alreadyOnTap = false;
-					for (BeerName current : currentBeers) {
+					for (BeerShort current : currentBeers) {
 						if (current.id == id) {
 							alreadyOnTap = true;
 						}
@@ -146,7 +147,7 @@ public class Helper extends SQLiteOpenHelper {
 
 		// update removed beers
 		long last = mPreferences.getLong(Constants.PREF_LAST_DOWNLOAD, 0);
-		for (BeerName current : currentBeers) {
+		for (BeerShort current : currentBeers) {
 			if (!updatedIDs.contains(current.id)) { // removed from tap
 				values = new ContentValues();
 				values.put(Structure.Table.Beers.col_current, 0);
@@ -268,8 +269,8 @@ public class Helper extends SQLiteOpenHelper {
 		return any;
 	}
 
-	private ArrayList<BeerName> loadCurrentBeersID(SQLiteDatabase database, int pub) {
-		ArrayList<BeerName> list = new ArrayList<BeerName>();
+	private ArrayList<BeerShort> loadCurrentBeersID(SQLiteDatabase database, int pub) {
+		ArrayList<BeerShort> list = new ArrayList<BeerShort>();
 
 		StringBuilder sql = new StringBuilder();
 		sql.append(Structure.Table.Beers.col_pub);
@@ -294,9 +295,9 @@ public class Helper extends SQLiteOpenHelper {
 				int idxBrewery = cursor.getColumnIndex(Structure.Table.Beers.col_brewery);
 				int idxName = cursor.getColumnIndex(Structure.Table.Beers.col_name);
 
-				BeerName beer;
+				BeerShort beer;
 				do {
-					beer = new BeerName();
+					beer = new BeerShort();
 					beer.id = cursor.getLong(idxID);
 					beer.pub = cursor.getInt(idxPub);
 					beer.brewery = cursor.getString(idxBrewery);
@@ -312,5 +313,64 @@ public class Helper extends SQLiteOpenHelper {
 		}
 
 		return list;
+	}
+
+	public ArrayList<BeerName> loadUnknownBeers() {
+		ArrayList<BeerName> list = new ArrayList<BeerName>();
+
+		SQLiteDatabase database = getWritableDatabase();
+
+		StringBuilder sql = new StringBuilder();
+		sql.append(Structure.Table.Beers.col_brewery);
+		sql.append(" = \"\" or ");
+		sql.append(Structure.Table.Beers.col_brewery);
+		sql.append(" is null ");
+
+		Cursor cursor = null;
+		try {
+			cursor = database.query(
+					Structure.Table.Beers.name,
+					new String[]{Structure.Table.Beers.col_id, Structure.Table.Beers.col_brewery, Structure.Table.Beers.col_name},
+					sql.toString(),
+					null, null, null, null
+			);
+
+			if (cursor.moveToFirst()) {
+				int idxID = cursor.getColumnIndex(Structure.Table.Beers.col_id);
+				int idxBrewery = cursor.getColumnIndex(Structure.Table.Beers.col_brewery);
+				int idxName = cursor.getColumnIndex(Structure.Table.Beers.col_name);
+
+				BeerName beer;
+				do {
+					beer = new BeerName();
+					beer.id = cursor.getLong(idxID);
+					beer.brewery = cursor.getString(idxBrewery);
+					beer.name = cursor.getString(idxName);
+
+					list.add(beer);
+				} while (cursor.moveToNext());
+			}
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			database.close();
+		}
+
+		return list;
+	}
+
+	public void updateBeerBrewery(BeerName beer) {
+		SQLiteDatabase database = getWritableDatabase();
+
+		try {
+			ContentValues values = new ContentValues();
+			values.put(Structure.Table.Beers.col_brewery, beer.brewery);
+			values.put(Structure.Table.Beers.col_name, beer.name);
+
+			database.update(Structure.Table.Beers.name, values, Structure.Table.Beers.col_id + " = " + beer.id, null);
+		} finally {
+			database.close();
+		}
 	}
 }
