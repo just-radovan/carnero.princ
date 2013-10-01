@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Pair;
 import carnero.princ.common.Constants;
 import carnero.princ.common.Utils;
 import carnero.princ.data.Breweries;
@@ -16,8 +17,8 @@ import carnero.princ.model.Beer;
 import com.github.kevinsawicki.http.HttpRequest;
 
 import java.io.InputStream;
+import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -107,72 +108,89 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 
 		String[] lines = data.split("(</p[^>]*>|<br[^>]*>)");
 		Beer beer;
-		Set<String> breweries = Breweries.map.keySet();
-		ArrayList<Integer> matches = new ArrayList<Integer>();
-		ArrayList<String> beers = new ArrayList<String>();
 
 		for (String line : lines) {
+			// clean string
 			line = Utils.cleanString(line);
 			if (TextUtils.isEmpty(line)) {
 				continue;
 			}
 
-			// check if there isn't more beers on single line
-			matches.clear();
-			int start;
-			for (String brewery : breweries) {
-				if ((start = line.indexOf(brewery)) >= 0) {
-					matches.add(start);
-				}
-			}
-
-			// split beers
-			if (matches.size() > 1) {
-				Collections.sort(matches);
-				beers.clear();
-
-				int prev = line.length();
-				for (int i = matches.size() - 1; i >= 0; i--) {
-					beers.add(line.substring(matches.get(i), prev).trim());
-
-					prev = matches.get(i);
-				}
-			} else {
-				beers.clear();
-				beers.add(line);
-			}
+			ArrayList<Pair<String, String>> filtered = new ArrayList<Pair<String, String>>();
+			findBeer(line, filtered);
 
 			// parse brewery and save beers
-			for (String linePart : beers) {
-				if (!TextUtils.isEmpty(linePart)) {
-					String breweryName = null;
-					String beerName = linePart;
-					Brewery brewery;
+			for (Pair<String, String> item : filtered) {
+				beer = new Beer();
+				beer.pub = Structure.Table.PUB_PRINC;
+				beer.current = true;
+				beer.brewery = item.first;
+				beer.name = item.second;
 
-					Set<String> map = Breweries.map.keySet();
-					for (String key : map) {
-						if (beerName.startsWith(key)) {
-							brewery = Breweries.map.get(key);
-
-							breweryName = brewery.name;
-							if (brewery.removeID) {
-								beerName = beerName.substring(key.length(), beerName.length()).trim();
-							}
-							break;
-						}
-					}
-
-					beer = new Beer();
-					beer.pub = Structure.Table.PUB_PRINC;
-					beer.current = true;
-					beer.brewery = breweryName;
-					beer.name = beerName;
-
-					list.add(beer);
-				}
+				list.add(beer);
 			}
 		}
 
 		return list;
+	}
+
+	protected void findBeer(String line, ArrayList<Pair<String, String>> beers) {
+		findBeer(line, beers, false);
+	}
+
+	protected void findBeer(String line, ArrayList<Pair<String, String>> beers, boolean deep) {
+		if (TextUtils.isEmpty(line) || beers == null) {
+			return;
+		}
+
+		// strip diacritic
+		String lineNormalized = Normalizer.normalize(line, Normalizer.Form.NFD)
+				.replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+				.toLowerCase();
+
+		Set<String> breweries = Breweries.map.keySet();
+		Brewery brewery;
+		String beer;
+
+		boolean found = false;
+		for (String item : breweries) {
+			brewery = Breweries.map.get(item);
+
+			int index = lineNormalized.indexOf(brewery.identifier.toLowerCase());
+			if (index == 0) { // brewery is on the start
+				if (brewery.removeID) {
+					beer = line.substring(brewery.identifier.length()).trim();
+				} else {
+					beer = line;
+				}
+
+				beers.add(new Pair(brewery.name, beer));
+
+				// try to find another beer
+				findBeer(line.substring(brewery.identifier.length()).trim(), beers, true);
+
+				found = true;
+				break;
+			} else if (index > 0) { // brewery is on the end
+				if (brewery.removeID) {
+					beer = line.substring(0, index).trim();
+				} else {
+					beer = line;
+				}
+
+				beers.add(new Pair(brewery.name, beer));
+
+				// try to find another beer
+				findBeer(line.substring(0, index).trim(), beers, true);
+				findBeer(line.substring(index + brewery.identifier.length()).trim(), beers, true);
+
+				found = true;
+				break;
+			}
+		}
+
+		if (!deep && !found) {
+			beers.add(new Pair(null, line));
+		}
 	}
 }
