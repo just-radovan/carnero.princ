@@ -188,6 +188,36 @@ public class Helper extends SQLiteOpenHelper {
 		}
 	}
 
+	public boolean saveBeer(Beer beer) {
+		boolean status = false;
+
+		if (beer == null) {
+			return status;
+		}
+
+		SQLiteDatabase database = getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(Structure.Table.Beers.col_pub, beer.pub);
+		values.put(Structure.Table.Beers.col_brewery, beer.brewery);
+		values.put(Structure.Table.Beers.col_name, beer.name);
+		values.put(Structure.Table.Beers.col_current, (beer.current ? 1 : 0));
+		values.put(Structure.Table.Beers.col_rating, beer.rating);
+		values.put(Structure.Table.Beers.col_tap_since, beer.onTapSince);
+		values.put(Structure.Table.Beers.col_tap_prev, beer.onTapPrevious);
+
+		try {
+			long id = database.insert(Structure.Table.Beers.name, null, values);
+			if (id >= 0) {
+				status = true;
+			}
+		} finally {
+			database.close();
+		}
+
+		return status;
+	}
+
 	public ArrayList<Beer> loadBeers(int pub, boolean current) {
 		ArrayList<Beer> list = new ArrayList<Beer>();
 
@@ -315,6 +345,50 @@ public class Helper extends SQLiteOpenHelper {
 		return list;
 	}
 
+	public Beer loadBeer(long id) {
+		Beer beer = null;
+
+		SQLiteDatabase database = getWritableDatabase();
+
+		StringBuilder sql = new StringBuilder();
+		sql.append(Structure.Table.Beers.col_id);
+		sql.append(" = ");
+		sql.append(id);
+
+		Cursor cursor = null;
+		try {
+			cursor = database.query(Structure.Table.Beers.name, Structure.Table.Beers.projection, sql.toString(), null, null, null, null);
+
+			if (cursor.moveToFirst()) {
+				int idxID = cursor.getColumnIndex(Structure.Table.Beers.col_id);
+				int idxPub = cursor.getColumnIndex(Structure.Table.Beers.col_pub);
+				int idxCurrent = cursor.getColumnIndex(Structure.Table.Beers.col_current);
+				int idxBrewery = cursor.getColumnIndex(Structure.Table.Beers.col_brewery);
+				int idxName = cursor.getColumnIndex(Structure.Table.Beers.col_name);
+				int idxSince = cursor.getColumnIndex(Structure.Table.Beers.col_tap_since);
+				int idxPrevious = cursor.getColumnIndex(Structure.Table.Beers.col_tap_prev);
+				int idxRating = cursor.getColumnIndex(Structure.Table.Beers.col_rating);
+
+				beer = new Beer();
+				beer.id = cursor.getLong(idxID);
+				beer.pub = cursor.getInt(idxPub);
+				beer.current = (cursor.getInt(idxCurrent) == 1);
+				beer.brewery = cursor.getString(idxBrewery);
+				beer.name = cursor.getString(idxName);
+				beer.onTapSince = cursor.getLong(idxSince);
+				beer.onTapPrevious = cursor.getLong(idxPrevious);
+				beer.rating = cursor.getFloat(idxRating);
+			}
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			database.close();
+		}
+
+		return beer;
+	}
+
 	public ArrayList<BeerName> loadUnknownBeers() {
 		ArrayList<BeerName> list = new ArrayList<BeerName>();
 
@@ -360,7 +434,9 @@ public class Helper extends SQLiteOpenHelper {
 		return list;
 	}
 
-	public void updateBeerBrewery(BeerName beer) {
+	public boolean updateBeerBrewery(BeerName beer) {
+		boolean status = false;
+
 		SQLiteDatabase database = getWritableDatabase();
 
 		try {
@@ -368,9 +444,14 @@ public class Helper extends SQLiteOpenHelper {
 			values.put(Structure.Table.Beers.col_brewery, beer.brewery);
 			values.put(Structure.Table.Beers.col_name, beer.name);
 
-			database.update(Structure.Table.Beers.name, values, Structure.Table.Beers.col_id + " = " + beer.id, null);
+			int cnt = database.update(Structure.Table.Beers.name, values, Structure.Table.Beers.col_id + " = " + beer.id, null);
+			if (cnt > 0) {
+				status = true;
+			}
 		} finally {
 			database.close();
 		}
+
+		return status;
 	}
 }

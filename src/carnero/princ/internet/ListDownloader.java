@@ -12,6 +12,7 @@ import carnero.princ.database.Helper;
 import carnero.princ.database.Structure;
 import carnero.princ.iface.ILoadingStatusListener;
 import carnero.princ.model.Beer;
+import carnero.princ.model.BeerName;
 import com.github.kevinsawicki.http.HttpRequest;
 
 import java.io.InputStream;
@@ -71,6 +72,37 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 		mPreferences.edit()
 				.putLong(Constants.PREF_LAST_DOWNLOAD, System.currentTimeMillis())
 				.commit();
+
+		// check already saved beers
+		ArrayList<BeerName> orphans = mHelper.loadUnknownBeers();
+		ArrayList<Pair<String, String>> discoveries = new ArrayList<Pair<String, String>>();
+		for (BeerName orphan : orphans) {
+			discoveries.clear();
+
+			Utils.findBeer(orphan.name, discoveries);
+
+			int interesting = 0;
+			for (Pair<String, String> discovery : discoveries) {
+				if (!TextUtils.isEmpty(discovery.first)) {
+					if (interesting == 0) { // update original
+						orphan.brewery = discovery.first;
+						orphan.name = discovery.second;
+
+						mHelper.updateBeerBrewery(orphan);
+					} else { // add new one with values of original & updated brewery, name
+						Beer beer = mHelper.loadBeer(orphan.id);
+
+						beer.id = 0;
+						beer.brewery = discovery.first;
+						beer.name = discovery.second;
+
+						mHelper.saveBeer(beer);
+					}
+
+					interesting++;
+				}
+			}
+		}
 
 		return list;
 	}
