@@ -3,8 +3,14 @@ package carnero.princ.common;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Pair;
+import carnero.princ.data.Breweries;
+import carnero.princ.data.Brewery;
 
 import java.io.*;
+import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -90,6 +96,66 @@ public class Utils {
 		}
 
 		return text.trim();
+	}
+
+	public static void findBeer(String line, ArrayList<Pair<String, String>> beers) {
+		findBeer(line, beers, false);
+	}
+
+	protected static void findBeer(String line, ArrayList<Pair<String, String>> beers, boolean deep) {
+		if (TextUtils.isEmpty(line) || beers == null) {
+			return;
+		}
+
+		// strip diacritic
+		String lineNormalized = Normalizer.normalize(line, Normalizer.Form.NFD)
+				.replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+				.toLowerCase();
+
+		Set<String> breweries = Breweries.map.keySet();
+		Brewery brewery;
+		String beer;
+
+		boolean found = false;
+		for (String item : breweries) {
+			brewery = Breweries.map.get(item);
+
+			int index = lineNormalized.indexOf(brewery.identifier.toLowerCase());
+			if (index == 0) { // brewery is on the start
+				if (brewery.removeID) {
+					beer = line.substring(brewery.identifier.length()).trim();
+				} else {
+					beer = line;
+				}
+
+				beers.add(new Pair(brewery.name, beer));
+
+				// try to find another beer
+				findBeer(line.substring(brewery.identifier.length()).trim(), beers, true);
+
+				found = true;
+				break;
+			} else if (index > 0) { // brewery is on the end
+				if (brewery.removeID) {
+					beer = line.substring(0, index).trim();
+				} else {
+					beer = line;
+				}
+
+				beers.add(new Pair(brewery.name, beer));
+
+				// try to find another beer
+				findBeer(line.substring(0, index).trim(), beers, true);
+				findBeer(line.substring(index + brewery.identifier.length()).trim(), beers, true);
+
+				found = true;
+				break;
+			}
+		}
+
+		if (!deep && !found) {
+			beers.add(new Pair(null, line));
+		}
 	}
 
 	public static String addLeadingZero(int number, int length) {

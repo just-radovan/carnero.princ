@@ -34,6 +34,6 @@ public class Breweries {
 		map.put("Vevoda", new Brewery("Vevoda", "Vysoký Chlumec", false));
 		map.put("Zatec", new Brewery("Zatec", "Žatec", true));
 		map.put("Zemsky pivovar", new Brewery("Zemsky pivovar", "Zemský pivovar", true));
-		map.put("Zlinsky svec", new Brewery("Zlinsky svec", "Pivovar Malenovice", true));
+		map.put("Zlinsky svec", new Brewery("Zlinsky svec", "Pivovar Malenovice", false));
 	}
 }
