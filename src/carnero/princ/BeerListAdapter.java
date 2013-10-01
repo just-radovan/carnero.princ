@@ -49,8 +49,8 @@ public class BeerListAdapter extends BaseAdapter {
 
 		Beer beerPrev = getItem(position - 1);
 		Beer beerNext = getItem(position + 1);
-		boolean before = (beerPrev != null && ((beerPrev.brewery == null && beer.brewery == null) || (beerPrev.brewery.equalsIgnoreCase(beer.brewery))));
-		boolean after = (beerNext != null && ((beerNext.brewery == null && beer.brewery == null) || (beerNext.brewery.equalsIgnoreCase(beer.brewery))));
+		boolean before = (beerPrev != null && ((beerPrev.brewery == null && beer.brewery == null) || (beerPrev.brewery != null && beerPrev.brewery.equalsIgnoreCase(beer.brewery))));
+		boolean after = (beerNext != null && ((beerNext.brewery == null && beer.brewery == null) || (beerNext.brewery != null && beerNext.brewery.equalsIgnoreCase(beer.brewery))));
 
 		if (!TextUtils.isEmpty(beer.brewery)) {
 			vBrewery.setText(beer.brewery);

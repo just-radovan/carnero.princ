@@ -11,6 +11,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import carnero.princ.MainActivity;
 import carnero.princ.R;
@@ -86,7 +87,7 @@ public class Helper extends SQLiteOpenHelper {
 			// check if beer is already saved
 			id = -1;
 			try {
-				cursor = database.query(Structure.Table.Beers.name, new String[] {Structure.Table.Beers.col_id}, where.toString(), null, null, null, null);
+				cursor = database.query(Structure.Table.Beers.name, new String[]{Structure.Table.Beers.col_id}, where.toString(), null, null, null, null);
 				if (cursor.moveToFirst()) {
 					id = cursor.getLong(cursor.getColumnIndex(Structure.Table.Beers.col_id));
 				}
@@ -114,7 +115,11 @@ public class Helper extends SQLiteOpenHelper {
 					}
 					if (!alreadyOnTap) {
 						values.put(Structure.Table.Beers.col_tap_since, System.currentTimeMillis());
-						newBeers.add(beer.brewery + ": " + beer.name);
+						if (TextUtils.isEmpty(beer.brewery)) {
+							newBeers.add(beer.name);
+						} else {
+							newBeers.add(beer.brewery + ": " + beer.name);
+						}
 					}
 
 					int cnt = database.update(Structure.Table.Beers.name, values, Structure.Table.Beers.col_id + " = " + id, null);
@@ -246,7 +251,7 @@ public class Helper extends SQLiteOpenHelper {
 		try {
 			cursor = database.query(
 					Structure.Table.Beers.name,
-					new String[] {Structure.Table.Beers.col_id},
+					new String[]{Structure.Table.Beers.col_id},
 					Structure.Table.Beers.col_current + " = 1",
 					null, null, null, null
 			);
@@ -278,7 +283,7 @@ public class Helper extends SQLiteOpenHelper {
 		try {
 			cursor = database.query(
 					Structure.Table.Beers.name,
-					new String[] {Structure.Table.Beers.col_id, Structure.Table.Beers.col_pub, Structure.Table.Beers.col_brewery, Structure.Table.Beers.col_name},
+					new String[]{Structure.Table.Beers.col_id, Structure.Table.Beers.col_pub, Structure.Table.Beers.col_brewery, Structure.Table.Beers.col_name},
 					sql.toString(),
 					null, null, null, null
 			);

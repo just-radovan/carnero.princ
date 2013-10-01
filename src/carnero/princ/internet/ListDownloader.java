@@ -3,7 +3,6 @@ package carnero.princ.internet;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import carnero.princ.common.Constants;
@@ -16,7 +15,7 @@ import carnero.princ.iface.ILoadingStatusListener;
 import carnero.princ.model.Beer;
 import com.github.kevinsawicki.http.HttpRequest;
 
-import java.io.*;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
@@ -114,6 +113,9 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 
 		for (String line : lines) {
 			line = Utils.cleanString(line);
+			if (TextUtils.isEmpty(line)) {
+				continue;
+			}
 
 			// check if there isn't more beers on single line
 			matches.clear();
@@ -130,7 +132,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 				beers.clear();
 
 				int prev = line.length();
-				for (int i = matches.size() - 1; i >= 0; i --) {
+				for (int i = matches.size() - 1; i >= 0; i--) {
 					beers.add(line.substring(matches.get(i), prev).trim());
 
 					prev = matches.get(i);
