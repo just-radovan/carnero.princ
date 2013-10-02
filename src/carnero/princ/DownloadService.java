@@ -1,6 +1,8 @@
 package carnero.princ;
 
-import android.app.*;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
@@ -51,7 +53,7 @@ public class DownloadService extends Service implements ILoadingStatusListener {
 		manager.setInexactRepeating(
 				AlarmManager.ELAPSED_REALTIME_WAKEUP,
 				SystemClock.elapsedRealtime() + (10 * 60 * 1000), // 10 mins
-				AlarmManager.INTERVAL_HOUR * 2, // 2 hrs
+				AlarmManager.INTERVAL_HOUR, // 1 hrs
 				pending
 		);
 

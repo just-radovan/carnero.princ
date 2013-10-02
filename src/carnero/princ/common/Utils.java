@@ -18,7 +18,7 @@ public class Utils {
 
 	private static final Pattern tagsPattern = Pattern.compile("(<[^>]+>)", Pattern.CASE_INSENSITIVE);
 	private static final Pattern spacesPattern = Pattern.compile("(\\s+)", Pattern.CASE_INSENSITIVE);
-	private static final Pattern currentPattern = Pattern.compile("Aktuální nabídka", Pattern.CASE_INSENSITIVE);
+	private static final Pattern currentPattern = Pattern.compile("Aktuální nabídka točených piv:?", Pattern.CASE_INSENSITIVE);
 	private static final Pattern queuePattern = Pattern.compile("V pořadí", Pattern.CASE_INSENSITIVE);
 	private static final Pattern offerPattern = Pattern.compile("V nabídce [–|-]", Pattern.CASE_INSENSITIVE);
 	private static final Pattern degreesPattern = Pattern.compile("( ?([0-9]+)° ?)", Pattern.CASE_INSENSITIVE);
@@ -73,17 +73,15 @@ public class Utils {
 		matcher = spacesPattern.matcher(text);
 		text = matcher.replaceAll(" ");
 
-		// remove current offer
-		matcher = currentPattern.matcher(text);
-		if (matcher.find()) {
-			return null;
-		}
-
 		// remove queued beers
 		matcher = queuePattern.matcher(text);
 		if (matcher.find()) {
 			return null;
 		}
+
+		// remove current offer
+		matcher = currentPattern.matcher(text);
+		text = matcher.replaceAll("");
 
 		// remove special offer label
 		matcher = offerPattern.matcher(text);

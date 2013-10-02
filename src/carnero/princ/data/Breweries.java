@@ -10,6 +10,7 @@ public class Breweries {
 		map = new HashMap<String, Brewery>();
 
 		map.put("Aspall", new Brewery("Aspall", "Aspall", true));
+		map.put("Bernard", new Brewery("Bernard", "Bernard", true));
 		map.put("Brevnov", new Brewery("Brevnov", "Břevnovský pivovar", true));
 		map.put("Celia", new Brewery("Celia", "Žatec", false));
 		map.put("Demon", new Brewery("Demon", "Vysoký Chlumec", false));
