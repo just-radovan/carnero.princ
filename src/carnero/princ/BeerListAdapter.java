@@ -2,6 +2,7 @@ package carnero.princ;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -38,6 +39,8 @@ public class BeerListAdapter extends BaseAdapter {
 
 		Beer beer = getItem(position);
 
+		Resources res = mContext.getResources();
+
 		View vContainer = view.findViewById(R.id.container);
 		View vPaddingT = view.findViewById(R.id.padding_top);
 		View vPaddingB = view.findViewById(R.id.padding_bottom);
@@ -53,9 +56,11 @@ public class BeerListAdapter extends BaseAdapter {
 		boolean after = (beerNext != null && ((beerNext.brewery == null && beer.brewery == null) || (beerNext.brewery != null && beerNext.brewery.equalsIgnoreCase(beer.brewery))));
 
 		if (!TextUtils.isEmpty(beer.brewery)) {
+			vBrewery.setTextColor(res.getColor(android.R.color.holo_orange_light));
 			vBrewery.setText(beer.brewery);
 		} else {
-			vBrewery.setText("N/A");
+			vBrewery.setTextColor(res.getColor(android.R.color.secondary_text_dark));
+			vBrewery.setText(R.string.card_brewery_unknown);
 		}
 
 		if (before && after) {
