@@ -98,8 +98,9 @@ public class BeerListAdapter extends BaseAdapter {
 		vTapSince.setText(mContext.getString(R.string.card_tapped, mDateFormat.format(new Date(beer.onTapSince))));
 		if (beer.onTapPrevious > 0) {
 			vTapPrev.setText(mDateFormat.format(new Date(beer.onTapPrevious)));
+			vTapPrev.setVisibility(View.VISIBLE);
 		} else {
-			vTapPrev.setText(R.string.card_first_time);
+			vTapPrev.setVisibility(View.GONE);
 		}
 
 		return view;
