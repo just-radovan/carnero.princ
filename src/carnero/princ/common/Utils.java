@@ -22,6 +22,8 @@ public class Utils {
 	private static final Pattern queuePattern = Pattern.compile("V pořadí", Pattern.CASE_INSENSITIVE);
 	private static final Pattern offerPattern = Pattern.compile("V nabídce [–|-]", Pattern.CASE_INSENSITIVE);
 	private static final Pattern degreesPattern = Pattern.compile("( ?([0-9]+)° ?)", Pattern.CASE_INSENSITIVE);
+	//
+	private static int sCleanLineCnt = -1;
 
 	public static String convertStreamToString(InputStream stream) {
 		if (stream == null) {
@@ -55,9 +57,11 @@ public class Utils {
 		return data.toString();
 	}
 
-	public static String cleanString(String text) {
-		if (TextUtils.isEmpty(text)) {
-			return "";
+	public static String cleanString(String text, int lineCnt) {
+		if (TextUtils.isEmpty(text) || (sCleanLineCnt > -1 && lineCnt > sCleanLineCnt)) {
+			return null;
+		} else {
+			sCleanLineCnt = -1;
 		}
 
 		Matcher matcher;
@@ -76,6 +80,7 @@ public class Utils {
 		// remove queued beers
 		matcher = queuePattern.matcher(text);
 		if (matcher.find()) {
+			sCleanLineCnt = lineCnt;
 			return null;
 		}
 
