@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,6 +24,8 @@ import carnero.princ.model.BeerShort;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Set;
 
 public class Helper extends SQLiteOpenHelper {
 
@@ -63,7 +66,8 @@ public class Helper extends SQLiteOpenHelper {
 		SQLiteDatabase database = getWritableDatabase();
 		ArrayList<BeerShort> currentBeers = loadCurrentBeersID(database, pub);
 		ArrayList<Long> updatedIDs = new ArrayList<Long>();
-		ArrayList<String> newBeers = new ArrayList<String>();
+		HashMap<String, Integer> newBeers = new HashMap<String, Integer>();
+		int newBeersTotal = 0;
 
 		StringBuilder where;
 		ContentValues values;
@@ -122,11 +126,12 @@ public class Helper extends SQLiteOpenHelper {
 					}
 					if (!alreadyOnTap) {
 						values.put(Structure.Table.Beers.col_tap_since, System.currentTimeMillis());
-						if (TextUtils.isEmpty(beer.brewery)) {
-							newBeers.add(beer.name);
+						if (newBeers.containsKey(beer.brewery)) {
+							newBeers.put(beer.brewery, newBeers.get(beer.brewery) + 1);
 						} else {
-							newBeers.add(beer.brewery + ": " + beer.name);
+							newBeers.put(beer.brewery, 1);
 						}
+						newBeersTotal++;
 					}
 
 					int cnt = database.update(Structure.Table.Beers.name, values, Structure.Table.Beers.col_id + " = " + id, null);
@@ -139,11 +144,12 @@ public class Helper extends SQLiteOpenHelper {
 			} else { // insert new beer
 				try {
 					values.put(Structure.Table.Beers.col_tap_since, System.currentTimeMillis());
-					if (TextUtils.isEmpty(beer.brewery)) {
-						newBeers.add(beer.name);
+					if (newBeers.containsKey(beer.brewery)) {
+						newBeers.put(beer.brewery, newBeers.get(beer.brewery) + 1);
 					} else {
-						newBeers.add(beer.brewery + ": " + beer.name);
+						newBeers.put(beer.brewery, 1);
 					}
+					newBeersTotal++;
 
 					id = database.insert(Structure.Table.Beers.name, null, values);
 					if (id >= 0) {
@@ -171,10 +177,19 @@ public class Helper extends SQLiteOpenHelper {
 
 		// notify about new stuff
 		if (!newBeers.isEmpty()) {
+			Resources res = mContext.getResources();
 			StringBuilder text = new StringBuilder();
-			for (String newBeer : newBeers) {
+
+			Set<String> newBreweries = newBeers.keySet();
+			for (String newBrewery : newBreweries) {
 				text.append("\n→ ");
-				text.append(newBeer);
+				if (!TextUtils.isEmpty(newBrewery)) {
+					text.append(newBrewery);
+				} else {
+					text.append(res.getText(R.string.card_brewery_unknown));
+				}
+				text.append(": ");
+				text.append(res.getQuantityString(R.plurals.notification_beers, newBeers.get(newBrewery), newBeers.get(newBrewery)));
 			}
 
 			Intent intent = new Intent(mContext, MainActivity.class);
@@ -188,7 +203,7 @@ public class Helper extends SQLiteOpenHelper {
 			builder.setContentTitle(mContext.getText(R.string.app_name));
 			builder.setContentText(mContext.getText(R.string.notification_info));
 			builder.setSmallIcon(R.drawable.ic_notification);
-			builder.setContentInfo(String.valueOf(newBeers.size()));
+			builder.setContentInfo(String.valueOf(newBeersTotal));
 			builder.setContentIntent(pending);
 			builder.setAutoCancel(true);
 			builder.setStyle(style);

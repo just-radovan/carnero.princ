@@ -11,6 +11,11 @@
 	<string name="card_brewery_unknown">neznámý pivovar</string>
 
 	<string name="notification_info">Naražena nová piva...</string>
+	<plurals name="notification_beers">
+		<item quantity="one">one beer</item>
+		<item quantity="two">two beers</item>
+		<item quantity="other">%1$d beers</item>
+	</plurals>
 
 	<string name="desc_download">Čas posledního stažení pivního lístku.</string>
 </resources>
