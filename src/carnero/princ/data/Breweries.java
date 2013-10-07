@@ -20,6 +20,7 @@ public class Breweries {
 		map.put("Demon", new Brewery("Demon", "Vysoký Chlumec", false));
 		map.put("Dudak", new Brewery("Dudak", "Strakonice", false));
 		map.put("Hubertus", new Brewery("Hubertus", "Pivovar Kácov", false));
+		map.put("Chipper", new Brewery("Chipper", "Primátor", false));
 		map.put("Chlumecky", new Brewery("Chlumecky", "Pivovar Vysoký Chlumec", false));
 		map.put("Chotebor", new Brewery("Chotebor", "Chotěboř", true));
 		map.put("Chyne", new Brewery("Chyne", "Chýně", true));
