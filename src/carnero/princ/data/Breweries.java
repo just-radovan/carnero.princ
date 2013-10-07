@@ -38,6 +38,7 @@ public class Breweries {
 		map.put("Mikkeller", new Brewery("Mikkeller", "Mikkeller (DK)", true));
 		map.put("Nomad", new Brewery("Nomad", "Nomád", true));
 		map.put("Opat", new Brewery("Opat", "Broumov", false));
+		map.put("Permon", new Brewery("Permon", "Permon", true));
 		map.put("Podkovan", new Brewery("Podkovan", "Podkováň", true));
 		map.put("Princ Max", new Brewery("Princ Max", "Vysoký Chlumec", false));
 		map.put("Primator", new Brewery("Primator", "Primátor", true));
