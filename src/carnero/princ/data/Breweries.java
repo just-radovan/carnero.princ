@@ -48,6 +48,7 @@ public class Breweries {
 		map.put("Rohozec", new Brewery("Rohozec", "Rohozec", true));
 		map.put("Rychtar", new Brewery("Rychtar", "Rychtář", true));
 		map.put("Schneider Weisse", new Brewery("Schneider Weisse", "Schneider-Weisse (D)", true));
+		map.put("Skalak", new Brewery("Skalak", "Rohozec", false));
 		map.put("Svijany", new Brewery("Svijany", "Svijany", true));
 		map.put("Tambor", new Brewery("Tambor", "Tambor", true));
 		map.put("Unetice", new Brewery("Unetice", "Pivovar Únětice", true));
