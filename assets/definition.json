@@ -13,56 +13,40 @@
             ]
         },
         {
-            "name": "Schlossbrauerei Au-Hallertau", "country": "D",
-            "beers": [
-                {"identifier": "Auer", "removeID": true}
-            ]
-        },
-        {
-            "name": "Great Divide Brewing Co.", "country": "USA",
-            "beers": [
-                {"identifier": "Belgian Yeti", "removeID": false}
-            ]
-        },
-        {
             "name": "Bernard", "country": "CZ",
             "beers": [
                 {"identifier": "Bernard", "removeID": true}
             ]
         },
         {
+            "name": "Boston Beer Co.", "country": "USA",
+            "beers": [
+                {"identifier": "Rebel IPA", "removeID": false}
+            ]
+        },
+        {
+            "name": "Brauerei Kraus", "country": "D",
+            "beers": [
+                {"identifier": "Kraus", "removeID": true}
+            ]
+        },
+        {
+            "name": "Broumov", "country": "CZ",
+            "beers": [
+                {"identifier": "Opat", "removeID": false}
+            ]
+        },
+        {
+            "name": "BrewDog", "country": "UK",
+            "beers": [
+                {"identifier": "Libertine Black Ale", "removeID": false},
+                {"identifier": "Punk IPA", "removeID": false}
+            ]
+        },
+        {
             "name": "Břevnovský pivovar", "country": "CZ",
             "beers": [
                 {"identifier": "Brevnov", "removeID": true}
-            ]
-        },
-        {
-            "name": "Vysoký Chlumec", "country": "CZ",
-            "beers": [
-                {"identifier": "Demon", "removeID": false},
-                {"identifier": "Chlumecky", "removeID": false},
-                {"identifier": "Princ Max", "removeID": false},
-                {"identifier": "Vevoda", "removeID": false}
-            ]
-        },
-        {
-            "name": "Strakonice", "country": "CZ",
-            "beers": [
-                {"identifier": "Dudak", "removeID": false},
-                {"identifier": "Klostermann", "removeID": false}
-            ]
-        },
-        {
-            "name": "Pivovar Kácov", "country": "CZ",
-            "beers": [
-                {"identifier": "Hubertus", "removeID": false}
-            ]
-        },
-        {
-            "name": "Primátor", "country": "CZ",
-            "beers": [
-                {"identifier": "Chipper", "removeID": false},
-                {"identifier": "Primator", "removeID": true}
             ]
         },
         {
@@ -75,6 +59,25 @@
             "name": "Chýně", "country": "CZ",
             "beers": [
                 {"identifier": "Chyne", "removeID": true}
+            ]
+        },
+        {
+            "name": "Flying Dog Brewery", "country": "USA",
+            "beers": [
+                {"identifier": "Raging Bitch", "removeID": false},
+                {"identifier": "Snake Dog", "removeID": false}
+            ]
+        },
+        {
+            "name": "Great Divide Brewing Co.", "country": "USA",
+            "beers": [
+                {"identifier": "Belgian Yeti", "removeID": false}
+            ]
+        },
+        {
+            "name": "Havlíčkův Brod", "country": "CZ",
+            "beers": [
+                {"identifier": "Rebel", "removeID": false}
             ]
         },
         {
@@ -108,9 +111,9 @@
             ]
         },
         {
-            "name": "Brauerei Kraus", "country": "D",
+            "name": "Kácov", "country": "CZ",
             "beers": [
-                {"identifier": "Kraus", "removeID": true}
+                {"identifier": "Hubertus", "removeID": false}
             ]
         },
         {
@@ -127,15 +130,15 @@
             ]
         },
         {
-            "name": "Matuška", "country": "CZ",
+            "name": "Malenovice", "country": "CZ",
             "beers": [
-                {"identifier": "Matuska", "removeID": true}
+                {"identifier": "Zlinsky svec", "removeID": false}
             ]
         },
         {
-            "name": "Protivín", "country": "CZ",
+            "name": "Matuška", "country": "CZ",
             "beers": [
-                {"identifier": "Merlin", "removeID": false}
+                {"identifier": "Matuska", "removeID": true}
             ]
         },
         {
@@ -151,12 +154,6 @@
             ]
         },
         {
-            "name": "Broumov", "country": "CZ",
-            "beers": [
-                {"identifier": "Opat", "removeID": false}
-            ]
-        },
-        {
             "name": "Permon", "country": "CZ",
             "beers": [
                 {"identifier": "Permon", "removeID": true}
@@ -169,15 +166,16 @@
             ]
         },
         {
-            "name": "Havlíčkův Brod", "country": "CZ",
+            "name": "Primátor", "country": "CZ",
             "beers": [
-                {"identifier": "Rebel", "removeID": false}
+                {"identifier": "Chipper", "removeID": false},
+                {"identifier": "Primator", "removeID": true}
             ]
         },
         {
-            "name": "Rychtář", "country": "CZ",
+            "name": "Protivín", "country": "CZ",
             "beers": [
-                {"identifier": "Rataj", "removeID": false}
+                {"identifier": "Merlin", "removeID": false}
             ]
         },
         {
@@ -190,13 +188,27 @@
         {
             "name": "Rychtář", "country": "CZ",
             "beers": [
+                {"identifier": "Rataj", "removeID": false},
                 {"identifier": "Rychtar", "removeID": true}
+            ]
+        },
+        {
+            "name": "Schlossbrauerei Au-Hallertau", "country": "D",
+            "beers": [
+                {"identifier": "Auer", "removeID": true}
             ]
         },
         {
             "name": "Schneider-Weisse", "country": "D",
             "beers": [
                 {"identifier": "Schneider Weisse", "removeID": true}
+            ]
+        },
+        {
+            "name": "Strakonice", "country": "CZ",
+            "beers": [
+                {"identifier": "Dudak", "removeID": false},
+                {"identifier": "Klostermann", "removeID": false}
             ]
         },
         {
@@ -219,10 +231,25 @@
             ]
         },
         {
+            "name": "Vysoký Chlumec", "country": "CZ",
+            "beers": [
+                {"identifier": "Demon", "removeID": false},
+                {"identifier": "Chlumecky", "removeID": false},
+                {"identifier": "Princ Max", "removeID": false},
+                {"identifier": "Vevoda", "removeID": false}
+            ]
+        },
+        {
             "name": "Vyškov", "country": "CZ",
             "beers": [
                 {"identifier": "Vyskov", "removeID": true},
                 {"identifier": "Vyskovsky", "removeID": true}
+            ]
+        },
+        {
+            "name": "Zemský pivovar", "country": "CZ",
+            "beers": [
+                {"identifier": "Zemsky pivovar", "removeID": true}
             ]
         },
         {
@@ -233,41 +260,9 @@
             ]
         },
         {
-            "name": "Zemský pivovar", "country": "CZ",
-            "beers": [
-                {"identifier": "Zemsky pivovar", "removeID": true}
-            ]
-        },
-        {
-            "name": "Malenovice", "country": "CZ",
-            "beers": [
-                {"identifier": "Zlinsky svec", "removeID": false}
-            ]
-        },
-        {
             "name": "Zvíkov", "country": "CZ",
             "beers": [
                 {"identifier": "Zvikov", "removeID": true}
-            ]
-        },
-        {
-            "name": "BrewDog", "country": "UK",
-            "beers": [
-                {"identifier": "Libertine Black Ale", "removeID": false},
-                {"identifier": "Punk IPA", "removeID": false}
-            ]
-        },
-        {
-            "name": "Boston Beer Co.", "country": "USA",
-            "beers": [
-                {"identifier": "Rebel IPA", "removeID": false}
-            ]
-        },
-        {
-            "name": "Flying Dog Brewery", "country": "USA",
-            "beers": [
-                {"identifier": "Raging Bitch", "removeID": false},
-                {"identifier": "Snake Dog", "removeID": false}
             ]
         }
     ]
