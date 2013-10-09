@@ -4,8 +4,9 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
-import carnero.princ.data.Breweries;
-import carnero.princ.data.Brewery;
+import carnero.princ.model.Def;
+import carnero.princ.model.DefBeer;
+import carnero.princ.model.DefBrewery;
 
 import java.io.*;
 import java.text.Normalizer;
@@ -101,12 +102,12 @@ public class Utils {
 		return text.trim();
 	}
 
-	public static void findBeer(String line, ArrayList<Pair<String, String>> beers) {
-		findBeer(line, beers, false);
+	public static void findBeer(Def definition, String line, ArrayList<Pair<String, String>> beers) {
+		findBeer(definition, line, beers, false);
 	}
 
-	protected static void findBeer(String line, ArrayList<Pair<String, String>> beers, boolean deep) {
-		if (TextUtils.isEmpty(line) || beers == null) {
+	protected static void findBeer(Def definition, String line, ArrayList<Pair<String, String>> beers, boolean deep) {
+		if (TextUtils.isEmpty(line) || definition.map == null || beers == null) {
 			return;
 		}
 
@@ -115,41 +116,83 @@ public class Utils {
 				.replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
 				.toLowerCase();
 
-		Set<String> breweries = Breweries.map.keySet();
-		Brewery brewery;
+		Set<String> identifiers = definition.map.keySet();
+		Pair<DefBrewery, DefBeer> brewery;
 		String beer;
 
 		boolean found = false;
-		for (String item : breweries) {
-			brewery = Breweries.map.get(item);
+		for (String id : identifiers) {
+			int index = lineNormalized.indexOf(id.toLowerCase());
 
-			int index = lineNormalized.indexOf(brewery.identifier.toLowerCase());
+			brewery = definition.map.get(id);
 			if (index == 0) { // brewery is on the start
-				if (brewery.removeID) {
-					beer = line.substring(brewery.identifier.length()).trim();
+				if (brewery.second.removeID) {
+					beer = line.substring(id.length()).trim();
 				} else {
 					beer = line;
 				}
 
-				beers.add(new Pair(brewery.name, beer));
+				beers.add(new Pair(brewery.first.name, beer));
 
 				// try to find another beer
-				findBeer(line.substring(brewery.identifier.length()).trim(), beers, true);
+				findBeer(
+						definition,
+						line.substring(id.length()).trim(),
+						beers,
+						true
+				);
 
 				found = true;
 				break;
-			} else if (index > 0) { // brewery is on the end
-				if (brewery.removeID) {
-					beer = line.substring(0, index).trim();
-				} else {
-					beer = line;
+			} else if (index > 0) { // brewery is not on the start
+				String before;
+				String after;
+				boolean end = ((index + id.length()) >= line.length());
+
+				if (end) { // brewery is on the end
+					if (brewery.second.removeID) {
+						beer = line.substring(0, index).trim();
+					} else {
+						beer = line;
+					}
+					before = line.substring(0, index);
+					after = null;
+				} else { // brewery is in the middle
+					if (brewery.second.removeID) {
+						beer = line.substring(index + id.length()).trim();
+					} else {
+						beer = line.substring(index).trim();
+					}
+					before = line.substring(0, index);
+					after = line.substring(index + id.length());
 				}
 
-				beers.add(new Pair(brewery.name, beer));
+				beers.add(new Pair(brewery.first.name, beer));
+
+				if (before != null) {
+					before = before.trim();
+				}
+				if (after != null) {
+					after = after.trim();
+				}
 
 				// try to find another beer
-				findBeer(line.substring(0, index).trim(), beers, true);
-				findBeer(line.substring(index + brewery.identifier.length()).trim(), beers, true);
+				if (!TextUtils.isEmpty(before)) {
+					findBeer(
+							definition,
+							before,
+							beers,
+							true
+					);
+				}
+				if (!TextUtils.isEmpty(after)) {
+					findBeer(
+							definition,
+							after,
+							beers,
+							true
+					);
+				}
 
 				found = true;
 				break;

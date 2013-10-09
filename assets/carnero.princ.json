@@ -117,6 +117,12 @@
             ]
         },
         {
+            "name": "Lobkowicz", "country": "CZ",
+            "beers": [
+                {"identifier": "Merlin", "removeID": false}
+            ]
+        },
+        {
             "name": "Magic Rock Brewing", "country": "USA",
             "beers": [
                 {"identifier": "Magic Rock", "removeID": true}
@@ -170,12 +176,6 @@
             "beers": [
                 {"identifier": "Chipper", "removeID": false},
                 {"identifier": "Primator", "removeID": true}
-            ]
-        },
-        {
-            "name": "Protivín", "country": "CZ",
-            "beers": [
-                {"identifier": "Merlin", "removeID": false}
             ]
         },
         {

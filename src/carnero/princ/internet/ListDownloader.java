@@ -11,11 +11,13 @@ import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;
 import carnero.princ.database.Structure;
 import carnero.princ.iface.ILoadingStatusListener;
-import carnero.princ.model.Beer;
-import carnero.princ.model.BeerName;
+import carnero.princ.model.*;
 import com.github.kevinsawicki.http.HttpRequest;
+import com.google.gson.Gson;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,6 +26,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 
 	private Context mContext;
 	private ILoadingStatusListener mStatusListener;
+	private Gson mGson;
 	private Helper mHelper;
 	private SharedPreferences mPreferences;
 	// patterns
@@ -33,6 +36,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 	public ListDownloader(Context context, ILoadingStatusListener listener) {
 		mContext = context;
 		mStatusListener = listener;
+		mGson = new Gson();
 		mHelper = new Helper(context);
 		mPreferences = context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
 	}
@@ -53,19 +57,11 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 			return null;
 		}
 
-		Log.d(Constants.TAG, "Downloading beer list from " + Constants.LIST_URL_PRINC + "...");
-
-		InputStream stream = null;
-		try {
-			stream = HttpRequest.get(Constants.LIST_URL_PRINC).stream();
-		} catch (Exception e) {
-			Log.e(Constants.TAG, "Failed to download beer list");
+		Def definition = downloadBreweries();
+		ArrayList<Beer> list = downloadBeers(definition);
+		if (list == null) {
+			return null;
 		}
-
-		String response = Utils.convertStreamToString(stream);
-		ArrayList<Beer> list = parsePagePrinc(response);
-
-		Log.d(Constants.TAG, "Beers found: " + list.size());
 
 		mHelper.saveBeers(list, Structure.Table.PUB_PRINC);
 
@@ -79,7 +75,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 		for (BeerName orphan : orphans) {
 			discoveries.clear();
 
-			Utils.findBeer(orphan.name, discoveries);
+			Utils.findBeer(definition, orphan.name, discoveries);
 
 			int interesting = 0;
 			for (Pair<String, String> discovery : discoveries) {
@@ -116,7 +112,50 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 		}
 	}
 
-	private ArrayList<Beer> parsePagePrinc(String data) {
+	private Def downloadBreweries() {
+		Log.d(Constants.TAG, "Downloading breweries...");
+
+		InputStream stream;
+		try {
+			stream = HttpRequest.get(Constants.LIST_URL_BREWERIES).stream();
+		} catch (Exception e) {
+			Log.e(Constants.TAG, "Failed to download breweries");
+			return null;
+		}
+
+		Reader reader = new InputStreamReader(stream);
+		Def definition = mGson.fromJson(reader, Def.class);
+		for (DefBrewery brewery : definition.breweries) {
+			for (DefBeer beer : brewery.beers) {
+				definition.map.put(beer.identifier, new Pair(brewery, beer));
+			}
+		}
+
+		Log.d(Constants.TAG, "Breweries found: " + definition.breweries.size());
+
+		return definition;
+	}
+
+	private ArrayList<Beer> downloadBeers(Def definition) {
+		Log.d(Constants.TAG, "Downloading beer list from " + Constants.LIST_URL_PRINC + "...");
+
+		InputStream stream;
+		try {
+			stream = HttpRequest.get(Constants.LIST_URL_PRINC).stream();
+		} catch (Exception e) {
+			Log.e(Constants.TAG, "Failed to download beer list");
+			return null;
+		}
+
+		String response = Utils.convertStreamToString(stream);
+		ArrayList<Beer> list = parsePagePrinc(definition, response);
+
+		Log.d(Constants.TAG, "Beers found: " + list.size());
+
+		return list;
+	}
+
+	private ArrayList<Beer> parsePagePrinc(Def definition, String data) {
 		if (TextUtils.isEmpty(data)) {
 			return null;
 		}
@@ -148,7 +187,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 			}
 
 			ArrayList<Pair<String, String>> filtered = new ArrayList<Pair<String, String>>();
-			Utils.findBeer(line, filtered);
+			Utils.findBeer(definition, line, filtered);
 
 			// parse brewery and save beers
 			for (Pair<String, String> item : filtered) {
