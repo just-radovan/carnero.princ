@@ -115,16 +115,17 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 	private Def downloadBreweries() {
 		Log.d(Constants.TAG, "Downloading breweries...");
 
-		InputStream stream;
+		Def definition;
 		try {
-			stream = HttpRequest.get(Constants.LIST_URL_BREWERIES).stream();
+			InputStream stream = HttpRequest.get(Constants.LIST_URL_BREWERIES).stream();
+			Reader reader = new InputStreamReader(stream);
+			definition = mGson.fromJson(reader, Def.class);
+			stream.close();
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Failed to download breweries");
+			Log.e(Constants.TAG, "Failed to download breweries (" + e.getMessage() + ")");
 			return null;
 		}
 
-		Reader reader = new InputStreamReader(stream);
-		Def definition = mGson.fromJson(reader, Def.class);
 		for (DefBrewery brewery : definition.breweries) {
 			for (DefBeer beer : brewery.beers) {
 				definition.map.put(beer.identifier, new Pair(brewery, beer));
@@ -139,16 +140,17 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 	private ArrayList<Beer> downloadBeers(Def definition) {
 		Log.d(Constants.TAG, "Downloading beer list from " + Constants.LIST_URL_PRINC + "...");
 
-		InputStream stream;
+		String data;
 		try {
-			stream = HttpRequest.get(Constants.LIST_URL_PRINC).stream();
+			InputStream stream = HttpRequest.get(Constants.LIST_URL_PRINC).stream();
+			data = Utils.convertStreamToString(stream);
+			stream.close();
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Failed to download beer list");
+			Log.e(Constants.TAG, "Failed to download beer list (" + e.getMessage() + ")");
 			return null;
 		}
 
-		String response = Utils.convertStreamToString(stream);
-		ArrayList<Beer> list = parsePagePrinc(definition, response);
+		ArrayList<Beer> list = parsePagePrinc(definition, data);
 
 		Log.d(Constants.TAG, "Beers found: " + list.size());
 

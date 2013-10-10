@@ -11,6 +11,7 @@ import carnero.princ.model.DefBrewery;
 import java.io.*;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -107,7 +108,7 @@ public class Utils {
 	}
 
 	protected static void findBeer(Def definition, String line, ArrayList<Pair<String, String>> beers, boolean deep) {
-		if (TextUtils.isEmpty(line) || definition.map == null || beers == null) {
+		if (TextUtils.isEmpty(line) || definition == null || definition.map == null || beers == null) {
 			return;
 		}
 
@@ -129,10 +130,12 @@ public class Utils {
 				if (brewery.second.removeID) {
 					beer = line.substring(id.length()).trim();
 				} else {
-					beer = line;
+					beer = line.trim();
 				}
 
-				beers.add(new Pair(brewery.first.name, beer));
+				if (!TextUtils.isEmpty(beer)) {
+					beers.add(new Pair(brewery.first.name, beer));
+				}
 
 				// try to find another beer
 				findBeer(
@@ -153,7 +156,7 @@ public class Utils {
 					if (brewery.second.removeID) {
 						beer = line.substring(0, index).trim();
 					} else {
-						beer = line;
+						beer = line.trim();
 					}
 					before = line.substring(0, index);
 					after = null;
@@ -167,7 +170,9 @@ public class Utils {
 					after = line.substring(index + id.length());
 				}
 
-				beers.add(new Pair(brewery.first.name, beer));
+				if (!TextUtils.isEmpty(beer)) {
+					beers.add(new Pair(brewery.first.name, beer));
+				}
 
 				if (before != null) {
 					before = before.trim();
