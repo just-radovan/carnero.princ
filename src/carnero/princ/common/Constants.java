@@ -13,6 +13,8 @@ public class Constants {
 	public static final String LIST_URL_PRINC = "http://uprincemiroslava.eu/nabidka-piv/";
 	public static final String LIST_URL_ZLY = "http://zlycasy.eu/index.php?page=2";
 	public static final String UNTAPPD_URL = "https://untappd.com/search?q=%s";
+	// extra
+	public static final String EXTRA_BEER_ID = "carnero.princ.beer_ID";
 	// stuff
 	public static final String ALARM_ACTION = "carnero.princ.broadcast.Download";
 	public static final int ALARM_DOWNLOAD = 47;

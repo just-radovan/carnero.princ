@@ -10,6 +10,8 @@
 	<string name="card_first_time">poprvé na čepu</string>
 	<string name="card_brewery_unknown">neznámý pivovar</string>
 
+	<string name="rating_confirm">Confirm</string>
+
 	<string name="notification_info">Naražena nová piva...</string>
 	<plurals name="notification_beers">
 		<item quantity="one">one beer</item>

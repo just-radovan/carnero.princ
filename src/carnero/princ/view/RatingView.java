@@ -42,8 +42,8 @@ public class RatingView extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
-		if (mRating <= 0) {
-			return;
+		if (mRating < 0) {
+			mRating = 0;
 		}
 
 		float part = (360f / 100f) * mRating;
@@ -70,5 +70,7 @@ public class RatingView extends View {
 
 	public void setRating(float rating) {
 		mRating = rating;
+
+		invalidate();
 	}
 }

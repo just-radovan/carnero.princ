@@ -39,7 +39,7 @@
 			android:textSize="26dp"
 			android:textColor="@android:color/holo_orange_light"
 			android:fontFamily="sans-serif"/>
-		<LinearLayout android:id="@+id/beer_name_container"
+		<RelativeLayout android:id="@+id/beer_name_container"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentLeft="true"
@@ -48,22 +48,23 @@
 			android:layout_marginLeft="14dp"
 			android:layout_marginRight="14dp"
 			android:layout_marginTop="0dp"
-			android:layout_marginBottom="4dp"
-			android:orientation="horizontal"
-			android:gravity="center_vertical" >
+			android:layout_marginBottom="4dp" >
 
-			<TextView android:id="@+id/beer_name"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:textSize="26sp"
-				android:textColor="@android:color/primary_text_light"
-				android:fontFamily="sans-serif-light"/>
 			<carnero.princ.view.RatingView android:id="@+id/beer_rating"
 				android:layout_width="22dp"
 				android:layout_height="22dp"
 				android:layout_marginLeft="8dp"
-				android:layout_gravity="center_vertical"/>
-		</LinearLayout>
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true" />
+			<TextView android:id="@+id/beer_name"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_toLeftOf="@id/beer_rating"
+				android:layout_centerVertical="true"
+				android:textSize="26sp"
+				android:textColor="@android:color/primary_text_light"
+				android:fontFamily="sans-serif-light"/>
+		</RelativeLayout>
 
 		<TextView android:id="@+id/beer_tap_since"
 			android:layout_width="wrap_content"

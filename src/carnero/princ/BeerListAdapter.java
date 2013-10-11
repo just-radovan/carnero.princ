@@ -138,6 +138,20 @@ public class BeerListAdapter extends BaseAdapter {
 		}
 	}
 
+	public Beer findByID(long id) {
+		if (mList == null) {
+			return null;
+		}
+
+		for (Beer beer : mList) {
+			if (beer.id == id) {
+				return beer;
+			}
+		}
+
+		return null;
+	}
+
 	public void setData(ArrayList<Beer> list) {
 		mList = list;
 

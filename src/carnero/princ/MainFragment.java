@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -118,6 +119,7 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 		mAdapter.setData(list);
 
 		mList.setAdapter(mAdapter);
+		mList.setOnItemClickListener(new BeerClickListener());
 
 		mProgress.clearAnimation();
 		mProgress.setVisibility(View.GONE);
@@ -134,6 +136,28 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 			((TextView) mFooter.findViewById(R.id.update)).setText(sTimeFormat.format(calendar.getTime()));
 		} else {
 			((TextView) mFooter.findViewById(R.id.update)).setText(sDateFormat.format(calendar.getTime()));
+		}
+	}
+
+	public void updateRating(long id, float rating) {
+		if (mAdapter != null) {
+			Beer beer = mAdapter.findByID(id);
+			if (beer != null) {
+				beer.rating = rating;
+			}
+
+			mAdapter.notifyDataSetChanged();
+		}
+	}
+
+	// classes
+
+	public class BeerClickListener implements AdapterView.OnItemClickListener {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			RatingDialogFragment fragment = RatingDialogFragment.newInstance(MainFragment.this, id);
+			fragment.show(getFragmentManager(), "ratingDialog");
 		}
 	}
 }

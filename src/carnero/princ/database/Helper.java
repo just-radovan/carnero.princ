@@ -480,6 +480,33 @@ public class Helper extends SQLiteOpenHelper {
 		return status;
 	}
 
+	public float getRating(long id) {
+		float rating = -1f;
+
+		SQLiteDatabase database = getWritableDatabase();
+
+		StringBuilder sql = new StringBuilder();
+		sql.append(Structure.Table.Beers.col_id);
+		sql.append(" = ");
+		sql.append(id);
+
+		Cursor cursor = null;
+		try {
+			cursor = database.query(Structure.Table.Beers.name, new String[] {Structure.Table.Beers.col_rating}, sql.toString(), null, null, null, null);
+
+			if (cursor.moveToFirst()) {
+				rating = cursor.getFloat(cursor.getColumnIndex(Structure.Table.Beers.col_rating));
+			}
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			database.close();
+		}
+
+		return rating;
+	}
+
 	public boolean updateBeerRating(long id, float rating) {
 		boolean status = false;
 
