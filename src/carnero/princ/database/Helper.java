@@ -479,4 +479,24 @@ public class Helper extends SQLiteOpenHelper {
 
 		return status;
 	}
+
+	public boolean updateBeerRating(long id, float rating) {
+		boolean status = false;
+
+		SQLiteDatabase database = getWritableDatabase();
+
+		try {
+			ContentValues values = new ContentValues();
+			values.put(Structure.Table.Beers.col_rating, rating);
+
+			int cnt = database.update(Structure.Table.Beers.name, values, Structure.Table.Beers.col_id + " = " + id, null);
+			if (cnt > 0) {
+				status = true;
+			}
+		} finally {
+			database.close();
+		}
+
+		return status;
+	}
 }

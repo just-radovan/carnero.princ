@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import carnero.princ.common.Constants;
 import carnero.princ.model.Beer;
+import carnero.princ.view.RatingView;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -47,6 +48,7 @@ public class BeerListAdapter extends BaseAdapter {
 		View vSeparator = view.findViewById(R.id.top_end);
 		TextView vBrewery = (TextView) view.findViewById(R.id.brewery_name);
 		TextView vName = (TextView) view.findViewById(R.id.beer_name);
+		RatingView vRating = (RatingView) view.findViewById(R.id.beer_rating);
 		TextView vTapPrev = (TextView) view.findViewById(R.id.beer_tap_prev);
 		TextView vTapSince = (TextView) view.findViewById(R.id.beer_tap_since);
 
@@ -94,6 +96,7 @@ public class BeerListAdapter extends BaseAdapter {
 		}
 
 		vName.setText(beer.name);
+		vRating.setRating(beer.rating);
 
 		vTapSince.setText(mContext.getString(R.string.card_tapped, mDateFormat.format(new Date(beer.onTapSince))));
 		if (beer.onTapPrevious > 0) {
