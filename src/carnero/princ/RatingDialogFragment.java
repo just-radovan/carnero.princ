@@ -73,10 +73,6 @@ public class RatingDialogFragment extends DialogFragment {
 				Beer beer = getBeer();
 				beer.rating = progress;
 				vGraph.setRating(beer.rating);
-
-				if (getTargetFragment() instanceof MainFragment) {
-					((MainFragment) getTargetFragment()).updateRating(beer.id, beer.rating);
-				}
 			}
 
 			@Override
@@ -95,6 +91,11 @@ public class RatingDialogFragment extends DialogFragment {
 			public void onClick(View v) {
 				Beer beer = getBeer();
 				mHelper.updateBeerRating(beer.id, beer.rating);
+
+				if (getTargetFragment() instanceof MainFragment) {
+					((MainFragment) getTargetFragment()).updateRating(beer.id, beer.rating);
+				}
+
 				dismiss();
 			}
 		});

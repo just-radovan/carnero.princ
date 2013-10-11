@@ -17,10 +17,7 @@ import android.util.Log;
 import carnero.princ.MainActivity;
 import carnero.princ.R;
 import carnero.princ.common.Constants;
-import carnero.princ.model.Beer;
-import carnero.princ.model.BeerAZComparator;
-import carnero.princ.model.BeerName;
-import carnero.princ.model.BeerShort;
+import carnero.princ.model.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -296,6 +293,50 @@ public class Helper extends SQLiteOpenHelper {
 		Collections.sort(list, new BeerAZComparator());
 
 		return list;
+	}
+
+	public BestOfBeers loadGoodBeers() {
+		BestOfBeers bestOf = new BestOfBeers();
+
+		SQLiteDatabase database = getWritableDatabase();
+
+		StringBuilder sql = new StringBuilder();
+		sql.append(Structure.Table.Beers.col_rating);
+		sql.append(" > 70 and ");
+		sql.append(Structure.Table.Beers.col_current);
+		sql.append(" = 1");
+
+		Cursor cursor = null;
+		try {
+			cursor = database.query(Structure.Table.Beers.name, Structure.Table.Beers.projection, sql.toString(), null, null, null, Structure.Table.Beers.col_rating + " desc");
+
+			bestOf.count = cursor.getCount();
+			if (cursor.moveToFirst()) {
+				int idxPub = cursor.getColumnIndex(Structure.Table.Beers.col_pub);
+				int idxBrewery = cursor.getColumnIndex(Structure.Table.Beers.col_brewery);
+
+				int pub;
+				String brewery;
+				do {
+					pub = cursor.getInt(idxPub);
+					brewery = cursor.getString(idxBrewery);
+
+					if (!bestOf.pubs.contains(pub)) {
+						bestOf.pubs.add(pub);
+					}
+					if (!bestOf.breweries.contains(brewery)) {
+						bestOf.breweries.add(brewery);
+					}
+				} while (cursor.moveToNext());
+			}
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+			database.close();
+		}
+
+		return bestOf;
 	}
 
 	public boolean isSomeCurrentBeer() {
