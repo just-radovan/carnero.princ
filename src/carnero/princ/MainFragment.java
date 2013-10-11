@@ -6,9 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -21,22 +19,34 @@ import carnero.princ.database.Structure;
 import carnero.princ.iface.ILoadingStatusListener;
 import carnero.princ.internet.ListDownloader;
 import carnero.princ.model.Beer;
+import carnero.princ.model.BeerAZComparator;
+import carnero.princ.model.BeerRatingComparator;
 import carnero.princ.model.Hours;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 public class MainFragment extends Fragment implements ILoadingStatusListener {
 
+	private ArrayList<Beer> mBeers;
 	private ListView mList;
 	private ImageView mProgress;
 	private View mHeader;
 	private View mFooter;
 	private BeerListAdapter mAdapter;
+	private int mSort = Constants.SORT_ALPHABET;
 	private static DateFormat sTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
 	private static DateFormat sDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
+
+	@Override
+	public void onCreate(Bundle state) {
+		super.onCreate(state);
+
+		setHasOptionsMenu(true);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
@@ -115,8 +125,11 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 			return;
 		}
 
+		mBeers = list;
+		sortBeers();
+
 		mAdapter = new BeerListAdapter(getActivity());
-		mAdapter.setData(list);
+		mAdapter.setData(mBeers);
 
 		mList.setAdapter(mAdapter);
 		mList.setOnItemClickListener(new BeerClickListener());
@@ -136,6 +149,42 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 			((TextView) mFooter.findViewById(R.id.update)).setText(sTimeFormat.format(calendar.getTime()));
 		} else {
 			((TextView) mFooter.findViewById(R.id.update)).setText(sDateFormat.format(calendar.getTime()));
+		}
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.menu_main, menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+
+		if (id == R.id.change_sorting) {
+			if (mSort == Constants.SORT_ALPHABET) {
+				mSort = Constants.SORT_RATING;
+			} else {
+				mSort = Constants.SORT_ALPHABET;
+			}
+
+			sortBeers();
+			mAdapter.notifyDataSetChanged();
+
+			return true;
+		}
+
+		return false;
+	}
+
+	protected void sortBeers() {
+		switch (mSort) {
+			case Constants.SORT_ALPHABET:
+				Collections.sort(mBeers, new BeerAZComparator());
+				break;
+			case Constants.SORT_RATING:
+				Collections.sort(mBeers, new BeerRatingComparator());
+				break;
 		}
 	}
 

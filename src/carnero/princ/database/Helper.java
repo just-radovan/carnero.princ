@@ -114,7 +114,6 @@ public class Helper extends SQLiteOpenHelper {
 			}
 			values.put(Structure.Table.Beers.col_name, beer.name);
 			values.put(Structure.Table.Beers.col_current, (beer.current ? 1 : 0));
-			values.put(Structure.Table.Beers.col_rating, beer.rating);
 
 			if (id >= 0) { // update beer
 				try {

@@ -12,6 +12,8 @@
 
 	<string name="rating_confirm">Confirm</string>
 
+	<string name="menu_sorting">Change beer sorting</string>
+
 	<string name="notification_info">Naražena nová piva...</string>
 	<plurals name="notification_beers">
 		<item quantity="one">one beer</item>
