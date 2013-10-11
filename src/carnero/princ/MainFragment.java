@@ -37,6 +37,7 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 	private View mHeader;
 	private View mFooter;
 	private BeerListAdapter mAdapter;
+	private SharedPreferences mPreferences;
 	private int mSort = Constants.SORT_ALPHABET;
 	private static DateFormat sTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
 	private static DateFormat sDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
@@ -46,6 +47,14 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 		super.onCreate(state);
 
 		setHasOptionsMenu(true);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle state) {
+		super.onActivityCreated(state);
+
+		mPreferences = getActivity().getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
+		mSort = mPreferences.getInt(Constants.PREF_SORTING, Constants.SORT_ALPHABET);
 	}
 
 	@Override
@@ -138,8 +147,7 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 		mProgress.setVisibility(View.GONE);
 
 		// last update
-		SharedPreferences preferences = getActivity().getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
-		long last = preferences.getLong(Constants.PREF_LAST_DOWNLOAD, 0);
+		long last = mPreferences.getLong(Constants.PREF_LAST_DOWNLOAD, 0);
 		Calendar calendar = Calendar.getInstance();
 		int currentDay = calendar.get(Calendar.DAY_OF_YEAR);
 		calendar.setTimeInMillis(last);
@@ -158,15 +166,36 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 	}
 
 	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		switch (mSort) {
+			case Constants.SORT_ALPHABET:
+				menu.findItem(R.id.change_sorting).setIcon(android.R.drawable.ic_menu_sort_by_size);
+				break;
+			case Constants.SORT_RATING:
+				menu.findItem(R.id.change_sorting).setIcon(android.R.drawable.ic_menu_sort_alphabetically);
+				break;
+		}
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 
 		if (id == R.id.change_sorting) {
-			if (mSort == Constants.SORT_ALPHABET) {
-				mSort = Constants.SORT_RATING;
-			} else {
-				mSort = Constants.SORT_ALPHABET;
+			switch (mSort) {
+				case Constants.SORT_ALPHABET:
+					mSort = Constants.SORT_RATING;
+					break;
+				case Constants.SORT_RATING:
+					mSort = Constants.SORT_ALPHABET;
+					break;
 			}
+
+			mPreferences.edit()
+					.putInt(Constants.PREF_SORTING, mSort)
+					.commit();
 
 			sortBeers();
 			mAdapter.notifyDataSetChanged();
@@ -178,6 +207,8 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 	}
 
 	protected void sortBeers() {
+		getActivity().invalidateOptionsMenu();
+
 		switch (mSort) {
 			case Constants.SORT_ALPHABET:
 				Collections.sort(mBeers, new BeerAZComparator());

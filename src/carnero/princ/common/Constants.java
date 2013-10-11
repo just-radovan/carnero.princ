@@ -8,6 +8,7 @@ public class Constants {
 	// preferences
 	public static final String PREF_NAME = "beer";
 	public static final String PREF_LAST_DOWNLOAD = "beer:last_download";
+	public static final String PREF_SORTING = "beer:sorting";
 	// servers
 	public static final String LIST_URL_BREWERIES = "http://i.carnero.cc/carnero.princ.json";
 	public static final String LIST_URL_PRINC = "http://uprincemiroslava.eu/nabidka-piv/";
@@ -18,9 +19,6 @@ public class Constants {
 	// sort
 	public static final int SORT_ALPHABET = 1;
 	public static final int SORT_RATING = 2;
-	public static final int[] SORTING = new int[] {
-			SORT_ALPHABET, SORT_RATING
-	};
 	// stuff
 	public static final String ALARM_ACTION = "carnero.princ.broadcast.Download";
 	public static final int ALARM_DOWNLOAD = 47;
