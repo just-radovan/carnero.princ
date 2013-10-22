@@ -1,16 +1,18 @@
-package carnero.princ;
+package carnero.princ.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import carnero.princ.BeerListAdapter;
+import carnero.princ.R;
+import carnero.princ.RatingDialogFragment;
 import carnero.princ.common.Constants;
 import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;
@@ -27,20 +29,20 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 
-public class MainFragment extends Fragment implements ILoadingStatusListener {
+public abstract class AbstractFragment extends Fragment implements ILoadingStatusListener {
 
-	private ArrayList<Beer> mBeers;
-	private ListView mList;
-	private ImageView mProgress;
-	private View mHeader;
-	private View mFooter;
-	private BeerListAdapter mAdapter;
-	private SharedPreferences mPreferences;
-	private int mSort = Constants.SORT_ALPHABET;
-	private static DateFormat sTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
-	private static DateFormat sDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
+	protected int mPub = Constants.PUB_PRINC;
+	protected ArrayList<Beer> mBeers;
+	protected ListView mList;
+	protected ImageView mProgress;
+	protected View mHeader;
+	protected View mFooter;
+	protected BeerListAdapter mAdapter;
+	protected SharedPreferences mPreferences;
+	protected int mSort = Constants.SORT_ALPHABET;
+	protected static DateFormat sTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
+	protected static DateFormat sDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
 
 	@Override
 	public void onCreate(Bundle state) {
@@ -112,7 +114,7 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 		if (!helper.isSomeCurrentBeer()) { // no saved beer, download now
 			new ListDownloader(getActivity(), this).execute();
 		} else {
-			new ListLoader(getActivity(), this).execute(Structure.Table.PUB_PRINC);
+			new ListLoader(getActivity(), this).execute(mPub);
 		}
 	}
 
@@ -236,7 +238,7 @@ public class MainFragment extends Fragment implements ILoadingStatusListener {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			RatingDialogFragment fragment = RatingDialogFragment.newInstance(MainFragment.this, id);
+			RatingDialogFragment fragment = RatingDialogFragment.newInstance(AbstractFragment.this, id);
 			fragment.show(getFragmentManager(), "ratingDialog");
 		}
 	}

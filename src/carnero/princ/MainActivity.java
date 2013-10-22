@@ -1,13 +1,8 @@
 package carnero.princ;
 
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.content.Context;
-import android.content.Intent;
+import android.app.*;
 import android.os.Bundle;
-import android.util.Log;
-import carnero.princ.common.Constants;
-import carnero.princ.database.Helper;
+import carnero.princ.fragment.PrincMiroslavFragment;
 
 public class MainActivity extends Activity {
 
@@ -16,6 +11,22 @@ public class MainActivity extends Activity {
 		super.onCreate(state);
 
 		setContentView(R.layout.activity_main);
+
+		ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.addTab(actionBar.newTab()
+				.setTabListener(new TabListener<PrincMiroslavFragment>(this, PrincMiroslavFragment.class))
+				.setText(R.string.tab_princ)
+		);
+		actionBar.addTab(actionBar.newTab()
+				.setTabListener(new TabListener<PrincMiroslavFragment>(this, PrincMiroslavFragment.class))
+				.setText(R.string.tab_zly)
+		);
+		actionBar.addTab(actionBar.newTab()
+				.setTabListener(new TabListener<PrincMiroslavFragment>(this, PrincMiroslavFragment.class))
+				.setText(R.string.tab_pivnice)
+		);
+		actionBar.setSelectedNavigationItem(0);
 	}
 
 	@Override
@@ -23,5 +34,41 @@ public class MainActivity extends Activity {
 		super.onResume();
 
 		DownloadService.setAlarmIntent(getApplicationContext());
+	}
+
+	// classess
+
+	private class TabListener<T extends Fragment> implements ActionBar.TabListener {
+
+		protected Activity mActivity;
+		protected Class<T> mClass;
+		protected Fragment mFragment;
+
+		public TabListener(Activity activity, Class<T> clz) {
+			mActivity = activity;
+			mClass = clz;
+		}
+
+		@Override
+		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction transaction) {
+			mFragment = Fragment.instantiate(mActivity, mClass.getName());
+
+			FragmentTransaction trans = getFragmentManager().beginTransaction()
+					.replace(R.id.content, mFragment)
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			trans.commit();
+		}
+
+		@Override
+		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction transaction) {
+			if (mFragment != null) {
+				transaction.detach(mFragment);
+			}
+		}
+
+		@Override
+		public void onTabReselected(ActionBar.Tab tab, FragmentTransaction transaction) {
+			// empty
+		}
 	}
 }

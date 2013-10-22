@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Piva Prince Miroslava</string>
+	<string name="app_name">Pivní Jízdní Řády</string>
 	<string name="dashclock_label">Best beers currently on tap</string>
+
+	<string name="tab_princ">Princ Miroslav</string>
+	<string name="tab_zly">Zlý Časy</string>
+	<string name="tab_pivnice">Ochutnávková</string>
 
 	<string name="pub_closed">Do %1$s:%2$s zavřeno</string>
 	<string name="pub_open">Otevřeno do %1$s:%2$s</string>

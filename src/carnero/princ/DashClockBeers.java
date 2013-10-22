@@ -1,5 +1,6 @@
 package carnero.princ;
 
+import android.content.Intent;
 import carnero.princ.database.Helper;
 import carnero.princ.model.BestOfBeers;
 import com.google.android.apps.dashclock.api.DashClockExtension;
@@ -19,13 +20,15 @@ public class DashClockBeers extends DashClockExtension {
 			breweries.append(brewery);
 		}
 
+		Intent intent = new Intent(this, MainActivity.class);
+
 		publishUpdate(new ExtensionData()
 				.visible(true)
 				.icon(R.drawable.ic_dashclock)
 				.status(getResources().getQuantityString(R.plurals.good_beers, bestOf.count, bestOf.count))
 				.expandedTitle(getResources().getQuantityString(R.plurals.good_beers, bestOf.count, bestOf.count))
 				.expandedBody(breweries.toString())
-				.clickIntent(null)
+				.clickIntent(intent)
 		);
 	}
 }

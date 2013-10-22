@@ -63,7 +63,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 			return null;
 		}
 
-		mHelper.saveBeers(list, Structure.Table.PUB_PRINC);
+		mHelper.saveBeers(list, Constants.PUB_PRINC);
 
 		mPreferences.edit()
 				.putLong(Constants.PREF_LAST_DOWNLOAD, System.currentTimeMillis())
@@ -194,7 +194,7 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 			// parse brewery and save beers
 			for (Pair<String, String> item : filtered) {
 				beer = new Beer();
-				beer.pub = Structure.Table.PUB_PRINC;
+				beer.pub = Constants.PUB_PRINC;
 				beer.current = true;
 				beer.brewery = item.first;
 				beer.name = item.second;

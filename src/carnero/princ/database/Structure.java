@@ -7,9 +7,6 @@ public class Structure {
 
 	public static class Table {
 
-		public static final int PUB_PRINC = 1;
-		public static final int PUB_ZLY = 2;
-
 		public static class Beers {
 
 			public static final String name = "beers";

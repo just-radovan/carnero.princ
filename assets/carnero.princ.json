@@ -1,5 +1,5 @@
 {
-    "version": 1,
+    "version": 3,
     "breweries": [
         {
             "name": "Anderson Valley Brewing Co.", "country": "USA",
@@ -54,6 +54,13 @@
             "name": "Chotěboř", "country": "CZ",
             "beers": [
                 {"identifier": "Chotebor", "removeID": true}
+            ]
+        },
+        {
+            "name": "Chotoviny", "country": "CZ",
+            "beers": [
+                {"identifier": "Chotoviny", "removeID": true},
+                {"identifier": "Vienna Spezial", "removeID": false}
             ]
         },
         {
@@ -174,6 +181,12 @@
             ]
         },
         {
+            "name": "Prager Laffe", "country": "CZ",
+            "beers": [
+                {"identifier": "Pragerlager", "removeID": true}
+            ]
+        },
+        {
             "name": "Primátor", "country": "CZ",
             "beers": [
                 {"identifier": "Chipper", "removeID": false},
@@ -251,7 +264,8 @@
         {
             "name": "Zemský pivovar", "country": "CZ",
             "beers": [
-                {"identifier": "Zemsky pivovar", "removeID": true}
+                {"identifier": "Zemsky pivovar", "removeID": true},
+                {"identifier": "Zemska", "removeID": true}
             ]
         },
         {

@@ -9,10 +9,15 @@ public class Constants {
 	public static final String PREF_NAME = "beer";
 	public static final String PREF_LAST_DOWNLOAD = "beer:last_download";
 	public static final String PREF_SORTING = "beer:sorting";
+	// pubs
+	public static final int PUB_PRINC = 1;
+	public static final int PUB_ZLY = 2;
+	public static final int PUB_PIVNICE = 3;
 	// servers
 	public static final String LIST_URL_BREWERIES = "http://i.carnero.cc/carnero.princ.json";
 	public static final String LIST_URL_PRINC = "http://uprincemiroslava.eu/nabidka-piv/";
 	public static final String LIST_URL_ZLY = "http://zlycasy.eu/index.php?page=2";
+	public static final String LIST_URL_PIVNICE = "http://www.ochutnavkovapivnice.cz/prave_na_cepu/";
 	public static final String UNTAPPD_URL = "https://untappd.com/search?q=%s";
 	// extra
 	public static final String EXTRA_BEER_ID = "carnero.princ.beer_ID";

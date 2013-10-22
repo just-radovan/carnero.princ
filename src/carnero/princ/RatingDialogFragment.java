@@ -13,6 +13,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import carnero.princ.common.Constants;
 import carnero.princ.database.Helper;
+import carnero.princ.fragment.PrincMiroslavFragment;
 import carnero.princ.model.Beer;
 import carnero.princ.view.RatingView;
 
@@ -92,8 +93,8 @@ public class RatingDialogFragment extends DialogFragment {
 				Beer beer = getBeer();
 				mHelper.updateBeerRating(beer.id, beer.rating);
 
-				if (getTargetFragment() instanceof MainFragment) {
-					((MainFragment) getTargetFragment()).updateRating(beer.id, beer.rating);
+				if (getTargetFragment() instanceof PrincMiroslavFragment) {
+					((PrincMiroslavFragment) getTargetFragment()).updateRating(beer.id, beer.rating);
 				}
 
 				dismiss();
