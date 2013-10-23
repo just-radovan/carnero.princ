@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<color name="bg_drawer">#FF353535</color>
 	<color name="bg_grey">#FFDBDBDB</color>
 	<color name="bg_card_shadow">#FFCCCCCC</color>
 	<color name="card_separator">#FFDDDDDD</color>

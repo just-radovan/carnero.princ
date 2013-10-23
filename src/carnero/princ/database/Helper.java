@@ -295,7 +295,7 @@ public class Helper extends SQLiteOpenHelper {
 		return list;
 	}
 
-	public BestOfBeers loadGoodBeers() {
+	public BestOfBeers loadGoodBeers(int pub) {
 		BestOfBeers bestOf = new BestOfBeers();
 
 		SQLiteDatabase database = getWritableDatabase();
@@ -304,7 +304,10 @@ public class Helper extends SQLiteOpenHelper {
 		sql.append(Structure.Table.Beers.col_rating);
 		sql.append(" > 70 and ");
 		sql.append(Structure.Table.Beers.col_current);
-		sql.append(" = 1");
+		sql.append(" = 1 and ");
+		sql.append(Structure.Table.Beers.col_pub);
+		sql.append(" = ");
+		sql.append(pub);
 
 		Cursor cursor = null;
 		try {
@@ -312,18 +315,12 @@ public class Helper extends SQLiteOpenHelper {
 
 			bestOf.count = cursor.getCount();
 			if (cursor.moveToFirst()) {
-				int idxPub = cursor.getColumnIndex(Structure.Table.Beers.col_pub);
 				int idxBrewery = cursor.getColumnIndex(Structure.Table.Beers.col_brewery);
 
-				int pub;
 				String brewery;
 				do {
-					pub = cursor.getInt(idxPub);
 					brewery = cursor.getString(idxBrewery);
 
-					if (!bestOf.pubs.contains(pub)) {
-						bestOf.pubs.add(pub);
-					}
 					if (!bestOf.breweries.contains(brewery)) {
 						bestOf.breweries.add(brewery);
 					}

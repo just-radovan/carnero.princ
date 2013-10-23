@@ -153,11 +153,20 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 		}
 
 		if (beerList.id == Constants.LIST_PRINC.id) {
-			list.addAll(PrincParser.parse(definition, data));
+			ArrayList<Beer> beers = PrincParser.parse(definition, data);
+			if (beers != null) {
+				list.addAll(beers);
+			}
 		} else if (beerList.id == Constants.LIST_ZLY.id) {
-			list.addAll(ZlyParser.parse(definition, data));
+			ArrayList<Beer> beers = ZlyParser.parse(definition, data);
+			if (beers != null) {
+				list.addAll(beers);
+			}
 		} else if (beerList.id == Constants.LIST_PIVNICE.id) {
-			list.addAll(PivniceParser.parse(definition, data));
+			ArrayList<Beer> beers = PivniceParser.parse(definition, data);
+			if (beers != null) {
+				list.addAll(beers);
+			}
 		}
 
 		Log.d(Constants.TAG, "Beers found: " + list.size());
