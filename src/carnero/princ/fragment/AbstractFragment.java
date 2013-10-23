@@ -18,21 +18,19 @@ import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;
 import carnero.princ.database.ListLoader;
 import carnero.princ.database.Structure;
+import carnero.princ.iface.IDownloadingStatusListener;
 import carnero.princ.iface.ILoadingStatusListener;
 import carnero.princ.internet.ListDownloader;
-import carnero.princ.model.Beer;
-import carnero.princ.model.BeerAZComparator;
-import carnero.princ.model.BeerRatingComparator;
-import carnero.princ.model.Hours;
+import carnero.princ.model.*;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 
-public abstract class AbstractFragment extends Fragment implements ILoadingStatusListener {
+public abstract class AbstractFragment extends Fragment implements ILoadingStatusListener, IDownloadingStatusListener {
 
-	protected int mPub = Constants.PUB_PRINC;
+	protected BeerList mPub = Constants.LIST_PRINC;
 	protected ArrayList<Beer> mBeers;
 	protected ListView mList;
 	protected ImageView mProgress;
@@ -68,7 +66,7 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 
 		// opening hours
 		Calendar calendar = Calendar.getInstance();
-		Hours hours = Constants.HOURS[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+		Hours hours = mPub.hours[calendar.get(Calendar.DAY_OF_WEEK) - 1];
 		int timePubFrom = hours.fromHrs * 60 + hours.fromMns;
 		int timePubTo = hours.toHrs * 60 + hours.toMns;
 		int timeNow = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
@@ -114,7 +112,7 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 		if (!helper.isSomeCurrentBeer()) { // no saved beer, download now
 			new ListDownloader(getActivity(), this).execute();
 		} else {
-			new ListLoader(getActivity(), this).execute(mPub);
+			new ListLoader(getActivity(), this).execute(mPub.id);
 		}
 	}
 
@@ -149,17 +147,38 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 		mProgress.setVisibility(View.GONE);
 
 		// last update
-		long last = mPreferences.getLong(Constants.PREF_LAST_DOWNLOAD, 0);
-		Calendar calendar = Calendar.getInstance();
-		int currentDay = calendar.get(Calendar.DAY_OF_YEAR);
-		calendar.setTimeInMillis(last);
-		int updatedDay = calendar.get(Calendar.DAY_OF_YEAR);
-
-		if (currentDay == updatedDay) {
-			((TextView) mFooter.findViewById(R.id.update)).setText(sTimeFormat.format(calendar.getTime()));
+		long last = mPreferences.getLong(mPub.prefLastDownload, 0);
+		if (last <= 0) {
+			((TextView) mFooter.findViewById(R.id.update)).setText(R.string.no_last_download);
 		} else {
-			((TextView) mFooter.findViewById(R.id.update)).setText(sDateFormat.format(calendar.getTime()));
+			Calendar calendar = Calendar.getInstance();
+			int currentDay = calendar.get(Calendar.DAY_OF_YEAR);
+			calendar.setTimeInMillis(last);
+			int updatedDay = calendar.get(Calendar.DAY_OF_YEAR);
+
+			if (currentDay == updatedDay) {
+				((TextView) mFooter.findViewById(R.id.update)).setText(sTimeFormat.format(calendar.getTime()));
+			} else {
+				((TextView) mFooter.findViewById(R.id.update)).setText(sDateFormat.format(calendar.getTime()));
+			}
 		}
+	}
+
+	@Override
+	public void onDownloadingStart() {
+		if (!isAdded()) {
+			return;
+		}
+
+		AnimationDrawable animation = (AnimationDrawable) mProgress.getBackground();
+		animation.start();
+
+		mProgress.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void onDownloadingComplete() {
+		new ListLoader(getActivity(), this).execute(mPub.id);
 	}
 
 	@Override

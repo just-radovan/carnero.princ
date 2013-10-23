@@ -55,13 +55,13 @@ public class Helper extends SQLiteOpenHelper {
 		onCreate(db);
 	}
 
-	public void saveBeers(ArrayList<Beer> list, int pub) {
+	public void saveBeers(ArrayList<Beer> list, BeerList beerList) {
 		if (list == null || list.isEmpty()) {
 			return;
 		}
 
 		SQLiteDatabase database = getWritableDatabase();
-		ArrayList<BeerShort> currentBeers = loadCurrentBeersID(database, pub);
+		ArrayList<BeerShort> currentBeers = loadCurrentBeersID(database, beerList.id);
 		ArrayList<Long> updatedIDs = new ArrayList<Long>();
 		HashMap<String, Integer> newBeers = new HashMap<String, Integer>();
 		int newBeersTotal = 0;
@@ -158,7 +158,7 @@ public class Helper extends SQLiteOpenHelper {
 		}
 
 		// update removed beers
-		long last = mPreferences.getLong(Constants.PREF_LAST_DOWNLOAD, 0);
+		long last = mPreferences.getLong(beerList.prefLastDownload, 0);
 		for (BeerShort current : currentBeers) {
 			if (!updatedIDs.contains(current.id)) { // removed from tap
 				values = new ContentValues();

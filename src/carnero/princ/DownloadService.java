@@ -9,13 +9,14 @@ import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
 import carnero.princ.common.Constants;
+import carnero.princ.iface.IDownloadingStatusListener;
 import carnero.princ.iface.ILoadingStatusListener;
 import carnero.princ.internet.ListDownloader;
 import carnero.princ.model.Beer;
 
 import java.util.ArrayList;
 
-public class DownloadService extends Service implements ILoadingStatusListener {
+public class DownloadService extends Service implements IDownloadingStatusListener {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -30,12 +31,12 @@ public class DownloadService extends Service implements ILoadingStatusListener {
 	}
 
 	@Override
-	public void onLoadingStart() {
+	public void onDownloadingStart() {
 		Log.d(Constants.TAG, "Downloading beer list");
 	}
 
 	@Override
-	public void onLoadingComplete(ArrayList<Beer> list) {
+	public void onDownloadingComplete() {
 		setAlarmIntent(getApplicationContext());
 
 		Log.d(Constants.TAG, "Download finished");

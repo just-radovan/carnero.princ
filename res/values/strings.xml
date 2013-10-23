@@ -15,6 +15,7 @@
 	<string name="card_first_time">poprvé na čepu</string>
 	<string name="card_brewery_unknown">neznámý pivovar</string>
 
+	<string name="no_last_download">zatím nic</string>
 	<string name="rating_confirm">Confirm</string>
 
 	<string name="menu_sorting">Change beer sorting</string>

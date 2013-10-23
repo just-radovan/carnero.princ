@@ -2,7 +2,9 @@ package carnero.princ;
 
 import android.app.*;
 import android.os.Bundle;
+import carnero.princ.fragment.OchutnavkovaPivniceFragment;
 import carnero.princ.fragment.PrincMiroslavFragment;
+import carnero.princ.fragment.ZlyCasyFragment;
 
 public class MainActivity extends Activity {
 
@@ -19,11 +21,11 @@ public class MainActivity extends Activity {
 				.setText(R.string.tab_princ)
 		);
 		actionBar.addTab(actionBar.newTab()
-				.setTabListener(new TabListener<PrincMiroslavFragment>(this, PrincMiroslavFragment.class))
+				.setTabListener(new TabListener<ZlyCasyFragment>(this, ZlyCasyFragment.class))
 				.setText(R.string.tab_zly)
 		);
 		actionBar.addTab(actionBar.newTab()
-				.setTabListener(new TabListener<PrincMiroslavFragment>(this, PrincMiroslavFragment.class))
+				.setTabListener(new TabListener<OchutnavkovaPivniceFragment>(this, OchutnavkovaPivniceFragment.class))
 				.setText(R.string.tab_pivnice)
 		);
 		actionBar.setSelectedNavigationItem(0);

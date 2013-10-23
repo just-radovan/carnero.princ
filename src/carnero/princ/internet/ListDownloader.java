@@ -10,6 +10,7 @@ import carnero.princ.common.Constants;
 import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;
 import carnero.princ.database.Structure;
+import carnero.princ.iface.IDownloadingStatusListener;
 import carnero.princ.iface.ILoadingStatusListener;
 import carnero.princ.model.*;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -22,19 +23,14 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
+public class ListDownloader extends AsyncTask<Void, Void, Void> {
 
-	private Context mContext;
-	private ILoadingStatusListener mStatusListener;
+	private IDownloadingStatusListener mStatusListener;
 	private Gson mGson;
 	private Helper mHelper;
 	private SharedPreferences mPreferences;
-	// patterns
-	private Pattern mTablePattern = Pattern.compile("<table[^>]*>[^<]*<tbody[^>]*>(.*?)</tbody>[^<]*</table>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-	private Pattern mBeersPattern = Pattern.compile("<tr[^>]*>[^<]*<td[^>]*>(.*?)</td>", Pattern.CASE_INSENSITIVE);
 
-	public ListDownloader(Context context, ILoadingStatusListener listener) {
-		mContext = context;
+	public ListDownloader(Context context, IDownloadingStatusListener listener) {
 		mStatusListener = listener;
 		mGson = new Gson();
 		mHelper = new Helper(context);
@@ -46,28 +42,32 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 		super.onPreExecute();
 
 		if (mStatusListener != null) {
-			mStatusListener.onLoadingStart();
+			mStatusListener.onDownloadingStart();
 		}
 	}
 
 	@Override
-	protected ArrayList<Beer> doInBackground(Void... params) {
-		long last = mPreferences.getLong(Constants.PREF_LAST_DOWNLOAD, 0);
-		if (last > (System.currentTimeMillis() - (30 * 60 * 1000))) { // 30 mins
-			return null;
-		}
-
+	protected Void doInBackground(Void... params) {
 		Def definition = downloadBreweries();
-		ArrayList<Beer> list = downloadBeers(definition);
-		if (list == null) {
-			return null;
+		ArrayList<Beer> list;
+
+		for (BeerList beerList : Constants.LIST) {
+			long last = mPreferences.getLong(beerList.prefLastDownload, 0);
+			if (last > (System.currentTimeMillis() - (30 * 60 * 1000))) { // 30 mins
+				continue;
+			}
+
+			list = downloadBeers(definition, beerList);
+			if (list == null || list.isEmpty()) {
+				continue;
+			}
+
+			mHelper.saveBeers(list, beerList);
+
+			mPreferences.edit()
+					.putLong(beerList.prefLastDownload, System.currentTimeMillis())
+					.commit();
 		}
-
-		mHelper.saveBeers(list, Constants.PUB_PRINC);
-
-		mPreferences.edit()
-				.putLong(Constants.PREF_LAST_DOWNLOAD, System.currentTimeMillis())
-				.commit();
 
 		// check already saved beers
 		ArrayList<BeerName> orphans = mHelper.loadUnknownBeers();
@@ -100,15 +100,15 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 			}
 		}
 
-		return list;
+		return null;
 	}
 
 	@Override
-	protected void onPostExecute(ArrayList<Beer> list) {
-		super.onPostExecute(list);
+	protected void onPostExecute(Void nothing) {
+		super.onPostExecute(nothing);
 
 		if (mStatusListener != null) {
-			mStatusListener.onLoadingComplete(list);
+			mStatusListener.onDownloadingComplete();
 		}
 	}
 
@@ -137,12 +137,14 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 		return definition;
 	}
 
-	private ArrayList<Beer> downloadBeers(Def definition) {
-		Log.d(Constants.TAG, "Downloading beer list from " + Constants.LIST_URL_PRINC + "...");
+	private ArrayList<Beer> downloadBeers(Def definition, BeerList beerList) {
+		ArrayList<Beer> list = new ArrayList<Beer>();
+
+		Log.d(Constants.TAG, "Downloading beer list from " + beerList.url + "...");
 
 		String data;
 		try {
-			InputStream stream = HttpRequest.get(Constants.LIST_URL_PRINC).stream();
+			InputStream stream = HttpRequest.get(beerList.url).stream();
 			data = Utils.convertStreamToString(stream);
 			stream.close();
 		} catch (Exception e) {
@@ -150,58 +152,15 @@ public class ListDownloader extends AsyncTask<Void, Void, ArrayList<Beer>> {
 			return null;
 		}
 
-		ArrayList<Beer> list = parsePagePrinc(definition, data);
+		if (beerList.id == Constants.LIST_PRINC.id) {
+			list.addAll(PrincParser.parse(definition, data));
+		} else if (beerList.id == Constants.LIST_ZLY.id) {
+			list.addAll(ZlyParser.parse(definition, data));
+		} else if (beerList.id == Constants.LIST_PIVNICE.id) {
+			// list.addAll(PivniceParser.parse(definition, data));
+		}
 
 		Log.d(Constants.TAG, "Beers found: " + list.size());
-
-		return list;
-	}
-
-	private ArrayList<Beer> parsePagePrinc(Def definition, String data) {
-		if (TextUtils.isEmpty(data)) {
-			return null;
-		}
-
-		ArrayList<Beer> list = new ArrayList<Beer>();
-		Matcher matcher;
-
-		matcher = mTablePattern.matcher(data);
-		if (matcher.find() && matcher.groupCount() > 0) {
-			data = matcher.group(1);
-		}
-
-		matcher = mBeersPattern.matcher(data);
-		if (matcher.find() && matcher.groupCount() > 0) {
-			data = matcher.group(1);
-		}
-
-		String[] lines = data.split("(</p[^>]*>|<br[^>]*>)");
-		Beer beer;
-		int lineCnt = 0;
-
-		for (String line : lines) {
-			// clean string
-			line = Utils.cleanString(line, lineCnt);
-
-			lineCnt++;
-			if (TextUtils.isEmpty(line)) {
-				continue;
-			}
-
-			ArrayList<Pair<String, String>> filtered = new ArrayList<Pair<String, String>>();
-			Utils.findBeer(definition, line, filtered);
-
-			// parse brewery and save beers
-			for (Pair<String, String> item : filtered) {
-				beer = new Beer();
-				beer.pub = Constants.PUB_PRINC;
-				beer.current = true;
-				beer.brewery = item.first;
-				beer.name = item.second;
-
-				list.add(beer);
-			}
-		}
 
 		return list;
 	}
