@@ -29,6 +29,7 @@ public class Constants {
 	public static final BeerList LIST_PRINC = new BeerList(
 			1,
 			"http://uprincemiroslava.eu/nabidka-piv/",
+			"utf-8",
 			"beer:last_download:princ",
 			new Hours[]{
 					new Hours(12, 00, 22, 30), // 0, sun
@@ -43,6 +44,7 @@ public class Constants {
 	public static final BeerList LIST_ZLY = new BeerList(
 			2,
 			"http://zlycasy.eu/index.php?page=2",
+			"cp1260",
 			"beer:last_download:zly",
 			new Hours[]{
 					new Hours(17, 00, 01, 00), // 0, sun
@@ -57,6 +59,7 @@ public class Constants {
 	public static final BeerList LIST_PIVNICE = new BeerList(
 			3,
 			"http://www.ochutnavkovapivnice.cz/prave_na_cepu/",
+			"utf-8",
 			"beer:last_download:pivnice",
 			new Hours[]{
 					new Hours(16, 00, 24, 00), // 0, sun

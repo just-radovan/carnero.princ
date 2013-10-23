@@ -1,36 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Pivní Jízdní Řády</string>
-	<string name="dashclock_label">Best beers currently on tap</string>
+	<string name="app_name">Beer List</string>
+	<string name="dashclock_label">Best beers on tap</string>
 
-	<string name="tab_princ">Princ Miroslav</string>
+	<string name="tab_princ">U Prince Miroslava</string>
 	<string name="tab_zly">Zlý Časy</string>
-	<string name="tab_pivnice">Ochutnávková</string>
+	<string name="tab_pivnice">Ochutnávková Pivnice</string>
 
-	<string name="pub_closed">Do %1$s:%2$s zavřeno</string>
-	<string name="pub_open">Otevřeno do %1$s:%2$s</string>
-	<string name="pub_tomorrow">Již zavřeno</string>
+	<string name="pub_closed">Open from %1$s:%2$s</string>
+	<string name="pub_open">Open till %1$s:%2$s</string>
+	<string name="pub_tomorrow">Already closed</string>
 
-	<string name="card_tapped">naraženo %1$s</string>
-	<string name="card_first_time">poprvé na čepu</string>
-	<string name="card_brewery_unknown">neznámý pivovar</string>
+	<plurals name="card_tapped">
+		<item quantity="one">one day on tap</item>
+		<item quantity="two">two days on tap</item>
+		<item quantity="few">tapped %1$d days ago</item>
+		<item quantity="many">tapped %1$d days ago</item>
+		<item quantity="other">tapped %1$d days ago</item>
+	</plurals>
+	<string name="card_first_time">first time on tap</string>
+	<string name="card_brewery_unknown">unknown brewery</string>
 
-	<string name="no_last_download">zatím nic</string>
+	<string name="no_last_download">nothing yet</string>
 	<string name="rating_confirm">Confirm</string>
 
 	<string name="menu_sorting">Change beer sorting</string>
 
-	<string name="notification_info">Naražena nová piva...</string>
+	<string name="notification_info">New beers on tap...</string>
 	<plurals name="notification_beers">
 		<item quantity="one">one beer</item>
 		<item quantity="two">two beers</item>
+		<item quantity="few">%1$d beers</item>
+		<item quantity="many">%1$d beers</item>
 		<item quantity="other">%1$d beers</item>
 	</plurals>
 	<plurals name="good_beers">
 		<item quantity="one">One good beer</item>
 		<item quantity="two">Two good beers</item>
+		<item quantity="few">%1$d good beers</item>
+		<item quantity="many">%1$d good beers</item>
 		<item quantity="other">%1$d good beers</item>
 	</plurals>
 
-	<string name="desc_download">Čas posledního stažení pivního lístku.</string>
+	<string name="desc_download">Time of last beer list download.</string>
 </resources>

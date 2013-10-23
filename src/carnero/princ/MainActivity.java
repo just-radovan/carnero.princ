@@ -16,6 +16,7 @@ public class MainActivity extends Activity {
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
 		actionBar.addTab(actionBar.newTab()
 				.setTabListener(new TabListener<PrincMiroslavFragment>(this, PrincMiroslavFragment.class))
 				.setText(R.string.tab_princ)

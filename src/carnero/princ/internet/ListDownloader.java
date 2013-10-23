@@ -145,7 +145,7 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 		String data;
 		try {
 			InputStream stream = HttpRequest.get(beerList.url).stream();
-			data = Utils.convertStreamToString(stream);
+			data = Utils.convertStreamToString(stream, beerList);
 			stream.close();
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to download beer list (" + e.getMessage() + ")");
@@ -157,7 +157,7 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 		} else if (beerList.id == Constants.LIST_ZLY.id) {
 			list.addAll(ZlyParser.parse(definition, data));
 		} else if (beerList.id == Constants.LIST_PIVNICE.id) {
-			// list.addAll(PivniceParser.parse(definition, data));
+			list.addAll(PivniceParser.parse(definition, data));
 		}
 
 		Log.d(Constants.TAG, "Beers found: " + list.size());

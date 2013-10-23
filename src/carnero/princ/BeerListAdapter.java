@@ -98,7 +98,12 @@ public class BeerListAdapter extends BaseAdapter {
 		vName.setText(beer.name);
 		vRating.setRating(beer.rating);
 
-		vTapSince.setText(mContext.getString(R.string.card_tapped, mDateFormat.format(new Date(beer.onTapSince))));
+		int days = Math.round((System.currentTimeMillis() - beer.onTapSince) / (24 * 60 * 60 * 1000));
+		if (days <= 0) { // today
+			days = 1;
+		}
+
+		vTapSince.setText(mContext.getResources().getQuantityString(R.plurals.card_tapped, days, days));
 		if (beer.onTapPrevious > 0) {
 			vTapPrev.setText(mDateFormat.format(new Date(beer.onTapPrevious)));
 			vTapPrev.setVisibility(View.VISIBLE);

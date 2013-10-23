@@ -4,6 +4,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
+import carnero.princ.model.BeerList;
 import carnero.princ.model.Def;
 import carnero.princ.model.DefBeer;
 import carnero.princ.model.DefBrewery;
@@ -27,14 +28,14 @@ public class Utils {
 	//
 	private static int sCleanLineCnt = -1;
 
-	public static String convertStreamToString(InputStream stream) {
+	public static String convertStreamToString(InputStream stream, BeerList beerList) {
 		if (stream == null) {
 			return null;
 		}
 
 		BufferedReader reader;
 		try {
-			reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
+			reader = new BufferedReader(new InputStreamReader(stream, beerList.encoding));
 		} catch (UnsupportedEncodingException e) {
 			return null;
 		}

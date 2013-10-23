@@ -69,6 +69,9 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 		Hours hours = mPub.hours[calendar.get(Calendar.DAY_OF_WEEK) - 1];
 		int timePubFrom = hours.fromHrs * 60 + hours.fromMns;
 		int timePubTo = hours.toHrs * 60 + hours.toMns;
+		if (timePubTo < timePubFrom) { // closing after midnight
+			timePubTo += 24 * 60;
+		}
 		int timeNow = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
 
 		mHeader = inflater.inflate(R.layout.item_opening_hours, null, false);

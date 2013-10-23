@@ -1,5 +1,5 @@
 {
-    "version": 3,
+    "version": 6,
     "breweries": [
         {
             "name": "Anderson Valley Brewing Co.", "country": "USA",
@@ -28,7 +28,8 @@
         {
             "name": "Brauerei Kraus", "country": "D",
             "beers": [
-                {"identifier": "Kraus", "removeID": true}
+                {"identifier": "Kraus", "removeID": true},
+                {"identifier": "Hirschen-Trunk", "removeID": false}
             ]
         },
         {
@@ -40,6 +41,7 @@
         {
             "name": "BrewDog", "country": "UK",
             "beers": [
+                {"identifier": "BrewDog", "removeID": true},
                 {"identifier": "Libertine Black Ale", "removeID": false},
                 {"identifier": "Punk IPA", "removeID": false}
             ]
@@ -67,6 +69,18 @@
             "name": "Chýně", "country": "CZ",
             "beers": [
                 {"identifier": "Chyne", "removeID": true}
+            ]
+        },
+        {
+            "name": "Černá hora", "country": "CZ",
+            "beers": [
+                {"identifier": "Pater", "removeID": false}
+            ]
+        },
+        {
+            "name": "Domácí pivovar u Jelínků", "country": "CZ",
+            "beers": [
+                {"identifier": "Senticky Kvasar", "removeID": false}
             ]
         },
         {
@@ -126,6 +140,12 @@
             ]
         },
         {
+            "name": "Left Hand Brewing Co.", "country": "USA",
+            "beers": [
+                {"identifier": "Left Hand", "removeID": true}
+            ]
+        },
+        {
             "name": "Lobkowicz", "country": "CZ",
             "beers": [
                 {"identifier": "Merlin", "removeID": false}
@@ -181,6 +201,12 @@
             ]
         },
         {
+            "name": "Pivovar Modrá Hvězda", "country": "CZ",
+            "beers": [
+                {"identifier": "Dobranska Hvezda", "removeID": false}
+            ]
+        },
+        {
             "name": "Prager Laffe", "country": "CZ",
             "beers": [
                 {"identifier": "Pragerlager", "removeID": true}
@@ -208,6 +234,13 @@
             ]
         },
         {
+            "name": "Schlenkerla", "country": "D",
+            "beers": [
+                {"identifier": "Aecht Schlenkerla", "removeID": true},
+                {"identifier": "Schlenkerla", "removeID": true}
+            ]
+        },
+        {
             "name": "Schlossbrauerei Au-Hallertau", "country": "D",
             "beers": [
                 {"identifier": "Auer", "removeID": true}
@@ -216,14 +249,16 @@
         {
             "name": "Schneider-Weisse", "country": "D",
             "beers": [
-                {"identifier": "Schneider Weisse", "removeID": true}
+                {"identifier": "Schneider Weisse", "removeID": true},
+                {"identifier": "Schneider", "removeID": true}
             ]
         },
         {
             "name": "Strakonice", "country": "CZ",
             "beers": [
                 {"identifier": "Dudak", "removeID": false},
-                {"identifier": "Klostermann", "removeID": false}
+                {"identifier": "Klostermann", "removeID": false},
+                {"identifier": "Velkoprevor", "removeID": false}
             ]
         },
         {
@@ -235,7 +270,8 @@
         {
             "name": "Tambor", "country": "CZ",
             "beers": [
-                {"identifier": "Tambor", "removeID": true}
+                {"identifier": "Tambor", "removeID": true},
+                {"identifier": "R. A. Dvorsky", "removeID": false}
             ]
         },
         {
@@ -257,8 +293,8 @@
         {
             "name": "Vyškov", "country": "CZ",
             "beers": [
-                {"identifier": "Vyskov", "removeID": true},
-                {"identifier": "Vyskovsky", "removeID": true}
+                {"identifier": "Vyskovsky", "removeID": true},
+                {"identifier": "Vyskov", "removeID": true}
             ]
         },
         {
