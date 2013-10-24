@@ -1,4 +1,6 @@
-package carnero.princ.model;
+package carnero.princ.common;
+
+import carnero.princ.model.Beer;
 
 import java.util.Comparator;
 

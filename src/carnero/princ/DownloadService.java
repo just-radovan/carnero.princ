@@ -54,7 +54,7 @@ public class DownloadService extends Service implements IDownloadingStatusListen
 		manager.setInexactRepeating(
 				AlarmManager.ELAPSED_REALTIME_WAKEUP,
 				SystemClock.elapsedRealtime() + (10 * 60 * 1000), // 10 mins
-				AlarmManager.INTERVAL_HOUR, // 1 hrs
+				AlarmManager.INTERVAL_HALF_DAY, // 30 mins
 				pending
 		);
 

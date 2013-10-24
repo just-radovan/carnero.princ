@@ -12,6 +12,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import carnero.princ.BeerListAdapter;
 import carnero.princ.R;
+import carnero.princ.common.BeerAZComparator;
+import carnero.princ.common.BeerRatingComparator;
 import carnero.princ.common.Constants;
 import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;

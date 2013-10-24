@@ -25,6 +25,8 @@ public class Constants {
 	public static final String ALARM_ACTION = "carnero.princ.broadcast.Download";
 	public static final int ALARM_DOWNLOAD = 47;
 	public static final int NOTIFICATION_ID = 48;
+	public static final int DOWNLOAD_INTERVAL_SHORT = 45 * 60 * 1000; // 45 mins
+	public static final int DOWNLOAD_INTERVAL_LONG = 3 * 60 * 60 * 1000; // 3 hrs
 
 	// beer lists
 	public static ArrayList<BeerList> LIST;

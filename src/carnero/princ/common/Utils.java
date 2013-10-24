@@ -12,6 +12,7 @@ import carnero.princ.model.DefBrewery;
 import java.io.*;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -118,7 +119,10 @@ public class Utils {
 				.replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
 				.toLowerCase();
 
-		Set<String> identifiers = definition.map.keySet();
+		ArrayList<String> identifiers = new ArrayList<String>();
+		identifiers.addAll(definition.map.keySet());
+		Collections.sort(identifiers, new StringLengthComparator());
+
 		Pair<DefBrewery, DefBeer> brewery;
 		String beer;
 

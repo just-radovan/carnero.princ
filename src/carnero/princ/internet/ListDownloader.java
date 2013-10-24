@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,10 +52,14 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 		Def definition = downloadBreweries();
 		ArrayList<Beer> list;
 
+		int pub = mPreferences.getInt(Constants.PREF_PUB, 0);
+
 		for (BeerList beerList : Constants.LIST) {
 			long last = mPreferences.getLong(beerList.prefLastDownload, 0);
-			if (last > (System.currentTimeMillis() - (30 * 60 * 1000))) { // 30 mins
-				continue;
+			if (beerList.id == pub && last > (System.currentTimeMillis() - Constants.DOWNLOAD_INTERVAL_SHORT)) {
+				continue; // favorite pub
+			} else if (beerList.id != pub && last > (System.currentTimeMillis() - Constants.DOWNLOAD_INTERVAL_LONG)) {
+				continue; // other pub
 			}
 
 			list = downloadBeers(definition, beerList);

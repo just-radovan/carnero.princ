@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="carnero.princ"
-	android:versionCode="3012"
-	android:versionName="3.01.2">
+	android:versionCode="3020"
+	android:versionName="3.02.0">
 
 	<uses-sdk
 		android:minSdkVersion="14"

@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import carnero.princ.MainActivity;
 import carnero.princ.R;
+import carnero.princ.common.BeerAZComparator;
 import carnero.princ.common.Constants;
 import carnero.princ.model.*;
 
