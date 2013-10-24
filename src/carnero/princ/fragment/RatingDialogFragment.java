@@ -31,7 +31,7 @@ public class RatingDialogFragment extends DialogFragment {
 		arguments.putLong(Constants.EXTRA_BEER_ID, beerID);
 
 		RatingDialogFragment fragment = new RatingDialogFragment();
-		fragment.setTargetFragment(parent, 1001);
+		fragment.setTargetFragment(parent, (int) beerID);
 		fragment.setArguments(arguments);
 
 		return fragment;
@@ -93,8 +93,8 @@ public class RatingDialogFragment extends DialogFragment {
 				Beer beer = getBeer();
 				mHelper.updateBeerRating(beer.id, beer.rating);
 
-				if (getTargetFragment() instanceof PrincMiroslavFragment) {
-					((PrincMiroslavFragment) getTargetFragment()).updateRating(beer.id, beer.rating);
+				if (getTargetFragment() instanceof AbstractFragment) {
+					((AbstractFragment) getTargetFragment()).updateRating(beer.id, beer.rating);
 				}
 
 				dismiss();

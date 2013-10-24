@@ -144,7 +144,7 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 		mAdapter.setData(mBeers);
 
 		mList.setAdapter(mAdapter);
-		mList.setOnItemClickListener(new BeerClickListener());
+		mList.setOnItemClickListener(new BeerClickListener(this));
 
 		mProgress.clearAnimation();
 		mProgress.setVisibility(View.GONE);
@@ -258,9 +258,15 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 
 	public class BeerClickListener implements AdapterView.OnItemClickListener {
 
+		private AbstractFragment mParent;
+
+		public BeerClickListener(AbstractFragment parent) {
+			mParent = parent;
+		}
+
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			RatingDialogFragment fragment = RatingDialogFragment.newInstance(AbstractFragment.this, id);
+			RatingDialogFragment fragment = RatingDialogFragment.newInstance(mParent, id);
 			fragment.show(getFragmentManager(), "ratingDialog");
 		}
 	}
