@@ -1,5 +1,5 @@
 {
-    "version": 6,
+    "version": 7,
     "breweries": [
         {
             "name": "Anderson Valley Brewing Co.", "country": "USA",
@@ -94,6 +94,12 @@
             "name": "Great Divide Brewing Co.", "country": "USA",
             "beers": [
                 {"identifier": "Belgian Yeti", "removeID": false}
+            ]
+        },
+        {
+            "name": "Jelínkova Vila", "country": "CZ",
+            "beers": [
+                {"identifier": "Harrach", "removeID": false}
             ]
         },
         {

@@ -48,7 +48,7 @@ public class Constants {
 			2,
 			R.string.tab_zly,
 			"http://zlycasy.eu/index.php?page=2",
-			"cp1260",
+			"cp1250",
 			"beer:last_download:zly",
 			new Hours[]{
 					new Hours(17, 00, 01, 00), // 0, sun

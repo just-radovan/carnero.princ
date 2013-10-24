@@ -1,4 +1,4 @@
-package carnero.princ;
+package carnero.princ.fragment;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -11,9 +11,9 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import carnero.princ.R;
 import carnero.princ.common.Constants;
 import carnero.princ.database.Helper;
-import carnero.princ.fragment.PrincMiroslavFragment;
 import carnero.princ.model.Beer;
 import carnero.princ.view.RatingView;
 
