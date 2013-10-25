@@ -11,7 +11,7 @@ public class Constants {
 	public static final String TAG = "princova piva";
 	// preferences
 	public static final String PREF_NAME = "beer";
-	public static final String PREF_PUB = "beer:pub";
+	public static final String PREF_PUB = "beer:pub"; // 1 .. 3
 	public static final String PREF_SORTING = "beer:sorting";
 	// servers
 	public static final String LIST_URL_BREWERIES = "http://i.carnero.cc/carnero.princ.json";

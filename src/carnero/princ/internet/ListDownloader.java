@@ -52,7 +52,7 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 		Def definition = downloadBreweries();
 		ArrayList<Beer> list;
 
-		int pub = mPreferences.getInt(Constants.PREF_PUB, 0);
+		int pub = mPreferences.getInt(Constants.PREF_PUB, 1);
 
 		for (BeerList beerList : Constants.LIST) {
 			long last = mPreferences.getLong(beerList.prefLastDownload, 0);

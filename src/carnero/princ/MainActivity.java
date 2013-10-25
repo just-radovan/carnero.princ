@@ -64,8 +64,11 @@ public class MainActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 
-		mSelectedPub = mPreferences.getInt(Constants.PREF_PUB, 0);
-		selectItem(mSelectedPub);
+		mSelectedPub = mPreferences.getInt(Constants.PREF_PUB, 1);
+		if (mSelectedPub < 1) {
+			mSelectedPub = 1;
+		}
+		selectItem(mSelectedPub - 1);
 	}
 
 	@Override
@@ -127,7 +130,7 @@ public class MainActivity extends Activity {
 		if (position < 0 || position >= Constants.LIST.size()) {
 			position = 0;
 		}
-		mSelectedPub = position;
+		mSelectedPub = position + 1;
 
 		BeerList beerList = Constants.LIST.get(position);
 
