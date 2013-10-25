@@ -3,7 +3,9 @@ package carnero.princ;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import carnero.princ.common.Constants;
+import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;
 import carnero.princ.model.BeerList;
 import carnero.princ.model.BestOfBeers;
@@ -14,12 +16,11 @@ public class DashClockBeers extends DashClockExtension {
 
 	protected void onUpdateData(int reason) {
 		SharedPreferences preferences = getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
-		int lastPub = preferences.getInt(Constants.PREF_PUB, -1);
-		if (lastPub < 0 || lastPub >= Constants.LIST.size()) {
+		int lastPub = preferences.getInt(Constants.PREF_PUB, Constants.LIST_PRINC.id);
+		BeerList beerList = Utils.getBeerListById(lastPub);
+		if (beerList == null) {
 			return;
 		}
-
-		BeerList beerList = Constants.LIST.get(lastPub);
 
 		Helper helper = new Helper(getApplicationContext());
 		BestOfBeers bestOf = helper.loadGoodBeers(beerList.id);

@@ -29,6 +29,16 @@ public class Utils {
 	//
 	private static int sCleanLineCnt = -1;
 
+	public static BeerList getBeerListById(int id) {
+		for (BeerList beerList : Constants.LIST) {
+			if (beerList.id == id) {
+				return beerList;
+			}
+		}
+
+		return null;
+	}
+
 	public static String convertStreamToString(InputStream stream, BeerList beerList) {
 		if (stream == null) {
 			return null;

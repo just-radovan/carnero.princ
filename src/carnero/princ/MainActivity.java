@@ -7,12 +7,14 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import carnero.princ.common.Constants;
+import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;
 import carnero.princ.fragment.OchutnavkovaPivniceFragment;
 import carnero.princ.fragment.PrincMiroslavFragment;
@@ -64,11 +66,8 @@ public class MainActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 
-		mSelectedPub = mPreferences.getInt(Constants.PREF_PUB, 1);
-		if (mSelectedPub < 1) {
-			mSelectedPub = 1;
-		}
-		selectItem(mSelectedPub - 1);
+		mSelectedPub = mPreferences.getInt(Constants.PREF_PUB, Constants.LIST_PRINC.id);
+		selectItem(mSelectedPub);
 	}
 
 	@Override
@@ -126,13 +125,10 @@ public class MainActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void selectItem(int position) {
-		if (position < 0 || position >= Constants.LIST.size()) {
-			position = 0;
-		}
-		mSelectedPub = position + 1;
+	private void selectItem(int id) {
+		mSelectedPub = id;
 
-		BeerList beerList = Constants.LIST.get(position);
+		BeerList beerList = Utils.getBeerListById(id);
 
 		Fragment fragment;
 		if (beerList.id == Constants.LIST_PRINC.id) {
@@ -151,7 +147,6 @@ public class MainActivity extends Activity {
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
 				.commit();
 
-		mDrawerList.setItemChecked(position, true);
 		setTitle(getString(beerList.nameRes));
 		mDrawerLayout.closeDrawer(mDrawerList);
 	}
@@ -204,7 +199,8 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onItemClick(AdapterView parent, View view, int position, long id) {
-			selectItem(position);
+			int beerListID = Constants.LIST.get(position).id;
+			selectItem(beerListID);
 		}
 	}
 }

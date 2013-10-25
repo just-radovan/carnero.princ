@@ -61,6 +61,8 @@ public class Helper extends SQLiteOpenHelper {
 			return;
 		}
 
+		int lastPub = mPreferences.getInt(Constants.PREF_PUB, Constants.LIST_PRINC.id);
+
 		SQLiteDatabase database = getWritableDatabase();
 		ArrayList<BeerShort> currentBeers = loadCurrentBeersID(database, beerList.id);
 		ArrayList<Long> updatedIDs = new ArrayList<Long>();
@@ -128,7 +130,10 @@ public class Helper extends SQLiteOpenHelper {
 						} else {
 							newBeers.put(beer.brewery, 1);
 						}
-						newBeersTotal++;
+
+						if (beer.pub == lastPub) {
+							newBeersTotal++;
+						}
 					}
 
 					int cnt = database.update(Structure.Table.Beers.name, values, Structure.Table.Beers.col_id + " = " + id, null);
@@ -146,7 +151,10 @@ public class Helper extends SQLiteOpenHelper {
 					} else {
 						newBeers.put(beer.brewery, 1);
 					}
-					newBeersTotal++;
+
+					if (beer.pub == lastPub) {
+						newBeersTotal++;
+					}
 
 					id = database.insert(Structure.Table.Beers.name, null, values);
 					if (id >= 0) {
