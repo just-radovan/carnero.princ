@@ -1,5 +1,5 @@
 {
-    "version": 7,
+    "version": 9,
     "breweries": [
         {
             "name": "Anderson Valley Brewing Co.", "country": "USA",
@@ -11,6 +11,12 @@
             "name": "Aspall", "country": "UK",
             "beers": [
                 {"identifier": "Aspall", "removeID": true}
+            ]
+        },
+        {
+            "name": "Beer Here", "country": "DK",
+            "beers": [
+                {"identifier": "Beer Here", "removeID": true}
             ]
         },
         {
@@ -39,11 +45,18 @@
             ]
         },
         {
+            "name": "Brouwerij Van Honsebrouck", "country": "B",
+            "beers": [
+                {"identifier": "Kaastel", "removeID": false}
+            ]
+        },
+        {
             "name": "BrewDog", "country": "UK",
             "beers": [
                 {"identifier": "BrewDog", "removeID": true},
                 {"identifier": "Libertine Black Ale", "removeID": false},
-                {"identifier": "Punk IPA", "removeID": false}
+                {"identifier": "Punk IPA", "removeID": false},
+                {"identifier": "Hardcore IPA", "removeID": false}
             ]
         },
         {
@@ -81,6 +94,12 @@
             "name": "Domácí pivovar u Jelínků", "country": "CZ",
             "beers": [
                 {"identifier": "Senticky Kvasar", "removeID": false}
+            ]
+        },
+        {
+            "name": "Létající pivovar Falkon", "country": "CZ",
+            "beers": [
+                {"identifier": "Falkon", "removeID": true}
             ]
         },
         {
@@ -133,9 +152,21 @@
             ]
         },
         {
+            "name": "Konrád", "country": "CZ",
+            "beers": [
+                {"identifier": "Konrad", "removeID": true}
+            ]
+        },
+        {
             "name": "Krakonoš", "country": "CZ",
             "beers": [
                 {"identifier": "Krakonos", "removeID": true}
+            ]
+        },
+        {
+            "name": "Pivovar Kroměříž", "country": "CZ",
+            "beers": [
+                {"identifier": "Maxmilian", "removeID": false}
             ]
         },
         {
@@ -148,7 +179,8 @@
         {
             "name": "Left Hand Brewing Co.", "country": "USA",
             "beers": [
-                {"identifier": "Left Hand", "removeID": true}
+                {"identifier": "Left Hand", "removeID": true},
+                {"identifier": "Twin Sisters", "removeID": false}
             ]
         },
         {
@@ -189,6 +221,12 @@
             ]
         },
         {
+            "name": "Minipivovar Rohov", "country": "CZ",
+            "beers": [
+                {"identifier": "Rohan", "removeID": false}
+            ]
+        },
+        {
             "name": "Nomád", "country": "CZ",
             "beers": [
                 {"identifier": "Nomad", "removeID": true}
@@ -201,6 +239,12 @@
             ]
         },
         {
+            "name": "Pivovar Koníček", "country": "CZ",
+            "beers": [
+                {"identifier": "Vojkovický", "removeID": true}
+            ]
+        },
+        {
             "name": "Podkováň", "country": "CZ",
             "beers": [
                 {"identifier": "Podkovan", "removeID": true}
@@ -209,7 +253,8 @@
         {
             "name": "Pivovar Modrá Hvězda", "country": "CZ",
             "beers": [
-                {"identifier": "Dobranska Hvezda", "removeID": false}
+                {"identifier": "Dobranska Hvezda", "removeID": false},
+                {"identifier": "Dobransky Sekac", "removeID": false}
             ]
         },
         {
@@ -294,6 +339,7 @@
                 {"identifier": "Chlumecky", "removeID": false},
                 {"identifier": "Princ Max", "removeID": false},
                 {"identifier": "Vevoda", "removeID": false}
+                {"identifier": "Boruvka", "removeID": false}
             ]
         },
         {
@@ -307,7 +353,8 @@
             "name": "Zemský pivovar", "country": "CZ",
             "beers": [
                 {"identifier": "Zemsky pivovar", "removeID": true},
-                {"identifier": "Zemska", "removeID": true}
+                {"identifier": "Zemska", "removeID": true},
+                {"identifier": "Zemsky", "removeID": true}
             ]
         },
         {
