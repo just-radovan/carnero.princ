@@ -125,13 +125,14 @@ public class Helper extends SQLiteOpenHelper {
 					}
 					if (!alreadyOnTap) {
 						values.put(Structure.Table.Beers.col_tap_since, System.currentTimeMillis());
-						if (newBeers.containsKey(beer.brewery)) {
-							newBeers.put(beer.brewery, newBeers.get(beer.brewery) + 1);
-						} else {
-							newBeers.put(beer.brewery, 1);
-						}
 
 						if (beer.pub == lastPub) {
+							if (newBeers.containsKey(beer.brewery)) {
+								newBeers.put(beer.brewery, newBeers.get(beer.brewery) + 1);
+							} else {
+								newBeers.put(beer.brewery, 1);
+							}
+
 							newBeersTotal++;
 						}
 					}
@@ -146,13 +147,14 @@ public class Helper extends SQLiteOpenHelper {
 			} else { // insert new beer
 				try {
 					values.put(Structure.Table.Beers.col_tap_since, System.currentTimeMillis());
-					if (newBeers.containsKey(beer.brewery)) {
-						newBeers.put(beer.brewery, newBeers.get(beer.brewery) + 1);
-					} else {
-						newBeers.put(beer.brewery, 1);
-					}
 
 					if (beer.pub == lastPub) {
+						if (newBeers.containsKey(beer.brewery)) {
+							newBeers.put(beer.brewery, newBeers.get(beer.brewery) + 1);
+						} else {
+							newBeers.put(beer.brewery, 1);
+						}
+
 						newBeersTotal++;
 					}
 
