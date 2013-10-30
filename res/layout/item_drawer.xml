@@ -15,7 +15,7 @@
 		android:gravity="center"
 		android:singleLine="true"
 		android:textSize="18dp"
-		android:textColor="@color/bg_drawer"
+		android:textColor="@color/text_white"
 		android:fontFamily="sans-serif"
 		android:background="@drawable/bg_good_beers"/>
 
