@@ -37,7 +37,7 @@
 			android:singleLine="true"
 			android:ellipsize="end"
 			android:textSize="26dp"
-			android:textColor="@android:color/holo_orange_light"
+			android:textColor="@color/text_orange"
 			android:fontFamily="sans-serif"/>
 		<RelativeLayout android:id="@+id/beer_name_container"
 			android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
 				android:layout_toLeftOf="@id/beer_rating"
 				android:layout_centerVertical="true"
 				android:textSize="26sp"
-				android:textColor="@android:color/primary_text_light"
+				android:textColor="@color/text_black"
 				android:fontFamily="sans-serif-light"/>
 		</RelativeLayout>
 
@@ -75,7 +75,7 @@
 			android:layout_marginRight="4dp"
 			android:layout_marginBottom="4dp"
 			android:textSize="16sp"
-			android:textColor="@android:color/secondary_text_dark"
+			android:textColor="@color/text_gray"
 			android:fontFamily="sans-serif-light"/>
 		<TextView android:id="@+id/beer_tap_prev"
 			android:layout_width="fill_parent"
@@ -89,7 +89,7 @@
 			android:ellipsize="end"
 			android:gravity="right"
 			android:textSize="16sp"
-			android:textColor="@android:color/secondary_text_dark"
+			android:textColor="@color/text_gray"
 			android:fontFamily="sans-serif-light"/>
 	</RelativeLayout>
 

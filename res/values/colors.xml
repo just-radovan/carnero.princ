@@ -7,4 +7,9 @@
 
 	<color name="bg_rating">#FFF6F6F6</color>
 	<color name="fg_rating">#FFCCCCCC</color>
+
+	<color name="text_black">#FF000000</color>
+	<color name="text_gray">#FF999999</color>
+	<color name="text_brown">#FF7B2000</color>
+	<color name="text_orange">#FFFFBB33</color>
 </resources>

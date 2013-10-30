@@ -82,15 +82,15 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 			if (hrs == 24) {
 				hrs = 0;
 			}
-			headerStatus.setText(getString(R.string.pub_closed, Utils.addLeadingZero(hrs, 2), Utils.addLeadingZero(hours.fromMns, 2)));
+			headerStatus.setText(getString(R.string.pub_closed, Utils.addLeadingZero(hrs, 2), Utils.addLeadingZero(hours.fromMns, 2)).toUpperCase());
 		} else if (timeNow < timePubTo) {
 			int hrs = hours.toHrs;
 			if (hrs == 24) {
 				hrs = 0;
 			}
-			headerStatus.setText(getString(R.string.pub_open, Utils.addLeadingZero(hrs, 2), Utils.addLeadingZero(hours.toMns, 2)));
+			headerStatus.setText(getString(R.string.pub_open, Utils.addLeadingZero(hrs, 2), Utils.addLeadingZero(hours.toMns, 2)).toUpperCase());
 		} else {
-			headerStatus.setText(R.string.pub_tomorrow);
+			headerStatus.setText(getString(R.string.pub_tomorrow).toUpperCase());
 		}
 
 		if (mHeader != null) {
