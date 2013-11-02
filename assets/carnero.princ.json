@@ -1,5 +1,5 @@
 {
-    "version": 10,
+    "version": 11,
     "breweries": [
         {
             "name": "Anderson Valley Brewing Co.", "country": "USA",
@@ -157,6 +157,12 @@
             "name": "Kocour", "country": "CZ",
             "beers": [
                 {"identifier": "Kocour", "removeID": true}
+            ]
+        },
+        {
+            "name": "Kokeš", "country": "CZ",
+            "beers": [
+                {"identifier": "Kokes", "removeID": true}
             ]
         },
         {
