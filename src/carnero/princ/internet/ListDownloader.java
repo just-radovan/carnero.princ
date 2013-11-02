@@ -129,10 +129,12 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 			Log.e(Constants.TAG, "Failed to download breweries (" + e.getMessage() + ")");
 		}
 
-		try { // try to load cache
-			definition = mGson.fromJson(getJSONReader(), Def.class);
-		} catch (Exception e) {
-			Log.e(Constants.TAG, "Failed to load breweries cache (" + e.getMessage() + ")");
+		if (definition == null) {
+			try { // try to load cache
+				definition = mGson.fromJson(getJSONReader(), Def.class);
+			} catch (Exception e) {
+				Log.e(Constants.TAG, "Failed to load breweries cache (" + e.getMessage() + ")");
+			}
 		}
 
 		if (definition == null) {
@@ -208,8 +210,6 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 			return new FileReader(getBreweriesCache());
 		} catch (FileNotFoundException fnfe) {
 			Log.w(Constants.TAG, "Cache file not found");
-		} catch (IOException ioe) {
-			Log.e(Constants.TAG, "Unable to read cache file");
 		}
 
 		return null;
