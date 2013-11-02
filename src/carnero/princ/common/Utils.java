@@ -39,14 +39,22 @@ public class Utils {
 		return null;
 	}
 
+	public static String convertStreamToString(InputStream stream) {
+		return convertStreamToString(stream, "utf-8");
+	}
+
 	public static String convertStreamToString(InputStream stream, BeerList beerList) {
+		return convertStreamToString(stream, beerList.encoding);
+	}
+
+	public static String convertStreamToString(InputStream stream, String encoding) {
 		if (stream == null) {
 			return null;
 		}
 
 		BufferedReader reader;
 		try {
-			reader = new BufferedReader(new InputStreamReader(stream, beerList.encoding));
+			reader = new BufferedReader(new InputStreamReader(stream, encoding));
 		} catch (UnsupportedEncodingException e) {
 			return null;
 		}

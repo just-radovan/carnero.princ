@@ -1,5 +1,5 @@
 {
-    "version": 9,
+    "version": 10,
     "breweries": [
         {
             "name": "Anderson Valley Brewing Co.", "country": "USA",
@@ -56,6 +56,7 @@
                 {"identifier": "BrewDog", "removeID": true},
                 {"identifier": "Libertine Black Ale", "removeID": false},
                 {"identifier": "Punk IPA", "removeID": false},
+                {"identifier": "IPA is Dead", "removeID": false},
                 {"identifier": "Hardcore IPA", "removeID": false}
             ]
         },
@@ -75,6 +76,7 @@
             "name": "Chotoviny", "country": "CZ",
             "beers": [
                 {"identifier": "Chotoviny", "removeID": true},
+                {"identifier": "Chotovinsky", "removeID": true},
                 {"identifier": "Vienna Spezial", "removeID": false}
             ]
         },
@@ -94,6 +96,12 @@
             "name": "Domácí pivovar u Jelínků", "country": "CZ",
             "beers": [
                 {"identifier": "Senticky Kvasar", "removeID": false}
+            ]
+        },
+        {
+            "name": "Excelent", "country": "CZ",
+            "beers": [
+                {"identifier": "Excelent", "removeID": true}
             ]
         },
         {
@@ -241,7 +249,13 @@
         {
             "name": "Pivovar Koníček", "country": "CZ",
             "beers": [
-                {"identifier": "Vojkovický", "removeID": true}
+                {"identifier": "Vojkovicky", "removeID": true}
+            ]
+        },
+        {
+            "name": "Pivovar Rambousek", "country": "CZ",
+            "beers": [
+                {"identifier": "Rambousek", "removeID": true}
             ]
         },
         {
@@ -260,6 +274,7 @@
         {
             "name": "Prager Laffe", "country": "CZ",
             "beers": [
+                {"identifier": "Prager Laffe", "removeID": true},
                 {"identifier": "Pragerlager", "removeID": true}
             ]
         },
@@ -338,7 +353,7 @@
                 {"identifier": "Demon", "removeID": false},
                 {"identifier": "Chlumecky", "removeID": false},
                 {"identifier": "Princ Max", "removeID": false},
-                {"identifier": "Vevoda", "removeID": false}
+                {"identifier": "Vevoda", "removeID": false},
                 {"identifier": "Boruvka", "removeID": false}
             ]
         },

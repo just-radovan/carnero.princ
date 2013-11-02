@@ -9,29 +9,24 @@ import android.util.Pair;
 import carnero.princ.common.Constants;
 import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;
-import carnero.princ.database.Structure;
 import carnero.princ.iface.IDownloadingStatusListener;
-import carnero.princ.iface.ILoadingStatusListener;
 import carnero.princ.model.*;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ListDownloader extends AsyncTask<Void, Void, Void> {
 
+	private Context mContext;
 	private IDownloadingStatusListener mStatusListener;
 	private Gson mGson;
 	private Helper mHelper;
 	private SharedPreferences mPreferences;
 
 	public ListDownloader(Context context, IDownloadingStatusListener listener) {
+		mContext = context;
 		mStatusListener = listener;
 		mGson = new Gson();
 		mHelper = new Helper(context);
@@ -120,14 +115,27 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 	private Def downloadBreweries() {
 		Log.d(Constants.TAG, "Downloading breweries...");
 
-		Def definition;
-		try {
+		Def definition = null;
+		try { // try to download
 			InputStream stream = HttpRequest.get(Constants.LIST_URL_BREWERIES).stream();
 			Reader reader = new InputStreamReader(stream);
 			definition = mGson.fromJson(reader, Def.class);
+
+			String json = Utils.convertStreamToString(stream);
+			storeJSON(json);
+
 			stream.close();
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to download breweries (" + e.getMessage() + ")");
+		}
+
+		try { // try to load cache
+			definition = mGson.fromJson(getJSONReader(), Def.class);
+		} catch (Exception e) {
+			Log.e(Constants.TAG, "Failed to load breweries cache (" + e.getMessage() + ")");
+		}
+
+		if (definition == null) {
 			return null;
 		}
 
@@ -177,5 +185,39 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 		Log.d(Constants.TAG, "Beers found: " + list.size());
 
 		return list;
+	}
+
+	private void storeJSON(String data) {
+		if (TextUtils.isEmpty(data)) {
+			return;
+		}
+
+		Log.i(Constants.TAG, "Attempting to save breweries defitintion (" + data.length() + " bytes)...");
+
+		try {
+			FileWriter writer = new FileWriter(getBreweriesCache());
+			writer.write(data);
+			writer.close();
+		} catch (IOException ioe) {
+			Log.e(Constants.TAG, "Failed to cache breweries definition");
+		}
+	}
+
+	private FileReader getJSONReader() {
+		try {
+			return new FileReader(getBreweriesCache());
+		} catch (FileNotFoundException fnfe) {
+			Log.w(Constants.TAG, "Cache file not found");
+		} catch (IOException ioe) {
+			Log.e(Constants.TAG, "Unable to read cache file");
+		}
+
+		return null;
+	}
+
+	private File getBreweriesCache() {
+		File cache = mContext.getCacheDir();
+
+		return new File(cache, Constants.CACHE_BREWERIES);
 	}
 }

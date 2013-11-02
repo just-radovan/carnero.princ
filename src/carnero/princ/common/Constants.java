@@ -22,6 +22,7 @@ public class Constants {
 	public static final int SORT_ALPHABET = 1;
 	public static final int SORT_RATING = 2;
 	// stuff
+	public static final String CACHE_BREWERIES = "breweries.json";
 	public static final String ALARM_ACTION = "carnero.princ.broadcast.Download";
 	public static final int ALARM_DOWNLOAD = 47;
 	public static final int NOTIFICATION_ID = 48;
