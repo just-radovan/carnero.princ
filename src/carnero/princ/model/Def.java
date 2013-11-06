@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 public class Def {
 
+	public int version; // from json
 	public ArrayList<DefBrewery> breweries; // from json
 	public HashMap<String, Pair<DefBrewery, DefBeer>> map = new HashMap<String, Pair<DefBrewery, DefBeer>>();
 }

@@ -120,9 +120,7 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 			InputStream stream = HttpRequest.get(Constants.LIST_URL_BREWERIES).stream();
 			Reader reader = new InputStreamReader(stream);
 			definition = mGson.fromJson(reader, Def.class);
-
-			String json = Utils.convertStreamToString(stream);
-			storeJSON(json);
+			storeJSON(mGson.toJson(definition));
 
 			stream.close();
 		} catch (Exception e) {
@@ -140,6 +138,8 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 		if (definition == null) {
 			return null;
 		}
+
+		Log.i(Constants.TAG, "Breweries definition loaded, using version " + definition.version);
 
 		for (DefBrewery brewery : definition.breweries) {
 			for (DefBeer beer : brewery.beers) {
@@ -194,12 +194,12 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 			return;
 		}
 
-		Log.i(Constants.TAG, "Attempting to save breweries defitintion (" + data.length() + " bytes)...");
-
 		try {
 			FileWriter writer = new FileWriter(getBreweriesCache());
 			writer.write(data);
 			writer.close();
+
+			Log.i(Constants.TAG, "Breweries defitintion saved (" + data.length() + " bytes)...");
 		} catch (IOException ioe) {
 			Log.e(Constants.TAG, "Failed to cache breweries definition");
 		}

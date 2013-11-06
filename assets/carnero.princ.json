@@ -1,5 +1,5 @@
 {
-    "version": 11,
+    "version": 12,
     "breweries": [
         {
             "name": "Anderson Valley Brewing Co.", "country": "USA",
@@ -388,7 +388,8 @@
         {
             "name": "Zvíkov", "country": "CZ",
             "beers": [
-                {"identifier": "Zvikov", "removeID": true}
+                {"identifier": "Zvikov", "removeID": true},
+                {"identifier": "Zvikovska", "removeID": true}
             ]
         }
     ]
