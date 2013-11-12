@@ -17,10 +17,11 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.util.ArrayList;
 
-public class ListDownloader extends AsyncTask<Void, Void, Void> {
+public class ListDownloader extends AsyncTask<Boolean, Void, Void> {
 
 	private Context mContext;
 	private IDownloadingStatusListener mStatusListener;
+	private int mPub = -1;
 	private Gson mGson;
 	private Helper mHelper;
 	private SharedPreferences mPreferences;
@@ -28,6 +29,15 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 	public ListDownloader(Context context, IDownloadingStatusListener listener) {
 		mContext = context;
 		mStatusListener = listener;
+		mGson = new Gson();
+		mHelper = new Helper(context);
+		mPreferences = context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
+	}
+
+	public ListDownloader(Context context, IDownloadingStatusListener listener, int pub) {
+		mContext = context;
+		mStatusListener = listener;
+		mPub = pub;
 		mGson = new Gson();
 		mHelper = new Helper(context);
 		mPreferences = context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
@@ -43,23 +53,21 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 	}
 
 	@Override
-	protected Void doInBackground(Void... params) {
+	protected Void doInBackground(Boolean... force) {
+		boolean forceDownload = false;
+		if (force != null && force.length > 0) {
+			forceDownload = force[0];
+		}
+
 		Def definition = downloadBreweries();
 		ArrayList<Beer> list;
 
-		int pub = mPreferences.getInt(Constants.PREF_PUB, Constants.LIST_PRINC.id);
-
-		for (BeerList beerList : Constants.LIST) {
-			long last = mPreferences.getLong(beerList.prefLastDownload, 0);
-			if (beerList.id == pub && last > (System.currentTimeMillis() - Constants.DOWNLOAD_INTERVAL_SHORT)) {
-				continue; // favorite pub
-			} else if (beerList.id != pub && last > (System.currentTimeMillis() - Constants.DOWNLOAD_INTERVAL_LONG)) {
-				continue; // other pub
-			}
+		if (mPub != -1) {
+			BeerList beerList = Utils.getBeerListById(mPub);
 
 			list = downloadBeers(definition, beerList);
 			if (list == null || list.isEmpty()) {
-				continue;
+				return null;
 			}
 
 			mHelper.saveBeers(list, beerList);
@@ -67,6 +75,28 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 			mPreferences.edit()
 					.putLong(beerList.prefLastDownload, System.currentTimeMillis())
 					.commit();
+		} else {
+			int pub = mPreferences.getInt(Constants.PREF_PUB, Constants.LIST_PRINC.id);
+
+			for (BeerList beerList : Constants.LIST) {
+				long last = mPreferences.getLong(beerList.prefLastDownload, 0);
+				if (beerList.id == pub && !forceDownload && last > (System.currentTimeMillis() - Constants.DOWNLOAD_INTERVAL_SHORT)) {
+					continue; // favorite pub
+				} else if (beerList.id != pub && last > (System.currentTimeMillis() - Constants.DOWNLOAD_INTERVAL_LONG)) {
+					continue; // other pub
+				}
+
+				list = downloadBeers(definition, beerList);
+				if (list == null || list.isEmpty()) {
+					continue;
+				}
+
+				mHelper.saveBeers(list, beerList);
+
+				mPreferences.edit()
+						.putLong(beerList.prefLastDownload, System.currentTimeMillis())
+						.commit();
+			}
 		}
 
 		// check already saved beers
@@ -179,6 +209,11 @@ public class ListDownloader extends AsyncTask<Void, Void, Void> {
 			}
 		} else if (beerList.id == Constants.LIST_PIVNICE.id) {
 			ArrayList<Beer> beers = PivniceParser.parse(definition, data);
+			if (beers != null) {
+				list.addAll(beers);
+			}
+		} else if (beerList.id == Constants.LIST_KULOVY.id) {
+			ArrayList<Beer> beers = KulovyParser.parse(definition, data);
 			if (beers != null) {
 				list.addAll(beers);
 			}

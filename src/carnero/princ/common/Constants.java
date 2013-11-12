@@ -27,7 +27,7 @@ public class Constants {
 	public static final int ALARM_DOWNLOAD = 47;
 	public static final int NOTIFICATION_ID = 48;
 	public static final int DOWNLOAD_INTERVAL_SHORT = 45 * 60 * 1000; // 45 mins
-	public static final int DOWNLOAD_INTERVAL_LONG = 3 * 60 * 60 * 1000; // 3 hrs
+	public static final int DOWNLOAD_INTERVAL_LONG = 24 * 60 * 60 * 1000; // 1 day
 
 	// beer lists
 	public static ArrayList<BeerList> LIST;
@@ -79,11 +79,28 @@ public class Constants {
 					new Hours(16, 00, 24, 00) // 6, sat
 			}
 	);
+	public static final BeerList LIST_KULOVY = new BeerList(
+			4,
+			R.string.tab_kulovy,
+			"http://www.restauracekulovyblesk.cz",
+			"utf-8",
+			"beer:last_download:kulovy",
+			new Hours[]{
+					new Hours(17, 00, 23, 00), // 0, sun
+					new Hours(11, 00, 23, 00), // 1, mon
+					new Hours(11, 00, 23, 00), // 2, tue
+					new Hours(11, 00, 23, 00), // 3, wed
+					new Hours(11, 00, 23, 00), // 4, thu
+					new Hours(11, 00, 23, 00), // 5, fri
+					new Hours(17, 00, 23, 00) // 6, sat
+			}
+	);
 
 	static {
 		LIST = new ArrayList<BeerList>();
 		LIST.add(LIST_PRINC);
 		LIST.add(LIST_ZLY);
+		LIST.add(LIST_KULOVY);
 		LIST.add(LIST_PIVNICE);
 	}
 }

@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical"
 	android:background="@color/bg_grey">
 
-	<ImageView android:id="@+id/loading"
-		android:visibility="gone"
-		android:layout_width="match_parent"
-		android:layout_height="4dp"
-		android:background="@drawable/progress_indeterminate"/>
-
-	<ListView android:id="@android:id/list"
+	<com.handmark.pulltorefresh.library.PullToRefreshListView android:id="@+id/beer_list"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:scrollbars="vertical"
@@ -19,5 +13,58 @@
 		android:scrollbarFadeDuration="250"
 		android:scrollbarDefaultDelayBeforeFade="0"
 		android:scrollbarStyle="insideOverlay"
+		android:overScrollMode="never"
 		android:divider="@null"/>
-</LinearLayout>
+
+	<ImageView android:id="@+id/loading"
+		android:visibility="gone"
+		android:layout_width="match_parent"
+		android:layout_height="4dp"
+		android:layout_alignParentTop="true"
+		android:background="@drawable/progress_indeterminate"/>
+
+	<FrameLayout android:id="@+id/panel"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/panel_height"
+		android:layout_alignParentBottom="true"
+		android:background="@android:color/black">
+
+		<RelativeLayout android:id="@+id/panel_content"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent" >
+
+			<TextView android:id="@+id/status"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerVertical="true"
+				android:layout_marginLeft="14dp"
+				android:layout_marginRight="14dp"
+				android:layout_marginTop="10dp"
+				android:layout_marginBottom="4dp"
+				android:textSize="18sp"
+				android:textColor="@android:color/holo_orange_light"
+				android:fontFamily="sans-serif"/>
+
+			<TextView android:id="@+id/update"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerVertical="true"
+				android:layout_alignParentRight="true"
+				android:layout_marginLeft="4dp"
+				android:layout_marginRight="14dp"
+				android:layout_marginTop="4dp"
+				android:layout_marginBottom="10dp"
+				android:textSize="16sp"
+				android:textColor="@android:color/tertiary_text_light"
+				android:fontFamily="sans-serif-light"/>
+			<ImageView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerVertical="true"
+				android:layout_toLeftOf="@id/update"
+				android:layout_margin="4dp"
+				android:contentDescription="@string/desc_download"
+				android:src="@drawable/ic_download"/>
+		</RelativeLayout>
+	</FrameLayout>
+</RelativeLayout>

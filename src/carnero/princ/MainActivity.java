@@ -16,6 +16,7 @@ import android.widget.TextView;
 import carnero.princ.common.Constants;
 import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;
+import carnero.princ.fragment.KulovyBleskFragment;
 import carnero.princ.fragment.OchutnavkovaPivniceFragment;
 import carnero.princ.fragment.PrincMiroslavFragment;
 import carnero.princ.fragment.ZlyCasyFragment;
@@ -138,6 +139,8 @@ public class MainActivity extends Activity {
 			fragment = ZlyCasyFragment.instantiate(this, ZlyCasyFragment.class.getName());
 		} else if (beerList.id == Constants.LIST_PIVNICE.id) {
 			fragment = OchutnavkovaPivniceFragment.instantiate(this, OchutnavkovaPivniceFragment.class.getName());
+		} else if (beerList.id == Constants.LIST_KULOVY.id) {
+			fragment = KulovyBleskFragment.instantiate(this, KulovyBleskFragment.class.getName());
 		} else {
 			return;
 		}

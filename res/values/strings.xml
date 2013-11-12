@@ -6,6 +6,7 @@
 	<string name="tab_princ">U Prince Miroslava</string>
 	<string name="tab_zly">Zlý Časy</string>
 	<string name="tab_pivnice">Ochutnávková Pivnice</string>
+	<string name="tab_kulovy">Kulový Blesk</string>
 
 	<string name="pub_closed">Open from %1$s:%2$s</string>
 	<string name="pub_open">Open till %1$s:%2$s</string>

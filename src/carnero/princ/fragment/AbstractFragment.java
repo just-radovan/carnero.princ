@@ -1,15 +1,15 @@
 package carnero.princ.fragment;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 import carnero.princ.BeerListAdapter;
 import carnero.princ.R;
 import carnero.princ.common.BeerAZComparator;
@@ -22,6 +22,8 @@ import carnero.princ.iface.IDownloadingStatusListener;
 import carnero.princ.iface.ILoadingStatusListener;
 import carnero.princ.internet.ListDownloader;
 import carnero.princ.model.*;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -31,14 +33,19 @@ import java.util.Collections;
 public abstract class AbstractFragment extends Fragment implements ILoadingStatusListener, IDownloadingStatusListener {
 
 	protected BeerList mPub = Constants.LIST_PRINC;
-	protected ArrayList<Beer> mBeers;
-	protected ListView mList;
-	protected ImageView mProgress;
-	protected View mHeader;
-	protected View mFooter;
+	protected ArrayList<Beer> mBeers = new ArrayList<Beer>();
 	protected BeerListAdapter mAdapter;
 	protected SharedPreferences mPreferences;
 	protected int mSort = Constants.SORT_ALPHABET;
+	protected int mLastFirst = 0;
+	//
+	protected PullToRefreshListView vList;
+	protected TextView vLastDownload;
+	protected View vPanel;
+	protected View vPanelContent;
+	protected TextView vOpeningHours;
+	protected ImageView vProgress;
+	//
 	protected static DateFormat sTimeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
 	protected static DateFormat sDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
 
@@ -61,48 +68,15 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
 		View layout = inflater.inflate(R.layout.fragment_main, container, false);
 
-		mList = (ListView) layout.findViewById(android.R.id.list);
-		mProgress = (ImageView) layout.findViewById(R.id.loading);
+		vProgress = (ImageView) layout.findViewById(R.id.loading);
+		vList = (PullToRefreshListView) layout.findViewById(R.id.beer_list);
+		vPanel = layout.findViewById(R.id.panel);
+		vPanelContent = layout.findViewById(R.id.panel_content);
+		vOpeningHours = (TextView) layout.findViewById(R.id.status);
+		vLastDownload = (TextView) layout.findViewById(R.id.update);
 
-		// opening hours
-		Calendar calendar = Calendar.getInstance();
-		Hours hours = mPub.hours[calendar.get(Calendar.DAY_OF_WEEK) - 1];
-		int timePubFrom = hours.fromHrs * 60 + hours.fromMns;
-		int timePubTo = hours.toHrs * 60 + hours.toMns;
-		if (timePubTo < timePubFrom) { // closing after midnight
-			timePubTo += 24 * 60;
-		}
-		int timeNow = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
-
-		mHeader = inflater.inflate(R.layout.item_opening_hours, null, false);
-		TextView headerStatus = (TextView) mHeader.findViewById(R.id.status);
-
-		if (timeNow < timePubFrom) {
-			int hrs = hours.fromHrs;
-			if (hrs == 24) {
-				hrs = 0;
-			}
-			headerStatus.setText(getString(R.string.pub_closed, Utils.addLeadingZero(hrs, 2), Utils.addLeadingZero(hours.fromMns, 2)).toUpperCase());
-		} else if (timeNow < timePubTo) {
-			int hrs = hours.toHrs;
-			if (hrs == 24) {
-				hrs = 0;
-			}
-			headerStatus.setText(getString(R.string.pub_open, Utils.addLeadingZero(hrs, 2), Utils.addLeadingZero(hours.toMns, 2)).toUpperCase());
-		} else {
-			headerStatus.setText(getString(R.string.pub_tomorrow).toUpperCase());
-		}
-
-		if (mHeader != null) {
-			mList.removeHeaderView(mHeader);
-		}
-		mList.addHeaderView(mHeader, null, false);
-
-		mFooter = inflater.inflate(R.layout.item_last_update, null, false);
-		if (mFooter != null) {
-			mList.removeFooterView(mFooter);
-		}
-		mList.addFooterView(mFooter, null, false);
+		setListView();
+		setOpeningHours();
 
 		return layout;
 	}
@@ -125,10 +99,10 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 			return;
 		}
 
-		AnimationDrawable animation = (AnimationDrawable) mProgress.getBackground();
+		AnimationDrawable animation = (AnimationDrawable) vProgress.getBackground();
 		animation.start();
 
-		mProgress.setVisibility(View.VISIBLE);
+		vProgress.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -137,34 +111,17 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 			return;
 		}
 
-		mBeers = list;
+		mBeers.clear();
+		mBeers.addAll(list);
 		sortBeers();
 
-		mAdapter = new BeerListAdapter(getActivity());
-		mAdapter.setData(mBeers);
+		mAdapter.notifyDataSetChanged();
+		vList.onRefreshComplete();
 
-		mList.setAdapter(mAdapter);
-		mList.setOnItemClickListener(new BeerClickListener(this));
+		setLastUpdate();
 
-		mProgress.clearAnimation();
-		mProgress.setVisibility(View.GONE);
-
-		// last update
-		long last = mPreferences.getLong(mPub.prefLastDownload, 0);
-		if (last <= 0) {
-			((TextView) mFooter.findViewById(R.id.update)).setText(R.string.no_last_download);
-		} else {
-			Calendar calendar = Calendar.getInstance();
-			int currentDay = calendar.get(Calendar.DAY_OF_YEAR);
-			calendar.setTimeInMillis(last);
-			int updatedDay = calendar.get(Calendar.DAY_OF_YEAR);
-
-			if (currentDay == updatedDay) {
-				((TextView) mFooter.findViewById(R.id.update)).setText(sTimeFormat.format(calendar.getTime()));
-			} else {
-				((TextView) mFooter.findViewById(R.id.update)).setText(sDateFormat.format(calendar.getTime()));
-			}
-		}
+		vProgress.clearAnimation();
+		vProgress.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -173,10 +130,10 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 			return;
 		}
 
-		AnimationDrawable animation = (AnimationDrawable) mProgress.getBackground();
+		AnimationDrawable animation = (AnimationDrawable) vProgress.getBackground();
 		animation.start();
 
-		mProgress.setVisibility(View.VISIBLE);
+		vProgress.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -251,6 +208,102 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 			}
 
 			mAdapter.notifyDataSetChanged();
+		}
+	}
+
+	protected void setListView() {
+		mAdapter = new BeerListAdapter(getActivity());
+		mAdapter.setData(mBeers);
+
+		vList.setAdapter(mAdapter);
+		vList.setOnItemClickListener(new BeerClickListener(this));
+		vList.setShowViewWhileRefreshing(true);
+		vList.setScrollEmptyView(false);
+		vList.setShowIndicator(false);
+		vList.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+			@Override
+			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+				new ListDownloader(getActivity(), AbstractFragment.this, mPub.id).execute(true);
+			}
+		});
+		vList.setOnScrollListener(new AbsListView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				//
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				if (firstVisibleItem > 0 && mLastFirst == 0) { // hide
+					vPanelContent.animate()
+							.alpha(0.0f)
+							.setDuration(300)
+							.start();
+					vPanel.animate()
+							.translationYBy(+ getResources().getDimension(R.dimen.panel_height))
+							.setDuration(500)
+							.start();
+
+					mLastFirst = firstVisibleItem;
+				} else if (firstVisibleItem == 0 && mLastFirst != 0) { // show
+					vPanel.animate()
+							.translationYBy(- getResources().getDimension(R.dimen.panel_height))
+							.setDuration(500)
+							.start();
+					vPanelContent.animate()
+							.alpha(1.0f)
+							.setDuration(600)
+							.start();
+
+					mLastFirst = firstVisibleItem;
+				}
+			}
+		});
+	}
+
+	protected void setOpeningHours() {
+		Calendar calendar = Calendar.getInstance();
+		Hours hours = mPub.hours[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+		int timePubFrom = hours.fromHrs * 60 + hours.fromMns;
+		int timePubTo = hours.toHrs * 60 + hours.toMns;
+		if (timePubTo < timePubFrom) { // closing after midnight
+			timePubTo += 24 * 60;
+		}
+		int timeNow = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
+
+		if (timeNow < timePubFrom) {
+			int hrs = hours.fromHrs;
+			if (hrs == 24) {
+				hrs = 0;
+			}
+			vOpeningHours.setText(getString(R.string.pub_closed, Utils.addLeadingZero(hrs, 2), Utils.addLeadingZero(hours.fromMns, 2)).toUpperCase());
+		} else if (timeNow < timePubTo) {
+			int hrs = hours.toHrs;
+			if (hrs == 24) {
+				hrs = 0;
+			}
+			vOpeningHours.setText(getString(R.string.pub_open, Utils.addLeadingZero(hrs, 2), Utils.addLeadingZero(hours.toMns, 2)).toUpperCase());
+		} else {
+			vOpeningHours.setText(getString(R.string.pub_tomorrow).toUpperCase());
+		}
+	}
+
+	protected void setLastUpdate() {
+		Calendar calendar = Calendar.getInstance();
+
+		long last = mPreferences.getLong(mPub.prefLastDownload, 0);
+		if (last <= 0) {
+			vLastDownload.setText(R.string.no_last_download);
+		} else {
+			int currentDay = calendar.get(Calendar.DAY_OF_YEAR);
+			calendar.setTimeInMillis(last);
+			int updatedDay = calendar.get(Calendar.DAY_OF_YEAR);
+
+			if (currentDay == updatedDay) {
+				vLastDownload.setText(sTimeFormat.format(calendar.getTime()));
+			} else {
+				vLastDownload.setText(sDateFormat.format(calendar.getTime()));
+			}
 		}
 	}
 

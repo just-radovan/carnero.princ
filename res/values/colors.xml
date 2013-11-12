@@ -5,6 +5,7 @@
 	<color name="bg_card_shadow">#FFCCCCCC</color>
 	<color name="card_separator">#FFDDDDDD</color>
 
+	<color name="bg_panel">#AAFFFFFF</color>
 	<color name="bg_rating">#FFF6F6F6</color>
 	<color name="fg_rating">#FFCCCCCC</color>
 
