@@ -1,5 +1,5 @@
 {
-    "version": 12,
+    "version": 13,
     "breweries": [
         {
             "name": "Anderson Valley Brewing Co.", "country": "USA",
@@ -23,6 +23,12 @@
             "name": "Bernard", "country": "CZ",
             "beers": [
                 {"identifier": "Bernard", "removeID": true}
+            ]
+        },
+        {
+            "name": "Biovar", "country": "CZ",
+            "beers": [
+                {"identifier": "Qasek", "removeID": false}
             ]
         },
         {
@@ -57,7 +63,9 @@
                 {"identifier": "Libertine Black Ale", "removeID": false},
                 {"identifier": "Punk IPA", "removeID": false},
                 {"identifier": "IPA is Dead", "removeID": false},
-                {"identifier": "Hardcore IPA", "removeID": false}
+                {"identifier": "Hardcore IPA", "removeID": false},
+                {"identifier": "5 a.m. Saint", "removeID": false},
+                {"identifier": "Dead Pony Club", "removeID": false}
             ]
         },
         {
@@ -142,6 +150,19 @@
             ]
         },
         {
+            "name": "Jihlavský radniční pivovar", "country": "CZ",
+            "beers": [
+                {"identifier": "Radnicni", "removeID": false}
+            ]
+        },
+        {
+            "name": "Mostecký Kahan", "country": "CZ",
+            "beers": [
+                {"identifier": "Mostecky Kahan", "removeID": true},
+                {"identifier": "Kahan", "removeID": true}
+            ]
+        },
+        {
             "name": "Kaltenecker", "country": "SK",
             "beers": [
                 {"identifier": "Kaltenecker", "removeID": true}
@@ -172,6 +193,13 @@
             ]
         },
         {
+            "name": "Kozlíček", "country": "CZ",
+            "beers": [
+                {"identifier": "Kozlicek Horni Dubenky", "removeID": true},
+                {"identifier": "Kozlicek", "removeID": true}
+            ]
+        },
+        {
             "name": "Krakonoš", "country": "CZ",
             "beers": [
                 {"identifier": "Krakonos", "removeID": true}
@@ -194,7 +222,8 @@
             "name": "Left Hand Brewing Co.", "country": "USA",
             "beers": [
                 {"identifier": "Left Hand", "removeID": true},
-                {"identifier": "Twin Sisters", "removeID": false}
+                {"identifier": "Twin Sisters", "removeID": false},
+                {"identifier": "400 Pound Monkey", "removeID": false}
             ]
         },
         {
@@ -206,7 +235,8 @@
         {
             "name": "Magic Rock Brewing", "country": "USA",
             "beers": [
-                {"identifier": "Magic Rock", "removeID": true}
+                {"identifier": "Magic Rock", "removeID": true},
+                {"identifier": "The Big Top", "removeID": false}
             ]
         },
         {
@@ -235,6 +265,12 @@
             ]
         },
         {
+            "name": "Minipivovar Kohutka", "country": "CZ",
+            "beers": [
+                {"identifier": "Kohut", "removeID": false}
+            ]
+        },
+        {
             "name": "Minipivovar Rohov", "country": "CZ",
             "beers": [
                 {"identifier": "Rohan", "removeID": false}
@@ -253,6 +289,12 @@
             ]
         },
         {
+            "name": "Pivovar Dobruška", "country": "CZ",
+            "beers": [
+                {"identifier": "Rampušák", "removeID": false}
+            ]
+        },
+        {
             "name": "Pivovar Koníček", "country": "CZ",
             "beers": [
                 {"identifier": "Vojkovicky", "removeID": true}
@@ -262,6 +304,12 @@
             "name": "Pivovar Rambousek", "country": "CZ",
             "beers": [
                 {"identifier": "Rambousek", "removeID": true}
+            ]
+        },
+        {
+            "name": "Pivovar Zhůřák", "country": "CZ",
+            "beers": [
+                {"identifier": "Zhurak", "removeID": true}
             ]
         },
         {
@@ -368,6 +416,12 @@
             "beers": [
                 {"identifier": "Vyskovsky", "removeID": true},
                 {"identifier": "Vyskov", "removeID": true}
+            ]
+        },
+        {
+            "name": "Zámecký pivovar Bratčice", "country": "CZ",
+            "beers": [
+                {"identifier": "Bratcicka", "removeID": false}
             ]
         },
         {
