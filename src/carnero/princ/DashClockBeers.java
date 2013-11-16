@@ -9,6 +9,8 @@ import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;
 import carnero.princ.model.BeerList;
 import carnero.princ.model.BestOfBeers;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
 
@@ -49,5 +51,8 @@ public class DashClockBeers extends DashClockExtension {
 					.clickIntent(intent)
 			);
 		}
+
+		EasyTracker tracker = EasyTracker.getInstance(getApplicationContext());
+		tracker.send(MapBuilder.createEvent("dashclock", "update", null, null).build());
 	}
 }

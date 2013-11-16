@@ -1,5 +1,5 @@
 {
-    "version": 13,
+    "version": 15,
     "breweries": [
         {
             "name": "Anderson Valley Brewing Co.", "country": "USA",
@@ -38,6 +38,12 @@
             ]
         },
         {
+            "name": "Brauerei Griess", "country": "D",
+            "beers": [
+                {"identifier": "Griess", "removeID": true}
+            ]
+        },
+        {
             "name": "Brauerei Kraus", "country": "D",
             "beers": [
                 {"identifier": "Kraus", "removeID": true},
@@ -53,7 +59,14 @@
         {
             "name": "Brouwerij Van Honsebrouck", "country": "B",
             "beers": [
-                {"identifier": "Kaastel", "removeID": false}
+                {"identifier": "Kaastel", "removeID": false},
+                {"identifier": "Kasteel", "removeID": false}
+            ]
+        },
+        {
+            "name": "Brouwerij De Molen", "country": "NL",
+            "beers": [
+                {"identifier": "Vuur and Vlam", "removeID": false}
             ]
         },
         {
@@ -132,15 +145,21 @@
             ]
         },
         {
-            "name": "Jelínkova Vila", "country": "CZ",
-            "beers": [
-                {"identifier": "Harrach", "removeID": false}
-            ]
-        },
-        {
             "name": "Havlíčkův Brod", "country": "CZ",
             "beers": [
                 {"identifier": "Rebel", "removeID": false}
+            ]
+        },
+        {
+            "name": "Hendrych", "country": "CZ",
+            "beers": [
+                {"identifier": "Hendrych", "removeID": true}
+            ]
+        },
+        {
+            "name": "Jelínkova Vila", "country": "CZ",
+            "beers": [
+                {"identifier": "Harrach", "removeID": false}
             ]
         },
         {
@@ -153,6 +172,12 @@
             "name": "Jihlavský radniční pivovar", "country": "CZ",
             "beers": [
                 {"identifier": "Radnicni", "removeID": false}
+            ]
+        },
+        {
+            "name": "Klášterní pivovar Strahov", "country": "CZ",
+            "beers": [
+                {"identifier": "Sv. Norbert", "removeID": false}
             ]
         },
         {
@@ -209,6 +234,19 @@
             "name": "Pivovar Kroměříž", "country": "CZ",
             "beers": [
                 {"identifier": "Maxmilian", "removeID": false}
+            ]
+        },
+        {
+            "name": "Postřižinské pivo", "country": "CZ",
+            "beers": [
+                {"identifier": "Francin", "removeID": false},
+                {"identifier": "Nezny Barbar", "removeID": false}
+            ]
+        },
+        {
+            "name": "Pivovarský dům Ostrava", "country": "CZ",
+            "beers": [
+                {"identifier": "Drab", "removeID": false}
             ]
         },
         {
@@ -271,6 +309,12 @@
             ]
         },
         {
+            "name": "Minipivovar Pacov", "country": "CZ",
+            "beers": [
+                {"identifier": "Pacov", "removeID": true}
+            ]
+        },
+        {
             "name": "Minipivovar Rohov", "country": "CZ",
             "beers": [
                 {"identifier": "Rohan", "removeID": false}
@@ -301,9 +345,28 @@
             ]
         },
         {
+            "name": "Pivovar Modrá Hvězda", "country": "CZ",
+            "beers": [
+                {"identifier": "Dobranska Hvezda", "removeID": false},
+                {"identifier": "Dobransky Sekac", "removeID": false}
+            ]
+        },
+        {
+            "name": "Pivovar Protivín", "country": "CZ",
+            "beers": [
+                {"identifier": "Prachenska Perla", "removeID": false}
+            ]
+        },
+        {
             "name": "Pivovar Rambousek", "country": "CZ",
             "beers": [
                 {"identifier": "Rambousek", "removeID": true}
+            ]
+        },
+        {
+            "name": "Pivovar Rychnov", "country": "CZ",
+            "beers": [
+                {"identifier": "Rychnovska Knezna", "removeID": false}
             ]
         },
         {
@@ -319,17 +382,11 @@
             ]
         },
         {
-            "name": "Pivovar Modrá Hvězda", "country": "CZ",
-            "beers": [
-                {"identifier": "Dobranska Hvezda", "removeID": false},
-                {"identifier": "Dobransky Sekac", "removeID": false}
-            ]
-        },
-        {
             "name": "Prager Laffe", "country": "CZ",
             "beers": [
                 {"identifier": "Prager Laffe", "removeID": true},
-                {"identifier": "Pragerlager", "removeID": true}
+                {"identifier": "Prager Vienna", "removeID": false},
+                {"identifier": "Pragerlager", "removeID": false}
             ]
         },
         {
@@ -363,7 +420,8 @@
         {
             "name": "Schlossbrauerei Au-Hallertau", "country": "D",
             "beers": [
-                {"identifier": "Auer", "removeID": true}
+                {"identifier": "Au-Baron", "removeID": false},
+                {"identifier": "Auer", "removeID": false}
             ]
         },
         {
@@ -428,6 +486,7 @@
             "name": "Zemský pivovar", "country": "CZ",
             "beers": [
                 {"identifier": "Zemsky pivovar", "removeID": true},
+                {"identifier": "Zemske pivo", "removeID": true},
                 {"identifier": "Zemska", "removeID": true},
                 {"identifier": "Zemsky", "removeID": true}
             ]

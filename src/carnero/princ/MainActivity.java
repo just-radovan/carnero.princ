@@ -22,6 +22,8 @@ import carnero.princ.fragment.PrincMiroslavFragment;
 import carnero.princ.fragment.ZlyCasyFragment;
 import carnero.princ.model.BeerList;
 import carnero.princ.model.BestOfBeers;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 
 public class MainActivity extends Activity {
 
@@ -60,6 +62,9 @@ public class MainActivity extends Activity {
 			public void onDrawerOpened(View drawerView) {
 				getActionBar().setTitle(mDrawerTitle);
 				invalidateOptionsMenu();
+
+				EasyTracker tracker = EasyTracker.getInstance(MainActivity.this);
+				tracker.send(MapBuilder.createEvent("navigation", "drawer_open", null, null).build());
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -90,6 +95,20 @@ public class MainActivity extends Activity {
 		super.onResume();
 
 		DownloadService.setAlarmIntent(getApplicationContext());
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		EasyTracker.getInstance(this).activityStart(this);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 
 	@Override

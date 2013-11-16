@@ -12,6 +12,8 @@ import carnero.princ.database.Helper;
 import carnero.princ.iface.IDownloadingStatusListener;
 import carnero.princ.model.*;
 import com.github.kevinsawicki.http.HttpRequest;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.google.gson.Gson;
 
 import java.io.*;
@@ -220,6 +222,9 @@ public class ListDownloader extends AsyncTask<Boolean, Void, Void> {
 		}
 
 		Log.d(Constants.TAG, "Beers found: " + list.size());
+
+		EasyTracker tracker = EasyTracker.getInstance(mContext);
+		tracker.send(MapBuilder.createEvent("internet", "download", "pub:" + beerList.id, null).build());
 
 		return list;
 	}

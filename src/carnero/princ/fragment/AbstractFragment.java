@@ -22,6 +22,8 @@ import carnero.princ.iface.IDownloadingStatusListener;
 import carnero.princ.iface.ILoadingStatusListener;
 import carnero.princ.internet.ListDownloader;
 import carnero.princ.model.*;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
@@ -91,6 +93,9 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 		} else {
 			new ListLoader(getActivity(), this).execute(mPub.id);
 		}
+
+		EasyTracker tracker = EasyTracker.getInstance(getActivity());
+		tracker.send(MapBuilder.createEvent("navigation", "beer_list", "pub:" + mPub, null).build());
 	}
 
 	@Override
@@ -247,7 +252,7 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 					mLastFirst = firstVisibleItem;
 				} else if (firstVisibleItem == 0 && mLastFirst != 0) { // show
 					vPanel.animate()
-							.translationYBy(- getResources().getDimension(R.dimen.panel_height))
+							.translationY(0)
 							.setDuration(500)
 							.start();
 					vPanelContent.animate()
