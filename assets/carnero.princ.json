@@ -1,5 +1,5 @@
 {
-    "version": 15,
+    "version": 16,
     "breweries": [
         {
             "name": "Anderson Valley Brewing Co.", "country": "USA",
@@ -84,7 +84,8 @@
         {
             "name": "Břevnovský pivovar", "country": "CZ",
             "beers": [
-                {"identifier": "Brevnov", "removeID": true}
+                {"identifier": "Brevnov", "removeID": true},
+				{"identifier": "Brevnovska", "removeID": true}
             ]
         },
         {
@@ -421,7 +422,7 @@
             "name": "Schlossbrauerei Au-Hallertau", "country": "D",
             "beers": [
                 {"identifier": "Au-Baron", "removeID": false},
-                {"identifier": "Auer", "removeID": false}
+                {"identifier": "Auer", "removeID": true}
             ]
         },
         {

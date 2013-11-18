@@ -95,7 +95,7 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 		}
 
 		EasyTracker tracker = EasyTracker.getInstance(getActivity());
-		tracker.send(MapBuilder.createEvent("navigation", "beer_list", "pub:" + mPub, null).build());
+		tracker.send(MapBuilder.createEvent("navigation", "beer_list", "pub:" + mPub.id, null).build());
 	}
 
 	@Override
