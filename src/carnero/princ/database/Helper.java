@@ -199,24 +199,26 @@ public class Helper extends SQLiteOpenHelper {
 				text.append(res.getQuantityString(R.plurals.notification_beers, newBeers.get(newBrewery), newBeers.get(newBrewery)));
 			}
 
-			Intent intent = new Intent(mContext, MainActivity.class);
-			PendingIntent pending = PendingIntent.getActivity(mContext, Constants.NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+			if (mPreferences.getBoolean(Constants.PREF_NOTIFICATION, true)) {
+				Intent intent = new Intent(mContext, MainActivity.class);
+				PendingIntent pending = PendingIntent.getActivity(mContext, Constants.NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-			NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle();
-			style.setBigContentTitle(mContext.getText(R.string.app_name));
-			style.bigText(text.toString());
+				NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle();
+				style.setBigContentTitle(mContext.getText(R.string.app_name));
+				style.bigText(text.toString());
 
-			NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
-			builder.setContentTitle(mContext.getText(R.string.app_name));
-			builder.setContentText(mContext.getText(R.string.notification_info));
-			builder.setSmallIcon(R.drawable.ic_notification);
-			builder.setContentInfo(String.valueOf(newBeersTotal));
-			builder.setContentIntent(pending);
-			builder.setAutoCancel(true);
-			builder.setStyle(style);
+				NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
+				builder.setContentTitle(mContext.getText(R.string.app_name));
+				builder.setContentText(mContext.getText(R.string.notification_info));
+				builder.setSmallIcon(R.drawable.ic_notification);
+				builder.setContentInfo(String.valueOf(newBeersTotal));
+				builder.setContentIntent(pending);
+				builder.setAutoCancel(true);
+				builder.setStyle(style);
 
-			NotificationManager manager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-			manager.notify(Constants.NOTIFICATION_ID, builder.build());
+				NotificationManager manager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+				manager.notify(Constants.NOTIFICATION_ID, builder.build());
+			}
 		}
 	}
 

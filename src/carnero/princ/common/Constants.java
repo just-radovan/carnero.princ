@@ -11,6 +11,7 @@ public class Constants {
 	public static final String TAG = "princova piva";
 	// preferences
 	public static final String PREF_NAME = "beer";
+	public static final String PREF_NOTIFICATION = "beer:notifications";
 	public static final String PREF_PUB = "beer:pub"; // 1 .. 2
 	public static final String PREF_SORTING = "beer:sorting";
 	// servers

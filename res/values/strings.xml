@@ -44,4 +44,8 @@
 	</plurals>
 
 	<string name="desc_download">Time of last beer list download.</string>
+
+	<string name="settings_label">Notifications</string>
+	<string name="settings_off">OFF</string>
+	<string name="settings_on">ON</string>
 </resources>

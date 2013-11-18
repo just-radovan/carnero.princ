@@ -39,4 +39,8 @@
 	</plurals>
 
 	<string name="desc_download">Čas posledního stažení pivního lístku.</string>
+
+	<string name="settings_label">Oznámení</string>
+	<string name="settings_off">VYP.</string>
+	<string name="settings_on">ZAP.</string>
 </resources>

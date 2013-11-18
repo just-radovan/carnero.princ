@@ -7,12 +7,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 import carnero.princ.common.Constants;
 import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;
@@ -31,7 +27,9 @@ public class MainActivity extends Activity {
 	private Helper mHelper;
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
+	private RelativeLayout mDrawerContainer;
 	private ListView mDrawerList;
+	private Switch mSettingsSwitch;
 	private int mSelectedPub;
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
@@ -47,7 +45,9 @@ public class MainActivity extends Activity {
 
 		mTitle = mDrawerTitle = getTitle();
 
-		mDrawerList = (ListView) findViewById(R.id.drawer);
+		mDrawerContainer = (RelativeLayout) findViewById(R.id.drawer);
+
+		mDrawerList = (ListView) findViewById(R.id.drawer_list);
 		mDrawerList.setAdapter(new DrawerItemAdapter());
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -68,6 +68,9 @@ public class MainActivity extends Activity {
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+		mSettingsSwitch = (Switch) findViewById(R.id.settings_switch);
+		mSettingsSwitch.setChecked(mPreferences.getBoolean(Constants.PREF_NOTIFICATION, true));
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
@@ -131,7 +134,7 @@ public class MainActivity extends Activity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		MenuItem itemSort = menu.findItem(R.id.change_sorting);
 		if (itemSort != null) {
-			itemSort.setVisible(!mDrawerLayout.isDrawerOpen(mDrawerList));
+			itemSort.setVisible(!mDrawerLayout.isDrawerOpen(mDrawerContainer));
 		}
 
 		return super.onPrepareOptionsMenu(menu);
@@ -144,6 +147,14 @@ public class MainActivity extends Activity {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	public void onSettingsSwitched(View view) {
+		boolean enabled = mSettingsSwitch.isChecked();
+
+		mPreferences.edit()
+				.putBoolean(Constants.PREF_NOTIFICATION, enabled)
+				.commit();
 	}
 
 	private void selectItem(int id) {
@@ -171,7 +182,7 @@ public class MainActivity extends Activity {
 				.commit();
 
 		setTitle(getString(beerList.nameRes));
-		mDrawerLayout.closeDrawer(mDrawerList);
+		mDrawerLayout.closeDrawer(mDrawerContainer);
 	}
 
 	// classess
