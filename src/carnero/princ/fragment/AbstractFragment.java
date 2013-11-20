@@ -87,11 +87,11 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 	public void onResume() {
 		super.onResume();
 
-		Helper helper = new Helper(getActivity());
+		Helper helper = new Helper(getActivity().getBaseContext());
 		if (!helper.isSomeCurrentBeer()) { // no saved beer, download now
-			new ListDownloader(getActivity(), this).execute();
+			new ListDownloader(getActivity().getBaseContext(), this).execute();
 		} else {
-			new ListLoader(getActivity(), this).execute(mPub.id);
+			new ListLoader(getActivity().getBaseContext(), this).execute(mPub.id);
 		}
 
 		EasyTracker tracker = EasyTracker.getInstance(getActivity());

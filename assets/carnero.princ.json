@@ -1,6 +1,14 @@
 {
-    "version": 16,
+    "version": 17,
     "breweries": [
+        {
+            "name": "AleBrowar", "country": "PL",
+            "beers": [
+                {"identifier": "Golden Monk", "removeID": false},
+                {"identifier": "Brown Food", "removeID": false},
+                {"identifier": "Smoky Joe", "removeID": false}
+            ]
+        },
         {
             "name": "Anderson Valley Brewing Co.", "country": "USA",
             "beers": [
@@ -66,7 +74,8 @@
         {
             "name": "Brouwerij De Molen", "country": "NL",
             "beers": [
-                {"identifier": "Vuur and Vlam", "removeID": false}
+                {"identifier": "Vuur and Vlam", "removeID": false},
+                {"identifier": "Dark IPA Saaz", "removeID": false}
             ]
         },
         {
@@ -166,6 +175,7 @@
         {
             "name": "Jihlava", "country": "CZ",
             "beers": [
+                {"identifier": "Telcsky Zacharias", "removeID": false},
                 {"identifier": "Jezek", "removeID": false}
             ]
         },
@@ -258,6 +268,12 @@
             ]
         },
         {
+            "name": "Kissmeyer Beer & Brewing", "country": "DK",
+            "beers": [
+                {"identifier": "Kissmeyer", "removeID": true}
+            ]
+        },
+        {
             "name": "Left Hand Brewing Co.", "country": "USA",
             "beers": [
                 {"identifier": "Left Hand", "removeID": true},
@@ -281,6 +297,7 @@
         {
             "name": "Mahrs Bräu", "country": "D",
             "beers": [
+                {"identifier": "Mahrs Brau", "removeID": true},
                 {"identifier": "Mahr´s Brau", "removeID": true},
                 {"identifier": "Mahr's Brau", "removeID": true}
             ]
@@ -334,6 +351,12 @@
             ]
         },
         {
+            "name": "Pivovar Pernštejn", "country": "CZ",
+            "beers": [
+                {"identifier": "Pernstejn", "removeID": true}
+            ]
+        },
+        {
             "name": "Pivovar Dobruška", "country": "CZ",
             "beers": [
                 {"identifier": "Rampušák", "removeID": false}
@@ -368,6 +391,12 @@
             "name": "Pivovar Rychnov", "country": "CZ",
             "beers": [
                 {"identifier": "Rychnovska Knezna", "removeID": false}
+            ]
+        },
+        {
+            "name": "Pivovar Uherský Brod", "country": "CZ",
+            "beers": [
+                {"identifier": "Comenius", "removeID": false}
             ]
         },
         {
@@ -430,6 +459,12 @@
             "beers": [
                 {"identifier": "Schneider Weisse", "removeID": true},
                 {"identifier": "Schneider", "removeID": true}
+            ]
+        },
+        {
+            "name": "Staňkův rukodělný pivovárek", "country": "CZ",
+            "beers": [
+                {"identifier": "Trebonice", "removeID": true}
             ]
         },
         {
