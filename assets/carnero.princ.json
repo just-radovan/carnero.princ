@@ -6,6 +6,7 @@
             "beers": [
                 {"identifier": "Golden Monk", "removeID": false},
                 {"identifier": "Brown Food", "removeID": false},
+                {"identifier": "Naked Mummy", "removeID": false},
                 {"identifier": "Smoky Joe", "removeID": false}
             ]
         },
@@ -31,6 +32,12 @@
             "name": "Bernard", "country": "CZ",
             "beers": [
                 {"identifier": "Bernard", "removeID": true}
+            ]
+        },
+        {
+            "name": "Beskydský pivovárek", "country": "CZ",
+            "beers": [
+                {"identifier": "Beskydsky", "removeID": true}
             ]
         },
         {
@@ -136,6 +143,12 @@
             ]
         },
         {
+            "name": "Holba", "country": "CZ",
+            "beers": [
+                {"identifier": "Holba", "removeID": true}
+            ]
+        },
+        {
             "name": "Létající pivovar Falkon", "country": "CZ",
             "beers": [
                 {"identifier": "Falkon", "removeID": true}
@@ -201,7 +214,8 @@
         {
             "name": "Kaltenecker", "country": "SK",
             "beers": [
-                {"identifier": "Kaltenecker", "removeID": true}
+                {"identifier": "Kaltenecker", "removeID": true},
+                {"identifier": "Atlantis", "removeID": false}
             ]
         },
         {
@@ -239,6 +253,12 @@
             "name": "Krakonoš", "country": "CZ",
             "beers": [
                 {"identifier": "Krakonos", "removeID": true}
+            ]
+        },
+        {
+            "name": "Pivovar Kout", "country": "CZ",
+            "beers": [
+                {"identifier": "Kout", "removeID": true}
             ]
         },
         {
@@ -333,9 +353,21 @@
             ]
         },
         {
+            "name": "Minipivovar Parník", "country": "CZ",
+            "beers": [
+                {"identifier": "Parnik", "removeID": true}
+            ]
+        },
+        {
             "name": "Minipivovar Rohov", "country": "CZ",
             "beers": [
                 {"identifier": "Rohan", "removeID": false}
+            ]
+        },
+        {
+            "name": "Minipivovar Valášek", "country": "CZ",
+            "beers": [
+                {"identifier": "Valasek", "removeID": true}
             ]
         },
         {
@@ -492,6 +524,7 @@
             "name": "Únětice", "country": "CZ",
             "beers": [
                 {"identifier": "Unetice", "removeID": true},
+                {"identifier": "Uneticky", "removeID": true},
                 {"identifier": "Uneticke pivo", "removeID": true}
             ]
         },
@@ -532,6 +565,12 @@
             "beers": [
                 {"identifier": "Celia", "removeID": false},
                 {"identifier": "Zatec", "removeID": true}
+            ]
+        },
+        {
+            "name": "Zillertal", "country": "A",
+            "beers": [
+                {"identifier": "Zillertal", "removeID": true}
             ]
         },
         {
