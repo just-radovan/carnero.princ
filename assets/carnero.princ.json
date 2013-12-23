@@ -1,5 +1,5 @@
 {
-    "version": 17,
+    "version": 20,
     "breweries": [
         {
             "name": "AleBrowar", "country": "PL",
@@ -14,6 +14,12 @@
             "name": "Anderson Valley Brewing Co.", "country": "USA",
             "beers": [
                 {"identifier": "Anderson Valley", "removeID": true}
+            ]
+        },
+        {
+            "name": "Antoš", "country": "CZ",
+            "beers": [
+                {"identifier": "Antos", "removeID": true}
             ]
         },
         {
@@ -37,7 +43,8 @@
         {
             "name": "Beskydský pivovárek", "country": "CZ",
             "beers": [
-                {"identifier": "Beskydsky", "removeID": true}
+                {"identifier": "Beskydsky", "removeID": false},
+                {"identifier": "Beskydske", "removeID": false}
             ]
         },
         {
@@ -94,7 +101,8 @@
                 {"identifier": "IPA is Dead", "removeID": false},
                 {"identifier": "Hardcore IPA", "removeID": false},
                 {"identifier": "5 a.m. Saint", "removeID": false},
-                {"identifier": "Dead Pony Club", "removeID": false}
+                {"identifier": "Dead Pony Club", "removeID": false},
+                {"identifier": "Santa Paws", "removeID": false}
             ]
         },
         {
@@ -121,7 +129,8 @@
         {
             "name": "Chýně", "country": "CZ",
             "beers": [
-                {"identifier": "Chyne", "removeID": true}
+                {"identifier": "Chyne", "removeID": true},
+                {"identifier": "Zabijak z Nusli", "removeID": false}
             ]
         },
         {
@@ -189,6 +198,7 @@
             "name": "Jihlava", "country": "CZ",
             "beers": [
                 {"identifier": "Telcsky Zacharias", "removeID": false},
+                {"identifier": "Zacharias", "removeID": false},
                 {"identifier": "Jezek", "removeID": false}
             ]
         },
@@ -243,6 +253,12 @@
             ]
         },
         {
+            "name": "Kounický pivovar", "country": "CZ",
+            "beers": [
+                {"identifier": "Kounice", "removeID": true}
+            ]
+        },
+        {
             "name": "Kozlíček", "country": "CZ",
             "beers": [
                 {"identifier": "Kozlicek Horni Dubenky", "removeID": true},
@@ -268,9 +284,11 @@
             ]
         },
         {
-            "name": "Postřižinské pivo", "country": "CZ",
+            "name": "Pivovar Nymburk", "country": "CZ",
             "beers": [
+                {"identifier": "Nymburk", "removeID": true},
                 {"identifier": "Francin", "removeID": false},
+                {"identifier": "Pepinova", "removeID": false},
                 {"identifier": "Nezny Barbar", "removeID": false}
             ]
         },
@@ -335,9 +353,21 @@
             ]
         },
         {
+            "name": "Městský pivovar v Poličce", "country": "CZ",
+            "beers": [
+                {"identifier": "Policka", "removeID": true}
+            ]
+        },
+        {
             "name": "Mikkeller", "country": "DK",
             "beers": [
                 {"identifier": "Mikkeller", "removeID": true}
+            ]
+        },
+        {
+            "name": "Pivovar Mamut", "country": "CZ",
+            "beers": [
+                {"identifier": "Mikulovsky Mamut", "removeID": true}
             ]
         },
         {
@@ -482,7 +512,8 @@
         {
             "name": "Schlossbrauerei Au-Hallertau", "country": "D",
             "beers": [
-                {"identifier": "Au-Baron", "removeID": false},
+                {"identifier": "Au-Baron", "removeID": true},
+                {"identifier": "Baron Au", "removeID": true},
                 {"identifier": "Auer", "removeID": true}
             ]
         },
@@ -503,6 +534,7 @@
             "name": "Strakonice", "country": "CZ",
             "beers": [
                 {"identifier": "Dudak", "removeID": false},
+                {"identifier": "Klosterman", "removeID": false},
                 {"identifier": "Klostermann", "removeID": false},
                 {"identifier": "Velkoprevor", "removeID": false}
             ]
@@ -518,6 +550,12 @@
             "beers": [
                 {"identifier": "Tambor", "removeID": true},
                 {"identifier": "R. A. Dvorsky", "removeID": false}
+            ]
+        },
+        {
+            "name": "To Øl", "country": "DK",
+            "beers": [
+                {"identifier": "Ridiculously Close To Sanity", "removeID": false}
             ]
         },
         {
@@ -564,7 +602,9 @@
             "name": "Žatec", "country": "CZ",
             "beers": [
                 {"identifier": "Celia", "removeID": false},
-                {"identifier": "Zatec", "removeID": true}
+                {"identifier": "Zatec", "removeID": true},
+                {"identifier": "Zatecka", "removeID": true},
+                {"identifier": "Zatecky", "removeID": true}
             ]
         },
         {
