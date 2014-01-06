@@ -25,7 +25,7 @@
 	<string name="no_last_download">nothing yet</string>
 	<string name="rating_confirm">Confirm</string>
 
-	<string name="menu_sorting">Change beer sorting</string>
+	<string name="menu_map">Display on map</string>
 
 	<string name="notification_info">New beers on tap...</string>
 	<plurals name="notification_beers">

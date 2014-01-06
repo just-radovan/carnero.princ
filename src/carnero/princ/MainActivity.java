@@ -10,7 +10,9 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 import carnero.princ.common.Constants;
 import carnero.princ.common.Utils;
@@ -133,25 +135,6 @@ public class MainActivity extends Activity {
 		mTitle = title;
 
 		getActionBar().setTitle(mTitle);
-	}
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		MenuItem itemSort = menu.findItem(R.id.change_sorting);
-		if (itemSort != null) {
-			itemSort.setVisible(!mDrawerLayout.isDrawerOpen(mDrawerContainer));
-		}
-
-		return super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
 	}
 
 	public void onSettingsSwitched(View view) {

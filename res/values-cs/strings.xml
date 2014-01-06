@@ -20,7 +20,7 @@
 	<string name="no_last_download">zatím nic</string>
 	<string name="rating_confirm">Uložit</string>
 
-	<string name="menu_sorting">Změnit řazení piv</string>
+	<string name="menu_map">Zobrazit na mapě</string>
 
 	<string name="notification_info">Naražena nová piva...</string>
 	<plurals name="notification_beers">

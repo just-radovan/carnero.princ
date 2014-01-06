@@ -2,12 +2,13 @@ package carnero.princ.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
+import android.view.*;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -31,6 +32,8 @@ import com.google.analytics.tracking.android.MapBuilder;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -82,7 +85,6 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 		vLastDownload = (TextView) layout.findViewById(R.id.update);
 
 		setListView();
-		setLocation();
 		setOpeningHours();
 
 		return layout;
@@ -101,6 +103,36 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 
 		EasyTracker tracker = EasyTracker.getInstance(getActivity());
 		tracker.send(MapBuilder.createEvent("navigation", "beer_list", "pub:" + mPub.id, null).build());
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.menu_main, menu);
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		menu.findItem(R.id.show_on_map).setVisible((mPub.address != null && !mPub.address.isEmpty()));
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+
+		if (id == R.id.show_on_map) {
+			try {
+				Intent intent = new Intent(
+						android.content.Intent.ACTION_VIEW,
+						Uri.parse("geo:0,0?q=" + URLEncoder.encode(mPub.address, "UTF-8"))
+				);
+				startActivity(intent);
+			} catch (UnsupportedEncodingException uee) {
+				Log.e(Constants.TAG, "Failed to launch map (" + uee.getMessage() + ")");
+			}
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override
@@ -238,10 +270,6 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 		} else {
 			vOpeningHours.setText(getString(R.string.pub_tomorrow).toUpperCase());
 		}
-	}
-
-	protected void setLocation() {
-		// TODO: launch navigation to pub on tap on vPanel
 	}
 
 	protected void setLastUpdate() {

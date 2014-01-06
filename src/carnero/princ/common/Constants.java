@@ -35,6 +35,7 @@ public class Constants {
 	public static final BeerList LIST_PRINC = new BeerList(
 			1,
 			R.string.tab_princ,
+			"U Prince Miroslava, K Vodojemu 4, Praha 5, Czech Republic",
 			"http://uprincemiroslava.eu/nabidka-piv/",
 			"utf-8",
 			"beer:last_download:princ",
@@ -51,6 +52,7 @@ public class Constants {
 	public static final BeerList LIST_ZLY = new BeerList(
 			2,
 			R.string.tab_zly,
+			"Zlý Časy, Čestmírova 5, Praha 4, Czech Republic",
 			"http://zlycasy.eu/index.php?page=2",
 			"cp1250",
 			"beer:last_download:zly",
@@ -67,6 +69,7 @@ public class Constants {
 	public static final BeerList LIST_PIVNICE = new BeerList(
 			3,
 			R.string.tab_pivnice,
+			"Ochutnávková Pivnice, Lidická 1860/10, Brno, Czech Republic",
 			"http://www.ochutnavkovapivnice.cz/prave_na_cepu/",
 			"utf-8",
 			"beer:last_download:pivnice",
@@ -83,6 +86,7 @@ public class Constants {
 	public static final BeerList LIST_KULOVY = new BeerList(
 			4,
 			R.string.tab_kulovy,
+			"Kulový Blesk, Sokolská 13, Praha 2, Czech Republic",
 			"http://www.restauracekulovyblesk.cz",
 			"utf-8",
 			"beer:last_download:kulovy",
