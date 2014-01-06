@@ -1,6 +1,9 @@
 package carnero.princ;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -16,10 +19,12 @@ import carnero.princ.fragment.KulovyBleskFragment;
 import carnero.princ.fragment.OchutnavkovaPivniceFragment;
 import carnero.princ.fragment.PrincMiroslavFragment;
 import carnero.princ.fragment.ZlyCasyFragment;
+import carnero.princ.model.Beer;
 import carnero.princ.model.BeerList;
-import carnero.princ.model.BestOfBeers;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
+
+import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
@@ -197,16 +202,16 @@ public class MainActivity extends Activity {
 			}
 
 			BeerList beerList = getItem(position);
-			BestOfBeers bestOf = mHelper.loadGoodBeers(beerList.id);
+			ArrayList<Beer> beers = mHelper.loadBeers(beerList.id, true);
 
 			((TextView) view.findViewById(R.id.title)).setText(beerList.nameRes);
 
 			TextView good = (TextView) view.findViewById(R.id.good);
-			if (bestOf.count == 0) {
+			if (beers.isEmpty()) {
 				good.setVisibility(View.INVISIBLE);
 				good.setText(null);
 			} else {
-				good.setText(String.valueOf(bestOf.count));
+				good.setText(String.valueOf(beers.size()));
 				good.setVisibility(View.VISIBLE);
 			}
 

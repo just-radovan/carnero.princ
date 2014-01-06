@@ -30,12 +30,19 @@
 		<item quantity="many">%1$d piv</item>
 		<item quantity="other">%1$d piv</item>
 	</plurals>
-	<plurals name="good_beers">
-		<item quantity="one">Jedno dobré pivo</item>
-		<item quantity="two">Dvě dobrá piva</item>
-		<item quantity="few">%1$d dobrá piva</item>
-		<item quantity="many">%1$d dobrých piv</item>
-		<item quantity="other">%1$d dobrých piv</item>
+	<plurals name="dashclock_beers">
+		<item quantity="one">Jedno pivo</item>
+		<item quantity="two">Dvě piva</item>
+		<item quantity="few">%1$d piva</item>
+		<item quantity="many">%1$d piv</item>
+		<item quantity="other">%1$d piv</item>
+	</plurals>
+	<plurals name="dashclock_breweries">
+		<item quantity="one">Z jednoho pivovaru</item>
+		<item quantity="two">Ze dvou pivovarů</item>
+		<item quantity="few">Z %1$d pivovarů</item>
+		<item quantity="many">Z %1$d pivovarů</item>
+		<item quantity="other">Z %1$d pivovarů</item>
 	</plurals>
 
 	<string name="desc_download">Čas posledního stažení pivního lístku.</string>

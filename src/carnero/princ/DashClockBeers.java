@@ -3,41 +3,35 @@ package carnero.princ;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import carnero.princ.common.Constants;
-import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;
-import carnero.princ.model.BeerList;
-import carnero.princ.model.BestOfBeers;
+import carnero.princ.model.Beer;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
+
+import java.util.ArrayList;
 
 public class DashClockBeers extends DashClockExtension {
 
 	protected void onUpdateData(int reason) {
 		SharedPreferences preferences = getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE);
 		int lastPub = preferences.getInt(Constants.PREF_PUB, Constants.LIST_PRINC.id);
-		BeerList beerList = Utils.getBeerListById(lastPub);
-		if (beerList == null) {
-			return;
-		}
 
 		Helper helper = new Helper(getApplicationContext());
-		BestOfBeers bestOf = helper.loadGoodBeers(beerList.id);
+		ArrayList<Beer> beers = helper.loadBeers(lastPub, true);
+		ArrayList<String> breweries = new ArrayList<String>();
 
-		StringBuilder breweries = new StringBuilder();
-		for (String brewery : bestOf.breweries) {
-			if (breweries.length() > 0) {
-				breweries.append(", ");
+		for (Beer beer : beers) {
+			if (!breweries.contains(beer.brewery)) {
+				breweries.add(beer.brewery);
 			}
-			breweries.append(brewery);
 		}
 
 		Intent intent = new Intent(this, MainActivity.class);
 
-		if (bestOf.count == 0) {
+		if (beers.isEmpty()) {
 			publishUpdate(new ExtensionData()
 					.visible(false)
 			);
@@ -45,9 +39,9 @@ public class DashClockBeers extends DashClockExtension {
 			publishUpdate(new ExtensionData()
 					.visible(true)
 					.icon(R.drawable.ic_dashclock)
-					.status(getResources().getQuantityString(R.plurals.good_beers, bestOf.count, bestOf.count))
-					.expandedTitle(getResources().getQuantityString(R.plurals.good_beers, bestOf.count, bestOf.count))
-					.expandedBody(breweries.toString())
+					.status(String.valueOf(beers.size()) + " | " + String.valueOf(breweries.size()))
+					.expandedTitle(getResources().getQuantityString(R.plurals.dashclock_beers, beers.size(), beers.size()))
+					.expandedBody(getResources().getQuantityString(R.plurals.dashclock_breweries, breweries.size(), breweries.size()))
 					.clickIntent(intent)
 			);
 		}

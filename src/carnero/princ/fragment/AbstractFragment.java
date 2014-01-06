@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import carnero.princ.BeerListAdapter;
 import carnero.princ.R;
 import carnero.princ.common.BeerAZComparator;
@@ -79,6 +82,7 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 		vLastDownload = (TextView) layout.findViewById(R.id.update);
 
 		setListView();
+		setLocation();
 		setOpeningHours();
 
 		return layout;
@@ -165,7 +169,6 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 		mAdapter.setData(mBeers);
 
 		vList.setAdapter(mAdapter);
-		vList.setOnItemClickListener(new BeerClickListener(this));
 		vList.setShowViewWhileRefreshing(true);
 		vList.setScrollEmptyView(false);
 		vList.setShowIndicator(false);
@@ -237,6 +240,10 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 		}
 	}
 
+	protected void setLocation() {
+		// TODO: launch navigation to pub on tap on vPanel
+	}
+
 	protected void setLastUpdate() {
 		Calendar calendar = Calendar.getInstance();
 
@@ -253,23 +260,6 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 			} else {
 				vLastDownload.setText(sDateFormat.format(calendar.getTime()));
 			}
-		}
-	}
-
-	// classes
-
-	public class BeerClickListener implements AdapterView.OnItemClickListener {
-
-		private AbstractFragment mParent;
-
-		public BeerClickListener(AbstractFragment parent) {
-			mParent = parent;
-		}
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			RatingDialogFragment fragment = RatingDialogFragment.newInstance(mParent, id);
-			fragment.show(getFragmentManager(), "ratingDialog");
 		}
 	}
 }

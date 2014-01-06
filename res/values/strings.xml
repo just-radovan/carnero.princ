@@ -35,12 +35,19 @@
 		<item quantity="many">%1$d beers</item>
 		<item quantity="other">%1$d beers</item>
 	</plurals>
-	<plurals name="good_beers">
-		<item quantity="one">One good beer</item>
-		<item quantity="two">Two good beers</item>
-		<item quantity="few">%1$d good beers</item>
-		<item quantity="many">%1$d good beers</item>
-		<item quantity="other">%1$d good beers</item>
+	<plurals name="dashclock_beers">
+		<item quantity="one">One beer</item>
+		<item quantity="two">Two beers</item>
+		<item quantity="few">%1$d beers</item>
+		<item quantity="many">%1$d beers</item>
+		<item quantity="other">%1$d beers</item>
+	</plurals>
+	<plurals name="dashclock_breweries">
+		<item quantity="one">By one brewery</item>
+		<item quantity="two">By two breweries</item>
+		<item quantity="few">By %1$d breweries</item>
+		<item quantity="many">By %1$d breweries</item>
+		<item quantity="other">By %1$d breweries</item>
 	</plurals>
 
 	<string name="desc_download">Time of last beer list download.</string>

@@ -55,8 +55,6 @@ public class BeerListAdapter extends BaseAdapter {
 		boolean before = (beerPrev != null && ((beerPrev.brewery == null && beer.brewery == null) || (beerPrev.brewery != null && beerPrev.brewery.equalsIgnoreCase(beer.brewery))));
 		boolean after = (beerNext != null && ((beerNext.brewery == null && beer.brewery == null) || (beerNext.brewery != null && beerNext.brewery.equalsIgnoreCase(beer.brewery))));
 
-		view.setOnClickListener(new SearchClickListener(beer));
-
 		if (!TextUtils.isEmpty(beer.brewery)) {
 			vBrewery.setTextColor(res.getColor(R.color.text_orange));
 			vBrewery.setText(beer.brewery);
@@ -96,6 +94,7 @@ public class BeerListAdapter extends BaseAdapter {
 		}
 
 		vName.setText(beer.name);
+		vName.setOnClickListener(new SearchClickListener(beer));
 
 		int days = Math.round((System.currentTimeMillis() - beer.onTapSince) / (24 * 60 * 60 * 1000));
 		if (days <= 0) { // today
