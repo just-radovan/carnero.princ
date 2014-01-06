@@ -1,14 +1,13 @@
 package carnero.princ.fragment;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 import carnero.princ.BeerListAdapter;
 import carnero.princ.R;
@@ -21,7 +20,9 @@ import carnero.princ.database.ListLoader;
 import carnero.princ.iface.IDownloadingStatusListener;
 import carnero.princ.iface.ILoadingStatusListener;
 import carnero.princ.internet.ListDownloader;
-import carnero.princ.model.*;
+import carnero.princ.model.Beer;
+import carnero.princ.model.BeerList;
+import carnero.princ.model.Hours;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -146,52 +147,6 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 		new ListLoader(getActivity(), this).execute(mPub.id);
 	}
 
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.menu_main, menu);
-	}
-
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-
-		switch (mSort) {
-			case Constants.SORT_ALPHABET:
-				menu.findItem(R.id.change_sorting).setIcon(android.R.drawable.ic_menu_sort_by_size);
-				break;
-			case Constants.SORT_RATING:
-				menu.findItem(R.id.change_sorting).setIcon(android.R.drawable.ic_menu_sort_alphabetically);
-				break;
-		}
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-
-		if (id == R.id.change_sorting) {
-			switch (mSort) {
-				case Constants.SORT_ALPHABET:
-					mSort = Constants.SORT_RATING;
-					break;
-				case Constants.SORT_RATING:
-					mSort = Constants.SORT_ALPHABET;
-					break;
-			}
-
-			mPreferences.edit()
-					.putInt(Constants.PREF_SORTING, mSort)
-					.commit();
-
-			sortBeers();
-			mAdapter.notifyDataSetChanged();
-
-			return true;
-		}
-
-		return false;
-	}
-
 	protected void sortBeers() {
 		getActivity().invalidateOptionsMenu();
 
@@ -202,17 +157,6 @@ public abstract class AbstractFragment extends Fragment implements ILoadingStatu
 			case Constants.SORT_RATING:
 				Collections.sort(mBeers, new BeerRatingComparator());
 				break;
-		}
-	}
-
-	public void updateRating(long id, float rating) {
-		if (mAdapter != null) {
-			Beer beer = mAdapter.findByID(id);
-			if (beer != null) {
-				beer.rating = rating;
-			}
-
-			mAdapter.notifyDataSetChanged();
 		}
 	}
 

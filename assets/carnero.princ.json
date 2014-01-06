@@ -1,5 +1,5 @@
 {
-    "version": 20,
+    "version": 21,
     "breweries": [
         {
             "name": "AleBrowar", "country": "PL",
@@ -225,7 +225,9 @@
             "name": "Kaltenecker", "country": "SK",
             "beers": [
                 {"identifier": "Kaltenecker", "removeID": true},
-                {"identifier": "Atlantis", "removeID": false}
+                {"identifier": "Atlantis", "removeID": false},
+                {"identifier": "Chopper", "removeID": false},
+                {"identifier": "Brokat", "removeID": false}
             ]
         },
         {
@@ -299,6 +301,12 @@
             ]
         },
         {
+            "name": "Podklášterní pivovar Třebíč", "country": "CZ",
+            "beers": [
+                {"identifier": "Trebic", "removeID": true}
+            ]
+        },
+        {
             "name": "Kácov", "country": "CZ",
             "beers": [
                 {"identifier": "Kacov", "removeID": true},
@@ -336,8 +344,8 @@
             "name": "Mahrs Bräu", "country": "D",
             "beers": [
                 {"identifier": "Mahrs Brau", "removeID": true},
-                {"identifier": "Mahr´s Brau", "removeID": true},
-                {"identifier": "Mahr's Brau", "removeID": true}
+                {"identifier": "Mahr´s", "removeID": true},
+                {"identifier": "Mahr's", "removeID": true}
             ]
         },
         {

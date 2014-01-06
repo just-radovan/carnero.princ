@@ -13,7 +13,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import carnero.princ.common.Constants;
 import carnero.princ.model.Beer;
-import carnero.princ.view.RatingView;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -48,7 +47,6 @@ public class BeerListAdapter extends BaseAdapter {
 		View vSeparator = view.findViewById(R.id.top_end);
 		TextView vBrewery = (TextView) view.findViewById(R.id.brewery_name);
 		TextView vName = (TextView) view.findViewById(R.id.beer_name);
-		RatingView vRating = (RatingView) view.findViewById(R.id.beer_rating);
 		TextView vTapPrev = (TextView) view.findViewById(R.id.beer_tap_prev);
 		TextView vTapSince = (TextView) view.findViewById(R.id.beer_tap_since);
 
@@ -56,6 +54,8 @@ public class BeerListAdapter extends BaseAdapter {
 		Beer beerNext = getItem(position + 1);
 		boolean before = (beerPrev != null && ((beerPrev.brewery == null && beer.brewery == null) || (beerPrev.brewery != null && beerPrev.brewery.equalsIgnoreCase(beer.brewery))));
 		boolean after = (beerNext != null && ((beerNext.brewery == null && beer.brewery == null) || (beerNext.brewery != null && beerNext.brewery.equalsIgnoreCase(beer.brewery))));
+
+		view.setOnClickListener(new SearchClickListener(beer));
 
 		if (!TextUtils.isEmpty(beer.brewery)) {
 			vBrewery.setTextColor(res.getColor(R.color.text_orange));
@@ -96,7 +96,6 @@ public class BeerListAdapter extends BaseAdapter {
 		}
 
 		vName.setText(beer.name);
-		vRating.setRating(beer.rating);
 
 		int days = Math.round((System.currentTimeMillis() - beer.onTapSince) / (24 * 60 * 60 * 1000));
 		if (days <= 0) { // today
@@ -176,7 +175,7 @@ public class BeerListAdapter extends BaseAdapter {
 		@Override
 		public void onClick(View view) {
 			try {
-				String nameEncoded = URLEncoder.encode(mBeer.name, "utf-8");
+				String nameEncoded = URLEncoder.encode(mBeer.brewery + " " + mBeer.name, "utf-8");
 				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format(Constants.UNTAPPD_URL, nameEncoded)));
 				mContext.startActivity(intent);
 			} catch (UnsupportedEncodingException uee) {
