@@ -1,5 +1,5 @@
 {
-    "version": 21,
+    "version": 23,
     "breweries": [
         {
             "name": "AleBrowar", "country": "PL",
@@ -86,10 +86,21 @@
             ]
         },
         {
+            "name": "Brouwerij emelisee", "country": "NL",
+            "beers": [
+                {"identifier": "Emelisse", "removeID": true}
+            ]
+        },
+        {
             "name": "Brouwerij De Molen", "country": "NL",
             "beers": [
+                {"identifier": "De Molen", "removeID": true},
                 {"identifier": "Vuur and Vlam", "removeID": false},
-                {"identifier": "Dark IPA Saaz", "removeID": false}
+                {"identifier": "Rye IPA", "removeID": false},
+                {"identifier": "Hamer & Sikkel", "removeID": false},
+                {"identifier": "Licht & Lustig", "removeID": false},
+                {"identifier": "Dark IPA Saaz", "removeID": false},
+                {"identifier": "Dark IPA Chinook", "removeID": false}
             ]
         },
         {
@@ -164,10 +175,22 @@
             ]
         },
         {
+            "name": "Ferdinand", "country": "CZ",
+            "beers": [
+                {"identifier": "Ferdinand", "removeID": true}
+            ]
+        },
+        {
             "name": "Flying Dog Brewery", "country": "USA",
             "beers": [
                 {"identifier": "Raging Bitch", "removeID": false},
                 {"identifier": "Snake Dog", "removeID": false}
+            ]
+        },
+        {
+            "name": "Fuller Smith & Turner PLC ", "country": "UK",
+            "beers": [
+                {"identifier": "Fuller's", "removeID": false}
             ]
         },
         {
@@ -179,13 +202,20 @@
         {
             "name": "Havlíčkův Brod", "country": "CZ",
             "beers": [
-                {"identifier": "Rebel", "removeID": false}
+                {"identifier": "Rebel", "removeID": false},
+                {"identifier": "Votrok", "removeID": false}
             ]
         },
         {
             "name": "Hendrych", "country": "CZ",
             "beers": [
                 {"identifier": "Hendrych", "removeID": true}
+            ]
+        },
+        {
+            "name": "Hostivar", "country": "CZ",
+            "beers": [
+                {"identifier": "Hostivar", "removeID": true}
             ]
         },
         {
@@ -345,7 +375,8 @@
             "beers": [
                 {"identifier": "Mahrs Brau", "removeID": true},
                 {"identifier": "Mahr´s", "removeID": true},
-                {"identifier": "Mahr's", "removeID": true}
+                {"identifier": "Mahr's", "removeID": true},
+                {"identifier": "E.T.A. Hoffmann", "removeID": true}
             ]
         },
         {
@@ -442,7 +473,8 @@
             "name": "Pivovar Modrá Hvězda", "country": "CZ",
             "beers": [
                 {"identifier": "Dobranska Hvezda", "removeID": false},
-                {"identifier": "Dobransky Sekac", "removeID": false}
+                {"identifier": "Dobransky Sekac", "removeID": false},
+                {"identifier": "DPH 15%", "removeID": false}
             ]
         },
         {
@@ -472,7 +504,8 @@
         {
             "name": "Pivovar Zhůřák", "country": "CZ",
             "beers": [
-                {"identifier": "Zhurak", "removeID": true}
+                {"identifier": "Zhurak", "removeID": true},
+                {"identifier": "Bad Flash", "removeID": false}
             ]
         },
         {
@@ -539,6 +572,12 @@
             ]
         },
         {
+            "name": "Šumavský pivovar Vimperk", "country": "CZ",
+            "beers": [
+                {"identifier": "Sumavsky", "removeID": false}
+            ]
+        },
+        {
             "name": "Strakonice", "country": "CZ",
             "beers": [
                 {"identifier": "Dudak", "removeID": false},
@@ -588,7 +627,8 @@
             "name": "Vyškov", "country": "CZ",
             "beers": [
                 {"identifier": "Vyskovsky", "removeID": true},
-                {"identifier": "Vyskov", "removeID": true}
+                {"identifier": "Vyskov", "removeID": true},
+                {"identifier": "Dzban", "removeID": false}
             ]
         },
         {

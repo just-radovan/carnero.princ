@@ -1,5 +1,7 @@
 package carnero.princ;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+
 import carnero.princ.common.Constants;
 import carnero.princ.common.Utils;
 import carnero.princ.database.Helper;
@@ -25,8 +28,6 @@ import carnero.princ.model.Beer;
 import carnero.princ.model.BeerList;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
-
-import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
